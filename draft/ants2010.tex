@@ -44,17 +44,17 @@ Distributed local communication is one of the essential means by which various s
 \label{sec:intro}
 \vspace{2mm}
 Multi-agent task allocation or division of labour (DoL) is a challenging research issue in the field of multi-agent and multi-robot systems e.g., swarm robotics \cite{RefSwarm}. In order to address this issue, existing approaches e.g., predefined (off-line) and emergent (real-time) task-allocation, fail to scale well with large number of agents. Typically, increased communication interference and decreased bandwidth among agents are major causes of this problem. Unlike the swarm robotic approach, which is inspired by biological systems alone and commonly aims for minimal intelligence agents, we propose to solve DoL in multi-agents based on a set of observed generic rules of DoL from biological and human social systems. These bottom-up rules describe the phenomena of self-regulated DoL in terms of attractive fields between agents and tasks. The concrete form of these rules, termed as \textit{attractive filed model} (AFM) \cite{RefElsa}, offers a scalable solution to the above DoL problem. Unlike having strong dependence to communication mediums by most of the existing approaches, our model states that self-regulatory DoL can be established by AFM without maintaining a strong form of on-line communication. 
-
-\vspace{4mm}
-We intend to investigate the performance of three different communication strategies for self-regulated DoL among larger robot teams: global, local and stigmergic. The global and local forms of communications typically resemble to message broadcast and peer-to-peer (P2P) communications respectively. In stigmergic communication mode, individuals leave information in the environment e.g., pheromone dropping of ants. We intend to find out the convergence of self-regulated DoL in the above modes irrespective of size of robot teams.
+%\vspace{4mm}
+We have investigated the performance of two different communication strategies for self-regulated DoL among larger robot teams: centralized and local. These forms of communications typically resemble to message broadcast and peer-to-peer (P2P) communications respectively. 
 %
 %\addtolength{\topskip}{-15mm} 
 \section{Modeling}
 \label{sec:model}
-\vspace{2mm}
-According to AFM, the strength of field of a task (j) of a robot (i) or stimuli of an attractive filed $S_{j}^{i}$ can be estimated using Eq. \ref{eqn1} .
-\addtolength{\abovedisplayskip}{-10mm} 
-\begin{scriptsize}
+%In this section we have described 
+Our model of self-regulated DoL  is based on AFM. It provides us a generic framework for implementing self-regulated  DoL in robots. Let us consider a manufacturing shop floor scenario where N number of mobile robots  are required to attend to M number of shop tasks spread over a fixed area A.   These tasks are represented here by a set of small rectangular boxes resembling to manufacturing machines.  Let  $R_1$, $R_2$ … $R_n$ be the set of all robots and $J_1$, $J_2$ … $J_m$ be the set of  all tasks.  Each task $j$ has an associated task-urgency $\phi_j$  that its indicates relative importance over time. If a robot attends to a task in  x$^{th}$ time-step, this task-urgency value will decreases by an amount in (x+1)$^{th}$ time-step. On the other hand, if a task has not been attended by any robot in  x$^{th}$ time-step, task urgency value will increase by another amount in (x+1)$^{th}$ time-step.  In order to complete a shop  task $J_1$, a robot $R_1$ needs to reach within a fixed boundary $D_j1$ of  $J_1$.  If a robot completes a task   $J_1$ we say that it learns about it and this will increase robot's likelihood of selecting that task in next step. We call this variable affinity of a robot as its sensitization $k$ to that task. If a robot does not do a task for some time we say that it forgets about it and its sensitization has been decreased.\\
+According AFM, all robots will establish attractive fields to all tasks due to a system-wide continuous flow of information. The strength of these attractive fields called stimulus will vary according to  distance from task to robot, task-urgency and sensitization. This is encoded in Eq. \ref{eqn1}.
+%\addtolength{\abovedisplayskip}{-15mm} 
+\begin{small}
 \begin{multicols}{2} 
 \begin{equation}
 S_{j}^{i} = tanh\{\frac{k_{j}^{i}}{d+\delta } \phi _{j}\}
@@ -66,12 +66,12 @@ P_{j}^{i} = \frac{S_{j}^{i}}{\sum_{j}^{}S_{j}^{i}}
 \label{eqn2}
 \end{equation}
 \end{multicols}
-\end{scriptsize}
+\end{small}
 %\addtolength{\belowdisplayskip}{-1mm} 
-\vspace{2mm}
-This stimuli of a particular task depends on agent's spatial distance to that task (d), level of sensitization of that agent to that task ($k_{j}^{i}$) and perceived urgency of that task ($\phi _{j}$). In each discrete time-step $k_{j}^{i}$ and $\phi _{j}$ change according to the properties of a target system. Using Eq. \ref{eqn2} the probability of selecting each task has been determined by a probabilistic method.
-%\begin{spacing}{0.5}
-\addtolength{\floatsep}{-25mm}
+%\vspace{2mm}
+This stimuli of a particular task depends on agent's spatial distance to that task (d), level of sensitization of that agent to that task ($k_{j}^{i}$) and perceived urgency of that task ($\phi _{j}$). In each discrete time-step $k_{j}^{i}$ and $\phi _{j}$ change according to the properties of a target system. Using Eq. \ref{eqn2} the probability of selecting each task has been determined by a probabilistic method. Let $T_a$ be the allocated time to accomplish a task. If $R_1$ can enter inside the task boundary  within $T_a$ time it waits there until $T_a$ elapsed. Otherwise it selects a different task.
+
+%\addtolength{\floatsep}{-25mm}
 \begin{figure}[ht]
 \begin{minipage}[b]{0.55\linewidth}
 \centering
@@ -92,14 +92,16 @@ This stimuli of a particular task depends on agent's spatial distance to that ta
 \end{figure}
 %\addtolength{\belowcaptionskip}{-15mm}
 %\end{spacing}
-As shown in Fig. \ref{fig:1} AFM has been implemented in our multi-robot system consisting of a group of E-puck robots, a Prosilica Gigabyte Ethernet(GigE) GC4900C camera and a Dell Precision server grade PC. The overhead camera captures the image of an experiment area of about 3.6m x 3.2m and sends the image frame to an open-source tracking platform SwisTrack (http://swistrack.sf.net). SwisTrack detects the robot id and pose based on the location of robot markers in the image. This information has been passed into AFM Main-Loop component that portrays circular tasks in the image and stores tasks and robot pose info into a shared memory of server PC. Each physical robot is controlled by an identical client program that relies on Player robot control platform (http://playerstage.sf.net) to transfer commands to/from robot's firmware via Bluetooth wireless link. This client program retrieves task info and robot's pose from shared memory in real-time.
-%\addtolength{\topskip}{-15mm} 
+
 % 
 \section{Experiment Design}
 \label{sec:expt-design}
 
 \section{Implementation}
 \label{sec:impl}
+As shown in Fig. \ref{fig:1} AFM has been implemented in our multi-robot system consisting of a group of E-puck robots, a Prosilica Gigabyte Ethernet(GigE) GC4900C camera and a Dell Precision server grade PC. The overhead camera captures the image of an experiment area of about 3.6m x 3.2m and sends the image frame to an open-source tracking platform SwisTrack (http://swistrack.sf.net). SwisTrack detects the robot id and pose based on the location of robot markers in the image. This information has been passed into AFM Main-Loop component that portrays circular tasks in the image and stores tasks and robot pose info into a shared memory of server PC. Each physical robot is controlled by an identical client program that relies on Player robot control platform (http://playerstage.sf.net) to transfer commands to/from robot's firmware via Bluetooth wireless link. This client program retrieves task info and robot's pose from shared memory in real-time.
+%\addtolength{\topskip}{-15mm} 
+
 
 \section{Results and Discussions}
 \label{sec:results}
