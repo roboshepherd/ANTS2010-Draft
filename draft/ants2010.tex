@@ -34,7 +34,7 @@
 % The correct dates will be entered by the editor
 \maketitle
 \begin{abstract}
-Distributed local communication is one of the essential means by which various social insects achieve their self-regulatory division of labour. Unlike centralized static communication, this communication mode enables individuals to respond to local changes more quickly and it generally produces steady-state convergence of self-regulated division of labour (DoL) in social insects. However, realizing this kind of communication in a distributed multi-robot system (DMRS) is not as straight forward as a centralized one. From a robot controller's point of view, it is not easy to determine how often or how much dynamic peer-to-peer (P2P) communication  is needed to maintain system's convergence of division of labour. In this paper, we address these questions: first by describing our reference centralized communication based DMRS that shows a steady-state convergence of self-regulated DoL. Then we compare this system with our two local communication based MRS with two different communication radii. All experiments on these systems  have been done with 16 physical E-puck robots in an area of about 2.4m x 2.2m. Results from these experiments suggest that faster and stable convergence can be obtained by setting a smaller P2P communication radius where a robot locally exchanges signals with a minimum number of its closest peers.
+Distributed local communication is one of the essential means by which various social insects achieve their self-regulatory division of labour. Unlike centralized static communication, this communication mode enables individuals to respond to local changes more quickly and it generally produces steady-state convergence of self-regulated division of labour (DoL) in social insects. However, realizing this kind of communication in a distributed multi-robot system (DMRS) is not as straight forward as a centralized one. From a robot controller's point of view, it is not easy to determine how often or how much dynamic peer-to-peer (P2P) communication  is needed to maintain system's convergence of division of labour. In this paper, we address these questions: first by describing our reference centralized communication based DMRS that shows a steady-state convergence of self-regulated DoL. Then we compare this system with our two local communication based DMRS with two different communication radii. All experiments on these systems  have been done with 16 physical E-puck robots in an area of about 4$m^2$. Results from these experiments suggest that faster and stable convergence can be obtained by setting a smaller P2P communication radius where a robot locally exchanges signals with a minimum number of its closest peers.
 %\keywords{First keyword \and Second keyword \and More}
 %% \PACS{PACS code1 \and PACS code2 \and more}
 %% \subclass{MSC code1 \and MSC code2 \and more}
@@ -75,18 +75,18 @@ This stimuli of a particular task depends on agent's spatial distance to that ta
 \begin{figure}[ht]
 \begin{minipage}[b]{0.55\linewidth}
 \centering
-%\includegraphics[height=3.6cm, angle=0]{images/GlobalPlotUrgencyLog-2010Feb18-151600-clear.eps}
+\includegraphics[height=6cm, angle=0]{../dia-files/CentralizedComm.eps}
 % figure caption is below the figure
-\caption{AFM experiment set-up}
+\caption{Centralized communication model}
 \label{fig:1} % Give a unique label
 \end{minipage}
 %\hspace{0.5cm}
 \begin{minipage}[b]{0.45\linewidth}
 \centering
-%\includegraphics[height=5cm, angle=-90]{images/Task-Urgency-20090729-1348-v2.eps}
+\includegraphics[height=4cm, angle=0]{../dia-files/LocalComm.eps}
 % figure caption is below the figure
 %\vspace*{0.20cm}
-\caption{Task urgency indicates DoL }
+\caption{Local communication model}
 \label{fig:2} % Give a unique label
 \end{minipage}
 \end{figure}
@@ -106,24 +106,24 @@ As shown in Fig. \ref{fig:1} AFM has been implemented in our multi-robot system 
 In our first tier of experiments, we emulated global mode communication by broadcasting task and pose messages to robot clients. Initially we set each task urgency to 0.5. After a set time intervals AFM Main-Loop checks the number of robots working on each task. If no robots works on a task, its urgency has been increased by a small amount of 0.01, otherwise urgency has been decreased by same amount. Robots use these task urgency and pose message broadcasts in calculating task stimulus.
 
 \begin{figure}
-%\begin{minipage}[t]{0.5\linewidth}
+\begin{minipage}[t]{0.5\linewidth}
 \centering
-%\includegraphics[height=5cm,  angle=0]
-\includegraphics[width=10cm, angle=0]
+\includegraphics[height=5cm,  angle=0]
+%\includegraphics[width=10cm, angle=0]
 {images/global/GlobalPlotUrgencyLog-2010Feb18-151600-clear.eps}
-% figure caption is below the figure
-\caption{Global mode urgency change}
+ %figure caption is below the figure
+\caption{Task urgency changes in centralized communication model}
 \label{fig:1} % Give a unique label
-%\end{minipage}
-%\hspace{0.5cm}
-%\begin{minipage}[t]{0.5\linewidth}
-%\centering
-%\includegraphics[height=5cm, angle=0]{images/global/TaskUrgencyConvergence-step2-th-p1.eps}
-%% figure caption is below the figure
-%%\vspace*{0.20cm}
-%\caption{Task urgency convergence }
-%\label{fig:2} % Give a unique label
-%\end{minipage}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/global/TaskUrgencyConvergence-step2-th-p1.eps}
+% figure caption is below the figure
+%\vspace*{0.20cm}
+\caption{Task urgency convergence in centralized communication model}
+\label{fig:2} % Give a unique label
+\end{minipage}
 \end{figure}
 %\vspace*{1cm}
 
