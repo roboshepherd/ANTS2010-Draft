@@ -39,20 +39,22 @@ Distributed local communication is one of the essential means by which various s
 %% \PACS{PACS code1 \and PACS code2 \and more}
 %% \subclass{MSC code1 \and MSC code2 \and more}
 \end{abstract}
-\addtolength{\parskip}{-3.5mm}
+%\addtolength{\parskip}{-3.5mm}
 \section{Introduction}
 \label{sec:intro}
-\vspace{2mm}
+%\vspace{2mm}
 Multi-agent task allocation or division of labour (DoL) is a challenging research issue in the field of multi-agent and multi-robot systems e.g., swarm robotics \cite{RefSwarm}. In order to address this issue, existing approaches e.g., predefined (off-line) and emergent (real-time) task-allocation, fail to scale well with large number of agents. Typically, increased communication interference and decreased bandwidth among agents are major causes of this problem. Unlike the swarm robotic approach, which is inspired by biological systems alone and commonly aims for minimal intelligence agents, we propose to solve DoL in multi-agents based on a set of observed generic rules of DoL from biological and human social systems. These bottom-up rules describe the phenomena of self-regulated DoL in terms of attractive fields between agents and tasks. The concrete form of these rules, termed as \textit{attractive filed model} (AFM) \cite{RefElsa}, offers a scalable solution to the above DoL problem. Unlike having strong dependence to communication mediums by most of the existing approaches, our model states that self-regulatory DoL can be established by AFM without maintaining a strong form of on-line communication. 
 %\vspace{4mm}
-We have investigated the performance of two different communication strategies for self-regulated DoL among larger robot teams: centralized and local. These forms of communications typically resemble to message broadcast and peer-to-peer (P2P) communications respectively. 
-%
+We have investigated the performance of two different communication strategies for self-regulated DoL among a larger robot teams: centralized and local. These forms of communications typically resemble to message broadcast and peer-to-peer (P2P) communications respectively. 
+
 %\addtolength{\topskip}{-15mm} 
 \section{Modeling}
 \label{sec:model}
-%In this section we have described 
-Our model of self-regulated DoL  is based on AFM. It provides us a generic framework for implementing self-regulated  DoL in robots. Let us consider a manufacturing shop floor scenario where N number of mobile robots  are required to attend to M number of shop tasks spread over a fixed area A.   These tasks are represented here by a set of small rectangular boxes resembling to manufacturing machines.  Let  $R_1$, $R_2$ … $R_n$ be the set of all robots and $J_1$, $J_2$ … $J_m$ be the set of  all tasks.  Each task $j$ has an associated task-urgency $\phi_j$  that its indicates relative importance over time. If a robot attends to a task in  x$^{th}$ time-step, this task-urgency value will decreases by an amount in (x+1)$^{th}$ time-step. On the other hand, if a task has not been attended by any robot in  x$^{th}$ time-step, task urgency value will increase by another amount in (x+1)$^{th}$ time-step.  In order to complete a shop  task $J_1$, a robot $R_1$ needs to reach within a fixed boundary $D_j1$ of  $J_1$.  If a robot completes a task   $J_1$ we say that it learns about it and this will increase robot's likelihood of selecting that task in next step. We call this variable affinity of a robot as its sensitization $k$ to that task. If a robot does not do a task for some time we say that it forgets about it and its sensitization has been decreased.\\
-According AFM, all robots will establish attractive fields to all tasks due to a system-wide continuous flow of information. The strength of these attractive fields called stimulus will vary according to  distance from task to robot, task-urgency and sensitization. This is encoded in Eq. \ref{eqn1}.
+
+\subsection{Model for Self-Regulatory DoL}
+Our model of self-regulated DoL is based on AFM. It provides us a generic framework for implementing self-regulatory DoL in robots. Here we briefly describe how this model gives our robots self-regulatory DoL behaviours, particularly task-specialization, concurrency, flexibility and robustness.
+Let us consider a manufacturing shop floor scenario where N number of mobile robots are required to attend to M number of shop tasks spread over a fixed area A. Let these tasks be represented by a set of small rectangular boxes resembling to manufacturing machines. Let $R_1$, $R_2$ … $R_n$ be the set of all robots and $J_1$, $J_2$ … $J_m$ be the set of all tasks. Each task $j$ has an associated task-urgency $\phi_j$ that indicates its relative importance over time. If a robot attends to a task $j$ in x$^{th}$ time-step, value of $\phi_j$ will decreases by a small amount $\delta_\phi$ in (x+1)$^{th}$ time-step. On the other hand, if a task has not been served by any robot in x$^{th}$ time-step,  $\phi_j$  will increase by another small amount in (x+1)$^{th}$ time-step. In order to complete a shop task $J_1$, a robot $R_1$ needs to reach within a fixed boundary $D_j1$ of $J_1$. If a robot completes a task $j$ we say that it learns about it and this will increase robot's likelihood of selecting that task in next step. We call this variable affinity of a robot to that task as its sensitization $k_j$ . If a robot does not do a task $j$ for some time, we say that it forgets about $j$ and $k_j$ has been decreased.\\
+According AFM, all robots will establish attractive fields to all tasks due to the presence of a system-wide continuous flow of information. The strength of these attractive fields called stimulus will vary according to the distances between robots and tasks, task-urgencies and corresponding  sensitizations of robots. This is encoded in Eq. \ref{eqn1}.
 %\addtolength{\abovedisplayskip}{-15mm} 
 \begin{small}
 \begin{multicols}{2} 
@@ -69,8 +71,12 @@ P_{j}^{i} = \frac{S_{j}^{i}}{\sum_{j}^{}S_{j}^{i}}
 \end{small}
 %\addtolength{\belowdisplayskip}{-1mm} 
 %\vspace{2mm}
-This stimuli of a particular task depends on agent's spatial distance to that task (d), level of sensitization of that agent to that task ($k_{j}^{i}$) and perceived urgency of that task ($\phi _{j}$). In each discrete time-step $k_{j}^{i}$ and $\phi _{j}$ change according to the properties of a target system. Using Eq. \ref{eqn2} the probability of selecting each task has been determined by a probabilistic method. Let $T_a$ be the allocated time to accomplish a task. If $R_1$ can enter inside the task boundary  within $T_a$ time it waits there until $T_a$ elapsed. Otherwise it selects a different task.
+Eqn \ref{eqn1} says that the stimuli of a robot $i$ to a particular task $j$, $(S_{j}^{i})$ depends on robot's spatial distance $d$ to $j$, level of sensitization to that task ($k_{j}^{i}$) and perceived urgency of that task ($\phi _{j}$). We use a vary small value $\delta$ in \ref{eqn1} to prevent  division by zero. The probability of selecting each task has been determined by a probabilistic method outlined in Eq. \ref{eqn2} . 
+AFM suggests concurrency of a self-regulatory system by specifying at least two task options: 1) doing a task and 2) doing no task. In robots, the latter can be   be treated as random walking. So in any time-step a robot will choose from M+1 tasks. Let $T_a$ be the allocated time to accomplish a task. If $R_1$ can enter inside the task boundary within $T_a$ time it waits there until $T_a$ elapsed. Otherwise it will select a different task. 
 
+\subsection{Model for Communication}
+In order to establish a system-wide continuous flow of information, one needs to implement a  suitable communication system. Here we have presented two models of communication for our above manufacturing shop-floor scenario.
+%
 %\addtolength{\floatsep}{-25mm}
 \begin{figure}[ht]
 \begin{minipage}[b]{0.55\linewidth}
@@ -78,7 +84,7 @@ This stimuli of a particular task depends on agent's spatial distance to that ta
 \includegraphics[height=6cm, angle=0]{../dia-files/CentralizedComm.eps}
 % figure caption is below the figure
 \caption{Centralized communication model}
-\label{fig:1} % Give a unique label
+\label{fig:ccm} % Give a unique label
 \end{minipage}
 %\hspace{0.5cm}
 \begin{minipage}[b]{0.45\linewidth}
@@ -87,11 +93,23 @@ This stimuli of a particular task depends on agent's spatial distance to that ta
 % figure caption is below the figure
 %\vspace*{0.20cm}
 \caption{Local communication model}
-\label{fig:2} % Give a unique label
+\label{fig:lcm} % Give a unique label
 \end{minipage}
 \end{figure}
 %\addtolength{\belowcaptionskip}{-15mm}
 %\end{spacing}
+%
+\paragraph{Centralized Communication Model:}
+
+As shown in Fig. \ref{fig:ccm}, in this model there exists a centralized Task-Server that is responsible for disseminating task information to robots. The content of  task information can be   location of task in the environment, urgency and so on. Task server delivers this information by emitting TaskInfo signals periodically. The method of signal emission depends on a particular communication technology. For example, in a wireless network it can be a message broadcast.
+Task-Server has another interface for catching feedback signals from robots. This RobotStatus signal may contain what task a robot is currently doing, its device status and so on.  Task-Server  uses this information to update task information such as, task-urgency. This up-to-date information is sent in TaskInfo signal.
+In Fig. \ref{fig:ccm} an initial configuration of this model has been presented. Upon receiving an initial TaskInfo signal robot $R_1$ and $R_2$ shows  strong attractions towards $Task1$ and robot $R_3$ shows strong attraction toward $Task2$. This can be inferred from Eq. \ref{eqn1}. If the initial task urgencies and sensitizations are same for all tasks, a robot will be strongly attracted towards a task that is relatively closer to it.
+
+\paragraph{Local Communication Model:}
+
+This model is based on the P2P communications among robots. Here there is no centralized server to disseminate information but each robot can communicate to its nearby peers within its communication radius, $r_comm$. Here by $r_comm$, we assume that within this distance robots can exchange communication signals reliably without any significant loss of information or delay. A robot $R_1$ is a nearby peer  of robot $R_2$, if spatial distance between $R_1$ and $R_2$ is less than its $r_comm$. 
+As shown in Fig. \ref{fig:lcm}, local communication can also give robots similar task information as in centralized communication mode. It shows that  it is not necessary for each robot to communicate with every other robot to get information on all tasks. Since robots can random walk  and explore the environment we assume that for a reasonably high robot to space density, all task will be known to all robots after an initial exploration period. 
+In order to update the urgency of a task, robots can estimate the number of robots working on a task either by using their sensory perception (e.g., camera)  or by doing local P2P communication. In Fig. ref{fig:lcm} we have shown that robots exchange both TaskInfo and RobotStatus signals to peers.
 
 % 
 \section{Experiment Design}
