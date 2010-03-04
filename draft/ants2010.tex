@@ -13,11 +13,13 @@
 \usepackage{setspace}
 %
 \begin{document}
-\title{Decentralized Communications for Self-regulated Division of Labour in Robot Society
+\title{Robotic Validation of an Inter-disciplinary Generic\\
+Model of Self-regulated Division of Labour in Social System
 \thanks{This research has been funded by the Engineering and Physical Sciences Research Council (EPSRC), UK, grant reference EP/E061915/1.}
 }
 %\subtitle{Do you have a subtitle?\\ If so, write it here}
-\titlerunning{Decentralized Communications for Self-regulated Division of Labour in Robot Society} % if too long for running head
+\titlerunning{Robotic Validation of an Inter-disciplinary Generic Model\\
+ of Self-regulated Division of Labour in Social Systems } % if too long for running head
 \author{Md Omar Faruque Sarker \and
 	Torbjorn Dahl %etc.
 }
@@ -34,7 +36,7 @@
 % The correct dates will be entered by the editor
 \maketitle
 \begin{abstract}
-Distributed local communication is one of the essential means by which various social insects achieve their self-regulatory division of labour. Unlike centralized static communication, this communication mode enables individuals to respond to local changes more quickly and it generally produces steady-state convergence of self-regulated division of labour (DoL) in social insects. However, realizing this kind of communication in a distributed multi-robot system (DMRS) is not as straight forward as a centralized one. From a robot controller's point of view, it is not easy to determine how often or how much dynamic peer-to-peer (P2P) communication  is needed to maintain system's convergence of division of labour. In this paper, we address these questions: first by describing our reference centralized communication based DMRS that shows a steady-state convergence of self-regulated DoL. Then we compare this system with our two local communication based DMRS with two different communication radii. All experiments on these systems  have been done with 16 physical E-puck robots in an area of about 4$m^2$. Results from these experiments suggest that faster and stable convergence can be obtained by setting a smaller P2P communication radius where a robot locally exchanges signals with a minimum number of its closest peers.
+Multi-agent task allocation or division of labour (DoL) is a challenging research issue in the field of multi-agent and multi-robot systems. In order to address this issue, existing approaches such as, predefined (off-line) and emergent (real-time) task-allocation, fail to scale well with large number of robots. Typically, increased communication interference and decreased bandwidth among agents are major causes of this problem. Unlike the swarm robotic approach, which is inspired by biological systems alone and commonly aims for minimal intelligence agents, we propose to solve DoL in multi-robots based on a set of observed generic rules of DoL from biological and human social systems. These bottom-up rules describe the phenomena of self-regulated DoL in terms of attractive fields between robots and tasks. The concrete form of these rules, termed as \textit{attractive filed model} (AFM) \cite{RefElsa}, offers a scalable solution to the above DoL problem. Unlike having strong dependence to communication mediums by most of the existing approaches, our model states that self-regulatory DoL can be established by AFM without maintaining a strong form of on-line communication. 
 %\keywords{First keyword \and Second keyword \and More}
 %% \PACS{PACS code1 \and PACS code2 \and more}
 %% \subclass{MSC code1 \and MSC code2 \and more}
@@ -46,11 +48,11 @@ Distributed local communication is one of the essential means by which various s
 Multi-agent task allocation or division of labour (DoL) is a challenging research issue in the field of multi-agent and multi-robot systems e.g., swarm robotics \cite{RefSwarm}. In order to address this issue, existing approaches e.g., predefined (off-line) and emergent (real-time) task-allocation, fail to scale well with large number of agents. Typically, increased communication interference and decreased bandwidth among agents are major causes of this problem. Unlike the swarm robotic approach, which is inspired by biological systems alone and commonly aims for minimal intelligence agents, we propose to solve DoL in multi-agents based on a set of observed generic rules of DoL from biological and human social systems. These bottom-up rules describe the phenomena of self-regulated DoL in terms of attractive fields between agents and tasks. The concrete form of these rules, termed as \textit{attractive filed model} (AFM) \cite{RefElsa}, offers a scalable solution to the above DoL problem. Unlike having strong dependence to communication mediums by most of the existing approaches, our model states that self-regulatory DoL can be established by AFM without maintaining a strong form of on-line communication. 
 %\vspace{4mm}
 We have investigated the performance of two different communication strategies for self-regulated DoL among a larger robot teams: centralized and local. These forms of communications typically resemble to message broadcast and peer-to-peer (P2P) communications respectively. 
-
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\addtolength{\topskip}{-15mm} 
 \section{Modeling}
 \label{sec:model}
-
 \subsection{Model for Self-Regulatory DoL}
 Our model of self-regulated DoL is based on AFM. It provides us a generic framework for implementing self-regulatory DoL in robots. Here we briefly describe how this model gives our robots self-regulatory DoL behaviours, particularly task-specialization, concurrency, flexibility and robustness.
 Let us consider a manufacturing shop floor scenario where N number of mobile robots are required to attend to M number of shop tasks spread over a fixed area A. Let these tasks be represented by a set of small rectangular boxes resembling to manufacturing machines. Let $R_1$, $R_2$ … $R_n$ be the set of all robots and $J_1$, $J_2$ … $J_m$ be the set of all tasks. Each task $j$ has an associated task-urgency $\phi_j$ that indicates its relative importance over time. If a robot attends to a task $j$ in x$^{th}$ time-step, value of $\phi_j$ will decreases by a small amount $\delta_\phi$ in (x+1)$^{th}$ time-step. On the other hand, if a task has not been served by any robot in x$^{th}$ time-step,  $\phi_j$  will increase by another small amount in (x+1)$^{th}$ time-step. In order to complete a shop task $J_1$, a robot $R_1$ needs to reach within a fixed boundary $D_j1$ of $J_1$. If a robot completes a task $j$ we say that it learns about it and this will increase robot's likelihood of selecting that task in next step. We call this variable affinity of a robot to that task as its sensitization $k_j$ . If a robot does not do a task $j$ for some time, we say that it forgets about $j$ and $k_j$ has been decreased.\\
@@ -77,88 +79,119 @@ AFM suggests concurrency of a self-regulatory system by specifying at least two 
 \subsection{Model for Communication}
 In order to establish a system-wide continuous flow of information, one needs to implement a  suitable communication system. Here we have presented two models of communication for our above manufacturing shop-floor scenario.
 %
-%\addtolength{\floatsep}{-25mm}
-\begin{figure}[ht]
-\begin{minipage}[b]{0.55\linewidth}
+\begin{figure}
+\begin{minipage}[t]{0.48\linewidth}
 \centering
-\includegraphics[height=6cm, angle=0]{../dia-files/CentralizedComm.eps}
-% figure caption is below the figure
-\caption{Centralized communication model}
-\label{fig:ccm} % Give a unique label
+\includegraphics[height=5cm,  angle=0]
+{../dia-files/AFM-Diag2.eps}
+ %figure caption is below the figure
+\caption{\small Atrractive Filed Model}
+\label{fig:g1} % Give a unique label
 \end{minipage}
-%\hspace{0.5cm}
-\begin{minipage}[b]{0.45\linewidth}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.48\linewidth}
 \centering
-\includegraphics[height=4cm, angle=0]{../dia-files/LocalComm.eps}
-% figure caption is below the figure
-%\vspace*{0.20cm}
-\caption{Local communication model}
-\label{fig:lcm} % Give a unique label
+\includegraphics[height=5cm, angle=0]{../dia-files/CentralizedComm.eps}
+\caption{\small Centralized Communication Model}
+\label{fig:g2} % Give a unique label
 \end{minipage}
 \end{figure}
-%\addtolength{\belowcaptionskip}{-15mm}
-%\end{spacing}
-%
-\paragraph{Centralized Communication Model:}
 
 As shown in Fig. \ref{fig:ccm}, in this model there exists a centralized Task-Server that is responsible for disseminating task information to robots. The content of  task information can be   location of task in the environment, urgency and so on. Task server delivers this information by emitting TaskInfo signals periodically. The method of signal emission depends on a particular communication technology. For example, in a wireless network it can be a message broadcast.
 Task-Server has another interface for catching feedback signals from robots. This RobotStatus signal may contain what task a robot is currently doing, its device status and so on.  Task-Server  uses this information to update task information such as, task-urgency. This up-to-date information is sent in TaskInfo signal.
 In Fig. \ref{fig:ccm} an initial configuration of this model has been presented. Upon receiving an initial TaskInfo signal robot $R_1$ and $R_2$ shows  strong attractions towards $Task1$ and robot $R_3$ shows strong attraction toward $Task2$. This can be inferred from Eq. \ref{eqn1}. If the initial task urgencies and sensitizations are same for all tasks, a robot will be strongly attracted towards a task that is relatively closer to it.
 
-\paragraph{Local Communication Model:}
+\section{Implementation}
+\label{sec:impl}
+\begin{figure}
+\centering
+\includegraphics[height=7cm,  angle=0]
+{../dia-files/RIL-Expt-Setup1.eps}
+ %figure caption is below the figure
+\caption{\small Hardware and software setup}
+\label{fig:g1} % Give a unique label
+\end{figure}
 
-This model is based on the P2P communications among robots. Here there is no centralized server to disseminate information but each robot can communicate to its nearby peers within its communication radius, $r_comm$. Here by $r_comm$, we assume that within this distance robots can exchange communication signals reliably without any significant loss of information or delay. A robot $R_1$ is a nearby peer  of robot $R_2$, if spatial distance between $R_1$ and $R_2$ is less than its $r_comm$. 
-As shown in Fig. \ref{fig:lcm}, local communication can also give robots similar task information as in centralized communication mode. It shows that  it is not necessary for each robot to communicate with every other robot to get information on all tasks. Since robots can random walk  and explore the environment we assume that for a reasonably high robot to space density, all task will be known to all robots after an initial exploration period. 
-In order to update the urgency of a task, robots can estimate the number of robots working on a task either by using their sensory perception (e.g., camera)  or by doing local P2P communication. In Fig. ref{fig:lcm} we have shown that robots exchange both TaskInfo and RobotStatus signals to peers.
+As shown in Fig. \ref{fig:1} AFM has been implemented in our multi-robot system consisting of a group of E-puck robots, a Prosilica Gigabyte Ethernet(GigE) GC4900C camera and a Dell Precision server grade PC. The overhead camera captures the image of an experiment area of about 3.6m x 3.2m and sends the image frame to an open-source tracking platform SwisTrack (http://swistrack.sf.net). SwisTrack detects the robot id and pose based on the location of robot markers in the image. This information has been passed into AFM Main-Loop component that portrays circular tasks in the image and stores tasks and robot pose info into a shared memory of server PC. Each physical robot is controlled by an identical client program that relies on Player robot control platform (http://playerstage.sf.net) to transfer commands to/from robot's firmware via Bluetooth wireless link. This client program retrieves task info and robot's pose from shared memory in real-time.
+%\addtolength{\topskip}{-15mm} 
 
 % 
 \section{Experiment Design}
 \label{sec:expt-design}
 
-\section{Implementation}
-\label{sec:impl}
-As shown in Fig. \ref{fig:1} AFM has been implemented in our multi-robot system consisting of a group of E-puck robots, a Prosilica Gigabyte Ethernet(GigE) GC4900C camera and a Dell Precision server grade PC. The overhead camera captures the image of an experiment area of about 3.6m x 3.2m and sends the image frame to an open-source tracking platform SwisTrack (http://swistrack.sf.net). SwisTrack detects the robot id and pose based on the location of robot markers in the image. This information has been passed into AFM Main-Loop component that portrays circular tasks in the image and stores tasks and robot pose info into a shared memory of server PC. Each physical robot is controlled by an identical client program that relies on Player robot control platform (http://playerstage.sf.net) to transfer commands to/from robot's firmware via Bluetooth wireless link. This client program retrieves task info and robot's pose from shared memory in real-time.
-%\addtolength{\topskip}{-15mm} 
 
 
 \section{Results and Discussions}
 \label{sec:results}
-In our first tier of experiments, we emulated global mode communication by broadcasting task and pose messages to robot clients. Initially we set each task urgency to 0.5. After a set time intervals AFM Main-Loop checks the number of robots working on each task. If no robots works on a task, its urgency has been increased by a small amount of 0.01, otherwise urgency has been decreased by same amount. Robots use these task urgency and pose message broadcasts in calculating task stimulus.
-
+%In our first tier of experiments, we emulated global mode communication by broadcasting task and pose messages to robot clients. Initially we set each task urgency to 0.5. After a set time intervals AFM Main-Loop checks the number of robots working on each task. If no robots works on a task, its urgency has been increased by a small amount of 0.01, otherwise urgency has been decreased by same amount. Robots use these task urgency and pose message broadcasts in calculating task stimulus.
+%%
 \begin{figure}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm,  angle=0]
-%\includegraphics[width=10cm, angle=0]
 {images/global/GlobalPlotUrgencyLog-2010Feb18-151600-clear.eps}
  %figure caption is below the figure
-\caption{Task urgency changes in centralized communication model}
-\label{fig:1} % Give a unique label
+\caption{\small Task urgency changes in centralized communication experiments}
+\label{fig:g1} % Give a unique label
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]{images/global/TaskUrgencyConvergence-step2-th-p1.eps}
-% figure caption is below the figure
-%\vspace*{0.20cm}
-\caption{Task urgency convergence in centralized communication model}
-\label{fig:2} % Give a unique label
+\caption{\small Task urgency convergence in centralized communication experiments}
+\label{fig:g2} % Give a unique label
 \end{minipage}
 \end{figure}
-%\vspace*{1cm}
-
-
-
+%%
+%%% Sensitization and Translation %%%
+\begin{figure}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm,  angle=0]
+{images/global/RobotSensitizationStat-Total-50steps.eps}
+ %figure caption is below the figure
+\caption{\small Sensitization changes in centralized communication experiments}
+\label{fig:g3} % Give a unique label
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/global/DeltaTranslationStat.eps}
+\caption{\small Sum of robot translation in centralized communication experiments}
+\label{fig:g4} % Give a unique label
+\end{minipage}
+\end{figure}
+%%
+%%% Communication load %%%
+\begin{figure}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm,  angle=0]
+{images/global/Global-SignalingFreqStat.eps}
+ %figure caption is below the figure
+\caption{\small Task server's frequency of signalling in centralized communication experiments}
+\label{fig:g5} % Give a unique label
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/global/PlotRobot9-Sensitizations-2010Feb18-121037.eps}
+\caption{\small Task specialization of Robot9 in centralized communication experiments}
+\label{fig:g6} % Give a unique label
+\end{minipage}
+\end{figure}
+%
+%
 \section{Conclusion and Future works}
 \label{sec:conc}
- Initially robots sensitization to all tasks has been set to 0.1. We set a simple learning rule for sensitization so that if a robot selects a task in Nth step and if the same task has been selected in next (N+1)th step, sensitization of that task (j) for that robot (i) has been increased by a learning coefficient L and at the same time sensitization of other tasks has been decreased by a forgetting coefficient F. This ensures flexibility and concurrency of robots to switch from one task to another.
+% Initially robots sensitization to all tasks has been set to 0.1. We set a simple learning rule for sensitization so that if a robot selects a task in Nth step and if the same task has been selected in next (N+1)th step, sensitization of that task (j) for that robot (i) has been increased by a learning coefficient L and at the same time sensitization of other tasks has been decreased by a forgetting coefficient F. This ensures flexibility and concurrency of robots to switch from one task to another.
 %
 %The global mode experiments have established a base line of self-regulated DoL using broadcast communication strategy. 
-As shown in Fig. \ref{fig:2} task urgency varies as robots switch among tasks. %and when 6 robots works in 3 tasks we find a convergence of DoL to near zero. 
+%As shown in Fig. \ref{fig:2} task urgency varies as robots switch among tasks. %and when 6 robots works in 3 tasks we find a convergence of DoL to near zero. 
 %
-After some time, when a few working robots have intentionally been removed from the experiment, urgency of some unattended tasks have been increased immediately. When this removed robots return to the experiment urgency of all task again converges to zero. This shows the robustness of AFM for self-regulated DoL. %It relied on decentralized control strategies based on a set of generic rules.
+%After some time, when a few working robots have intentionally been removed from the experiment, urgency of some unattended tasks have been increased immediately. When this removed robots return to the experiment urgency of all task again converges to zero. This shows the robustness of AFM for self-regulated DoL. %It relied on decentralized control strategies based on a set of generic rules.
 %
-Our future works include iterating above experiments using local and stigmergic communication modes with a larger group of robots (about 40). %The goal is to find out necessary ingredients to reach similar level of self-regulated DoL with varying team sizes. 
+%Our future works include iterating above experiments using local and stigmergic communication modes with a larger group of robots (about 40). %The goal is to find out necessary ingredients to reach similar level of self-regulated DoL with varying team sizes. 
 %\begin{acknowledgements}
 %If you'd like to thank anyone, place your comments here
 %and remove the percent signs.
