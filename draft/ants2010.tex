@@ -48,6 +48,8 @@ Multi-agent task allocation or division of labour (DoL) is a challenging researc
 Multi-agent task allocation or division of labour (DoL) is a challenging research issue in the field of multi-agent and multi-robot systems e.g., swarm robotics \cite{Swarm}. In order to address this issue, existing approaches e.g., predefined (off-line) and emergent (real-time) task-allocation, fail to scale well with large number of agents. Typically, increased communication interference and decreased bandwidth among agents are major causes of this problem. Unlike the swarm robotic approach, which is inspired by biological systems alone and commonly aims for minimal intelligence agents, we propose to solve DoL in multi-agents based on a set of observed generic rules of DoL from biological and human social systems. These bottom-up rules describe the phenomena of self-regulated DoL in terms of attractive fields between agents and tasks. The concrete form of these rules, termed as \textit{attractive filed model} (AFM) \cite{Elsa}, offers a scalable solution to the above DoL problem. Unlike having strong dependence to communication mediums by most of the existing approaches, our model states that self-regulatory DoL can be established by AFM without maintaining a strong form of on-line communication.
 %\vspace{4mm}
 We have investigated the performance of two different communication strategies for self-regulated DoL among a larger robot teams: centralized and local. These forms of communications typically resemble to message broadcast and peer-to-peer (P2P) communications respectively.
+
+Section 2 describes our model of self-regulated DoL and an associated model of communication for different entities of our system. Section 3 introduces our experiment set-up and interaction of hardware and software modules. Section 4 presents our experiment design with parameters and observables. Section 5 discusses our experimental results.  Section 6 concludes this paper. 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\addtolength{\topskip}{-15mm}
@@ -171,16 +173,16 @@ Table \ref{table:params} lists a set of essential parameters of our experiments.
 \end{small}
 %
 \subsection{Observables}
-\paragraph*{Changes in task-urgency ($\Delta \Phi$): }
-In our experiments,  urgency of each task in each step will be logged. From the above design of task urgency, we can see that if a task is not served by any robot for 100 consecutive steps in 500s  urgency of that task will reach from 0.5 to its maximum urgency  1.0. On the other hand, if a task is served by only one robot for 200 consecutive steps in 1000s urgency of that task will be 0. But in real experiment it is more likely that more than one robot will serve a task. So urgency of a task will  decrease $\Delta\phi_{DEC}$ times number of working robots on that task \cite{Elsa}. The overall changes in task urgencies will show the convergence behaviour of our system. A stable convergence will most likely map to a stable division of labour of the system.
+\textbf{Changes in task-urgency ($\Delta \Phi$): }
+In our experiments,  urgency of each task in each step will be logged. From the above design of task urgency, we can see that if a task is not served by any robot for 100 consecutive steps in 500s  urgency of that task will reach from 0.5 to its maximum urgency  1.0. On the other hand, if a task is served by only one robot for 200 consecutive steps in 1000s urgency of that task will be 0. But in real experiment it is more likely that more than one robot will serve a task. So urgency of a task will  decrease $\Delta\phi_{DEC}$ times number of working robots on that task \cite{Elsa}. The overall changes in task urgencies will show the convergence behaviour of our system. A stable convergence will most likely map to a stable division of labour of the system.\\
 %
-\paragraph*{Changes in sensitization ($\Delta K$): }
-According AFM, as robots will do tasks they will specialize on each task by increasing or decreasing sensitizations (learning and forgetting).  From our above design, we can see that if a robot starts doing a task with an initial sensitization of 0.1 and it repeatedly does it for 30 consecutive steps, we will be able to say that it has learnt it completely. On the other hand,  with an initial sensitization of 0.1 if a robot does not do a task for 10 consecutive steps we will be able to say that it has forgotten that task completely.
+\textbf{Changes in sensitization ($\Delta K$): }
+According AFM, as robots will do tasks they will specialize on each task by increasing or decreasing sensitizations (learning and forgetting).  From our above design, we can see that if a robot starts doing a task with an initial sensitization of 0.1 and it repeatedly does it for 30 consecutive steps, we will be able to say that it has learnt it completely. On the other hand,  with an initial sensitization of 0.1 if a robot does not do a task for 10 consecutive steps we will be able to say that it has forgotten that task completely.\\
 %
-\paragraph*{Changes in robot motion ($\Delta Tr$): }
-As we might guess that initially the task urgencies will be relatively higher for all tasks so robots will need to do a lot of movements by switching from one tasks to another. But as the system convergences overall robot motions will be decreased. In order to observe this phenomenon we log the pose of robots in each time they receive pose signals.
+\textbf{Changes in robot motion ($\Delta Tr$): }
+As we might guess that initially the task urgencies will be relatively higher for all tasks so robots will need to do a lot of movements by switching from one tasks to another. But as the system convergences overall robot motions will be decreased. In order to observe this phenomenon we log the pose of robots in each time they receive pose signals.\\
 %
-\paragraph*{D-Bus Signals emitted by Task server ($S_f$): }
+\textbf{D-Bus Signals emitted by Task server ($S_f$):} 
 In order to measure the communication load on our system and to benchmark Task server's D-Bus signalling performance we are also interested to log its D-Bus signals. Since the emission of signals happens in fixed time interval it is more likely that the overall communication load on the system will remain constant over time.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
