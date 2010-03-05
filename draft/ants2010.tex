@@ -129,7 +129,30 @@ To recap, our system works by repeating the following steps:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment Design}
 \label{sec:expt-design}
- 
+ In order to validate AFM in robots we have designed a set of centralized communication experiments as outlined in \ref{sec:impl}.  Table \ref{table:params} lists  a set of essential parameters of those experiments. 
+\begin{table}
+\caption{Experimental parameters}
+\label{table:params}
+\begin{center}
+\begin{tabular}{|l||c|}
+\hline Parameter & Value\\
+\hline  Total number of robots ($N$) & 16\\
+\hline  Total number of tasks ($M$) & 4\\
+\hline  Experiment  area  ($A$) & 4 $m^2$\\
+\hline Intial task urgency ($\Phi_{INIT}$) &  0.5\\
+\hline Task urgency increase rate ($\Delta\phi_{INC}$) &  0.005\\
+\hline Task urgency decrease rate ($\Delta\phi_{DEC}$) &  0.0025\\
+\hline Intial sensitization ($K_{INIT}$) &  0.1\\
+\hline Sensitization increase rate ($\Delta k_{INC}$) &  0.03\\
+\hline Sensitization decrease rate ($\Delta k_{DEC}$) &  0.01\\
+\hline  A very small distance ($\delta$)& 0.000001\\
+\hline  Task info update interval ($\Delta TS_{u}$) & 5s\\
+\hline  Task info signal emission interval ($ \Delta TS_{e}$)& 2.5s\\
+\hline  Robot's task time-out interval ($\Delta RT_{to} $)& 10s\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
  
  
 \section{Results and Discussions}
