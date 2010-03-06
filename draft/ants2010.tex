@@ -173,15 +173,17 @@ Table \ref{table:params} lists a set of essential parameters of our experiments.
 \end{small}
 %
 \subsection{Observables}
-\textbf{Changes in task-urgency ($\Delta \Phi$): }
+We have defined a set of observables to benchmark our implementation. The first two observables,  the changes in task-urgencies and  the changes in robot sensitizations, give us an external and internal view of our system with respect to AFM respectively. Our third observable is to find changes in robot motions. This is completely objective measurement of the system. Our final measurement is the communication load which is specific to our implementation of this robotic system. They are briefly explained here.\\
+
+\textbf{Changes in task-urgencies ($\Delta \Phi$): }
 In our experiments,  urgency of each task in each step will be logged. From the above design of task urgency, we can see that if a task is not served by any robot for 100 consecutive steps in 500s  urgency of that task will reach from 0.5 to its maximum urgency  1.0. On the other hand, if a task is served by only one robot for 200 consecutive steps in 1000s urgency of that task will be 0. But in real experiment it is more likely that more than one robot will serve a task. So urgency of a task will  decrease $\Delta\phi_{DEC}$ times number of working robots on that task \cite{Elsa}. The overall changes in task urgencies will show the convergence behaviour of our system. A stable convergence will most likely map to a stable division of labour of the system.\\
-%
-\textbf{Changes in sensitization ($\Delta K$): }
+
+\textbf{Changes in robot sensitizations ($\Delta K$): }
 According AFM, as robots will do tasks they will specialize on each task by increasing or decreasing sensitizations (learning and forgetting).  From our above design, we can see that if a robot starts doing a task with an initial sensitization of 0.1 and it repeatedly does it for 30 consecutive steps, we will be able to say that it has learnt it completely. On the other hand,  with an initial sensitization of 0.1 if a robot does not do a task for 10 consecutive steps we will be able to say that it has forgotten that task completely.\\
-%
-\textbf{Changes in robot motion ($\Delta Tr$): }
+
+\textbf{Changes in robot motions ($\Delta Tr$): }
 As we might guess that initially the task urgencies will be relatively higher for all tasks so robots will need to do a lot of movements by switching from one tasks to another. But as the system convergences overall robot motions will be decreased. In order to observe this phenomenon we log the pose of robots in each time they receive pose signals.\\
-%
+
 \textbf{D-Bus Signals emitted by Task server ($S_f$):} 
 In order to measure the communication load on our system and to benchmark Task server's D-Bus signalling performance we are also interested to log its D-Bus signals. Since the emission of signals happens in fixed time interval it is more likely that the overall communication load on the system will remain constant over time.
 %
@@ -193,7 +195,6 @@ In order to measure the communication load on our system and to benchmark Task s
 In this section we have presented results of our experiments. We ran these experiments for about 40 minutes and averaged them from three iterations. 
 Fig. \ref{fig:raw-urgencies} shows the dynamic changes in task urgencies. Here we find that at about $100^{th}$ step all urgencies has reached at 0. The rise and fall of task urgencies show that our system is capable of providing a robust DoL. 
 In order to describe our system's dynamic behaviour holistically we analyse the changes in task urgencies over time. Let $ \phi_{j, q}$ be the urgency of a task $j$ at $q^{th}$ step. In $(q+1)^{th}$ step, we can find the change of task urgency of task $j$ :\\
-
 \begin{equation} 
 \small
 \delta \phi_{j, q+1} = ( \phi_{j, q+1} - \phi_{j, q}) 
@@ -204,32 +205,25 @@ So we can calculate the sum of changes in task urgencies for all tasks:
 \Delta \Phi_{j, q+1} = \sum_{j=1}^{M} \delta \phi_{j, q+1} 
 \label{eqn:Delta-Phi}
 \end{equation}
- Fig. \ref{fig:urgency-convergence}plots  this sum of changes of task urgencies in dashed line. If we consider the absolute change over a window $w$ of time in the following equation we can describe our systems overall changes in both positive and negative directions.
-
+ Fig. \ref{fig:urgency-convergence} plots  this sum of changes of task urgencies in dashed line. If we consider the absolute change over a window $w$ of time in the following equation we can describe our systems overall changes in both positive and negative directions.
+%
 \begin{equation}
 \small
 \Delta \Phi_{jw, q+1} = \sum_{j=1}^{w}  \Delta \Phi_{jw, q+1} 
 \end{equation}
+%
 In order to find convergence in DoL we have calculated  the sum of absolute changes in task urgencies over an window of 2 consecutive steps (100s). This is plotted in solid line in Fig. \ref{fig:urgency-convergence}.  Note that we scale down the time steps of this plot by aggregating the values of 10 consecutive steps (50s) of  Fig. \ref{fig:raw-urgencies}into a single step value.
-From this plot we can see that  initially the sum of changes of task urgencies are towards negative direction. This implies that tasks are being served by a high number of robots. When task urgencies stabilize near zero the fluctuations in urgencies are minimum. Since robots chose tasks stochastically,  there will be always a small changes in task urgencies. A potential convergence point is shown in   Fig. \ref{fig:urgency-convergence} by considering the persistence existence of the value of $\Delta \Phi_{jw, q+1}$ below a threshold 0.1. This convergence happens near step 23 or after 1150s from the beginning of our experiments.
-
-Similar to Eq. {eqn:Delta-Phi}, we can calculate the absolute sum of changes in sensitizations  by all robots in the following equation.
-  
+From this plot we can see that  initially the sum of changes of task urgencies are towards negative direction. This implies that tasks are being served by a high number of robots. When task urgencies stabilize near zero the fluctuations in urgencies are minimum. Since robots chose tasks stochastically,  there will be always a small changes in task urgencies. A potential convergence point is shown in   Fig. \ref{fig:urgency-convergence} by considering the persistence existence of the value of $\Delta \Phi_{jw, q+1}$ below a threshold 0.1. This convergence happens near step 23 or after 1150s from the beginning of our experiments.\\
+%
+Similar to Eq. \ref{eqn:Delta-Phi}, we can calculate the absolute sum of changes in sensitizations  by all robots in the following equation.
+%  
 \begin{equation}
 \small 
 \Delta K_{j, q+1} = \sum_{j=1}^{M} \delta K_{j, q+1} 
 \label{eqn:Delta-K}
 \end{equation}
 This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It shows that the overall rate of learning and forgetting decreases over time. It indicates the increase of task specialization of robots.
-We have aggregated the changes in translation motion of all robots over time.  Let $Tr_{i,q}$ and  $Tr_{i,q+1}$ be the translations of robots $i$ in two consecutive steps. If the difference between these two translations be $\delta Tr_{i}$, we can find the sum of changes of translations of all robots in $(q+1)^{th}$ step using the following equation.
-
-\begin{equation}
-\small 
-\Delta Tr_{q+1} = \sum_{i=1}^{N} \delta Tr_{i, q+1} 
-\label{eqn:Delta-Tr}
-\end{equation}
-This is plotted in Fig. \ref{fig:translation-stat}. Translation is calculated in pixel as found in captured image by SwisTrack tracker. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to a consistence behaviour like previous plots.
-
+%
 \begin{figure}
 %\begin{minipage}[t]{0.5\linewidth}
 \centering
@@ -267,6 +261,14 @@ This is plotted in Fig. \ref{fig:translation-stat}. Translation is calculated in
 %\end{minipage}
 \end{figure}
 %%
+We have aggregated the changes in translation motion of all robots over time.  Let $Tr_{i,q}$ and  $Tr_{i,q+1}$ be the translations of robots $i$ in two consecutive steps. If the difference between these two translations be $\delta Tr_{i}$, we can find the sum of changes of translations of all robots in $(q+1)^{th}$ step using the following equation.
+\begin{equation}
+\small 
+\Delta Tr_{q+1} = \sum_{i=1}^{N} \delta Tr_{i, q+1} 
+\label{eqn:Delta-Tr}
+\end{equation}
+This is plotted in Fig. \ref{fig:translation-stat}. Translation is calculated in pixel as found in captured image by SwisTrack. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to show a consistence behaviour like previous plots.\\
+
 %%% Communication load %%%
 \begin{figure}
 %\begin{minipage}[t]{0.5\linewidth}
@@ -277,6 +279,8 @@ This is plotted in Fig. \ref{fig:translation-stat}. Translation is calculated in
 \caption{\small Task server's frequency of task information signalling}
 \label{fig:signal-frequency-stat} % Give a unique label
 %\end{minipage}
+%
+%
 %\hspace{0.5cm}
 %\begin{minipage}[t]{0.5\linewidth}
 \centering
@@ -292,18 +296,13 @@ This is plotted in Fig. \ref{fig:translation-stat}. Translation is calculated in
 \caption{\small Changes in translation of Robot9}
 \label{fig:single-robot-translation} % Give a unique label
 \end{figure}
+Fig. \ref{fig:signal-frequency-stat} presents the frequency of signalling task information by TaskServer. Since the duration of each time step is 50s long and TaskServer emits signal in  every 2.5s there should be 20 signals in each step. The insignificant variation in frequency shows us the  stable behaviour of D-Bus daemon over time.\\
 %
-%
+As an example of task specialization of a robot we plotted sensitization of Robot9 in Fig. \ref{fig:single-robot-sensitizations}. It shows that this robot has specialized in Task1. The continuous learning happens from step 12 to step 42 where it has learned this task completely and forget rest of the tasks. This is common in all robots with varying the level of sensitizations. Hence we get the linear decrease of $\Delta K$ in Fig. \ref{fig:sensitization-stat}. However, the changes in motion of this robot plotted in Fig. \ref{fig:single-robot-translation} is not stable due to the fact that robots frequently avoid dynamic obstacles and select random walks to do so
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Future works}
 \label{sec:conc}
-% Initially robots sensitization to all tasks has been set to 0.1. We set a simple learning rule for sensitization so that if a robot selects a task in Nth step and if the same task has been selected in next (N+1)th step, sensitization of that task (j) for that robot (i) has been increased by a learning coefficient L and at the same time sensitization of other tasks has been decreased by a forgetting coefficient F. This ensures flexibility and concurrency of robots to switch from one task to another.
-%
-%The global mode experiments have established a base line of self-regulated DoL using broadcast communication strategy.
-%As shown in Fig. \ref{fig:2} task urgency varies as robots switch among tasks. %and when 6 robots works in 3 tasks we find a convergence of DoL to near zero.
-%
-%After some time, when a few working robots have intentionally been removed from the experiment, urgency of some unattended tasks have been increased immediately. When this removed robots return to the experiment urgency of all task again converges to zero. This shows the robustness of AFM for self-regulated DoL. %It relied on decentralized control strategies based on a set of generic rules.
-%
-%Our future works include iterating above experiments using local and stigmergic communication modes with a larger group of robots (about 40). %The goal is to find out necessary ingredients to reach similar level of self-regulated DoL with varying team sizes.
+In this paper we have validated an inter-disciplinary generic model of self-regulated division of labour by incorporating it in our physical robotic social system. A centralized communication system has been instantiated to realize this model. We have evaluated various aspects of this model such as   ability to maintain dynamic task demands, individual task specializations, communication loads and flexibility in concurrent task completions over time. A set of metrics has been proposed to observe the convergence of division of labour in the system. From these observations it is clear that such a system can meet the requirements of dynamic division of labour of a multi-robot system by the virtue of its self-regulatory behaviours. One drawback of our current implementation is that this system maintains a constant communication load on the system even the task requirements change. Certainly, this will prevent us from scaling up the system. Therefore, we would like to extend our work by validating this model with different number of task and robot combinations with a local peer-to-peer communication strategy. Our aim is to use this model up to 40 E-puck robots in a relatively larger area.
 %\begin{acknowledgements}
 %If you'd like to thank anyone, place your comments here
 %and remove the percent signs.
