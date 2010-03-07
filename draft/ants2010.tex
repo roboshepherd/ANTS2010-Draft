@@ -21,65 +21,111 @@ Model of Self-regulated Division of Labour\\ in Social Systems
 \titlerunning{Robotic Validation of an Inter-disciplinary Generic Model\\
 of Self-regulated Division of Labour in Social Systems } % if too long for running head
 \author{Md Omar Faruque Sarker \and
-Torbjorn Dahl %etc.
+Torbj{\o}rn S. Dahl %etc.
 }
 %\authorrunning{Short form of author list} % if too long for running head
 \institute{
-Robotic Intelligence Lab,
-Newport Business School\\
-University of Wales, Newport,
-Allt-yr-yn Campus\\ Allt-yr-yn Avenue, Newport, NP205XR, UK\\
-\email{Mdomarfaruque.Sarker@newport.ac.uk\\
-Torbjorn.Dahl@newport.ac.uk}
+Robotic Intelligence Lab, University of Wales, Newport\\
+Allt-yr-yn Campus, Allt-yr-yn Avenue, Newport, NP205DA, UK\\
+\email{Mdomarfaruque.Sarker|Torbjorn.Dahl@newport.ac.uk}
 }
 %\date{Received: / / Accepted: / / }
 % The correct dates will be entered by the editor
 \maketitle
 \begin{abstract}
-Multi-agent task allocation or division of labour (DoL) is a challenging research issue in the field of multi-agent and multi-robot systems. Unlike the swarm robotic approach, which is inspired by biological systems alone and commonly aims for minimal intelligence agents, we propose to solve DoL in multi-robots based on a set of observed generic rules of DoL from biological and human social systems. These bottom-up rules describe the phenomena of self-regulated DoL in terms of attractive fields between robots and tasks. The concrete form of these rules, termed as \textit{attractive filed model} (AFM), offers a scalable solution to the above DoL problem. Unlike having strong dependence to local interactions by most of the existing approaches, our model states that self-regulatory DoL can be established by AFM without maintaining a strong form of local interactions. Our approach has been validated by experiments with 16 physical E-puck robots in an area of about 4$m^2$.
+Division of labour (DoL) in multi-robot systems or multi-robot task allocation (MRTA) is a challenging research issue in the field of multi-agent and multi-robot systems.
+We propose to solve MRTA problems using a set of previously published generic rules for DoL derived from the observation of ant, human and robotic social systems.
+These bottom-up rules describe the phenomenon of self-regulated DoL in terms of attractive fields between robots and tasks.
+The concrete form of these rules, the \textit{attractive filed model} (AFM), avoids the strong dependence on local interactions found in many existing approaches to MRTA.
+We present experimental results that constitute a first validation AFM as a mechanism for MRTA and as a multi-disciplinary model of self-organisation in social systems.
+Our experiments used 16 e-puck robots in a $4m^2$ area.
 %\keywords{First keyword \and Second keyword \and More}
 %% \PACS{PACS code1 \and PACS code2 \and more}
 %% \subclass{MSC code1 \and MSC code2 \and more}
 \end{abstract}
 %\addtolength{\parskip}{-3.5mm}
+
 \section{Introduction}
 \label{sec:intro}
 %\vspace{2mm}
-Scientific studies show that a large number of animal as well as human social systems grow, evolve and generally continue functioning well by the virtue of their individual self-regulatory mechanism of division of labour (DoL) \cite{Camazine+2001}. It is interesting to note that in animal societies this has been accomplished years after years without a central authority or an explicit planning and coordinating element. Indirect communication such as stigmergy is rather used to exchange information among individuals \cite{Bonabeau+1999}. 
-In MRS domain, \textit{multi-robot task allocation} (MRTA) is a common research challenge \cite{Gerkey+2004}. In case of a real-world dynamic environment, it is generally identified as the question of assigning tasks in an appropriate time to the appropriate robots considering the changes of the environment and/or the performance of other team members . This is an optimal assignment problem also known as NP-hard, where optimal solutions can not be found quickly for large problems \cite{Parker2008}. The reason of such complexities lies on the fact that there is no central planner or coordinator for task assignments and the capabilities of robots are limited to sense, to communicate and to interact locally \cite{Lerman+2006}. None of them has the complete knowledge of the past, present or future actions of other robots as well as they don't have the complete view of the world state. For a larger team of robots (more than 10 robots) the bandwidth of local communication channel is also limited. In practical implementations the computational and communication bandwidth requirements restrict the solution quality of the problem \cite{Gerkey+2004,Lerman+2006}.\\
-Traditionally task allocation in a multi-agent system is divided into two major categories: 1) Predefined (off-line) and 2) Emergent (real-time) task-allocation \cite{Shen+2001}. Usually predefined task allocation method uses either centralized coordination or distributed task-allocation approach. Distributed task-allocation approach is again subdivided into three subcategories, namely 1) direct allocation, 2) task allocation by delegation and 3) task allocation through bidding.
-In MRS domain, early research on predefined task-allocation approach has been dominated mainly by intentional coordination, use of dynamic role assignment \cite{Parker2008} and market-based bidding approach \cite{Dias+2006}. In intentional approach robots uses direct task-allocation method to communicate and to negotiate for assigning tasks. This is preferred approach among MRS research community since it is easily understood, easier to design, implement and analyse formally. However this approach usually works well only when the MRS team-size is small ($ \leq $ 10 robots) \cite{Lerman+2006}. When the number of robots  increases, their computational requirements and interaction complexities increase significantly that reduce their shared communication bandwidth and as a result, these make the overall team performance poor. Thus this approach fails to scale well when the number of tasks and robots are increased.\\ 
-On the other hand emergent task-allocation approach relies on the emergent group behaviours, such as emergent cooperation \cite{Lerman+2006}, adaptation rules \cite{Liu+2007} etc., that lead to task allocation with local sensing, local interactions and typically little or no explicit communication or negotiations between robots. They are more scalable to large team size and more robust via parallelism and redundancy. However these systems are not free from drawbacks. Most of researchers complain that they are difficult to design, analyse formally and implement practically \cite{Gerkey+2004,Lerman+2006}. The MRTA solutions from these systems are also sub-optimal. Since the emergence is a result of interactions among robots and their environment, in such systems it is also difficult to predict exact behaviours of robots and overall system performance.\\
-The existing challenges of emergent task allocation approaches leads us to investigate for a suitable alternative. From the technological advances in electronics and communication, it is clear to us that the size of MRS as well as the task complexities will ever grow faster and scalability and performance will remain as major issues of MRS research. If we look at nature we can find that task allocation in animal or insect societies is governed by non-centralized rules and they are much more self-regulated and self-stabilized \cite{Camazine+2001,Bonabeau+1999}. Moreover from our study of sociology \cite{Sayer+1992}, cybernetics \cite{Beer1981}, strategic management  \cite{Kogut2000}) and related other disciplines we can find that decentralized self-regulated systems exist and they can grow and achieve viability over time. From the multi-disciplinary studies of these complex systems we believe that a set of generic rules can be derived for the emergence of division of labour in MRS. Primarily these rules should deal with the issue of deriving local control laws for facilitating the emergence of global team behaviour \cite{Parker2008}.\\
-As a part of a collaborative project, we have studied social systems in ants, humans and robots and have developed a common formal model of division of labour that is used to analyse systems from the three disciplines involved \cite{Elsa}. In this paper, we have presented this model in a robotic social system's context. Section 2 describes our model of self-regulated DoL and an associated model of communication for different entities of our system. Section 3 introduces our experiment set-up and interaction among hardware, software  and communication modules. Section 4 presents our experiment design with a set of parameters and observables. Section 5 discusses our experimental results. Section 6 concludes this paper.
-%
+Scientific studies show that a large number of animal as well as human social systems grow, evolve and generally continue functioning well by the virtue of their individual self-regulatory mechanism of division of labour (DoL) \cite{Camazine+2001}.
+This has been accomplished without any central authority or any explicit planning and coordinating element.
+Indirect communication such as stigmergy is instead used to exchange information among individuals \cite{Bonabeau+1999}. 
+In robotic systems, \textit{multi-robot task allocation} (MRTA) is a common research challenge \cite{Parker2008}.
+It is generally identified as the problem of assigning tasks to appropriate robots at appropriate times taking into account potential changes in the environment and/or the performance of the robots.
+MRTA is an optimal assignment problem that has been shown to be NP-hard, so optimal solutions can not be expected for large problems \cite{Gerkey+2004}.
+In addition to the inherent complexity of MRTA, the problem is also commonly restricted to avoid central planners or coordinators for task assignments.
+The robots are also commonly limited to local sensing, communication and interaction \cite{Lerman+2006} where no single robot has complete knowledge of the past, present or future actions of other robots or a complete view of the world state.
+For larger teams of robots the bandwidth of local communication channels is also limited.
+In practical implementations the computational and communication bandwidth requirements restrict the quality of the solutions to MRTA problems \cite{Gerkey+2004,Lerman+2006}.\\
+Traditionally MRTA is divided into two major categories: 1) Predefined (off-line) and 2) Emergent (real-time) task-allocation \cite{Shen+2001}.
+Usually, predefined task allocation methods use either centralized coordination or distributed task-allocation approach.
+Distributed task-allocation approaches are again divided into three sub-categories, 1) direct allocation, 2) task allocation by delegation and 3) task allocation through bidding.
+Early research on predefined task-allocation approaches was dominated by intentional coordination, use of dynamic role assignment \cite{Parker2008} and market-based bidding approach \cite{Dias+2006}.
+In the intentional approaches the robots use direct task-allocation method to communicate and to negotiate tasks.
+This approach is intuitive, comparatively straightforward to design and implement and can be analysed formally.
+However, this approach typically works well only when the number of robots is small \cite{Lerman+2006}.
+When the number of robots increases, their computational requirements and interaction requirements increase exponentially, straining the available communication bandwidth and potentially reducing the overall team performance.\\
+The emergent task-allocation approach approach on the other hand, relies on the emergence of group behaviours, e.g., emergent cooperation \cite{Lerman+2006}, using mechnisms such as {\em adaptation rules} \cite{Liu+2007}.
+This approach typically handles systems with local sensing, local interactions and typically little or no explicit communication or negotiations between robots.
+Emergent systems are more scalable and robust due to their inherent parallelism and redundancy.
+However in these systems, solutions are unintuitive and thus difficult to design, analyse formally and implement practically \cite{Gerkey+2004,Lerman+2006}.
+The solutions found by these systems are typically sub-optimal and, as the emergence is a result of interactions among robots and their environment, it is also difficult to predict exact behaviours of robots and overall system performance.
+The current challenges in emergent task allocation approaches have lead us to investigate for a suitable alternative.
+If we look at nature we can find that task allocation in animal or insect societies is governed by non-centralized rules and that they are  self-regulating and self-stabilizing \cite{Camazine+2001,Bonabeau+1999}.
+Moreover studies of sociology \cite{Sayer+1992}, cybernetics \cite{Beer1981}, strategic management \cite{Kogut2000} and related disciplines show that decentralized self-regulated systems exist and that they can survive and grow over time.\\
+As a part of a collaborative project, we have studied the behaviour of ants, humans and robots and have developed the attractive field model (AFM), a common formal model of division of labour in social systems \cite{Elsa}.
+In this paper, we present an application of AFM in a robotic system.
+Section~\ref{sec:model} presents AFM and an associated communication model that allows us to implement AFM as a MTRA mechanism.
+Section~\ref{sec:impl} introduces our implementation of MRTA including the interactions between the hardware, software and communication modules.
+Section~\ref{sec:expt-design} presents the design of our experiments including specific parameters and observables.
+Section 5 discusses our experimental results and section 6 draws conclusions.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\addtolength{\topskip}{-15mm}
-\section{Modeling}
+\section{The Attractive Field Model}
 \label{sec:model}
-\subsection{Model for Self-Regulatory DoL}
-Our model of self-regulated DoL is based on AFM. It provides us a generic framework for implementing self-regulatory DoL in robots. Here we briefly describe how this model gives our robots self-regulatory DoL behaviours, particularly task-specialization, concurrency, flexibility and robustness.
+AFM provides an abstract framework for self-regulatory DoL in social systems \cite{Elsa}.  In terms of networks, the model can be constructed as a bipartite network, meaning that there are two different types of nodes.  One set of nodes  describes the sources of the attractive fields and the other set describes the agents.  The links only take place between different types of nodes, and these encode the flow of information. So even if there is no direct link between two agents, their interaction is taken into account in the information flow. The dependence of the strength of the field on the distance can be represented in terms of networks through weighted links. In addition,  there is a permanent filed. It is from no-task option of ignoring the information. The model can be mapped to a network as shown in Fig. {fig:afm}. The correspondence is given below:
+\begin{itemize}
+\item Source nodes (o) are tasks that can be divided between a number of agents.
+\item Agent nodes (x) are robots.
+\item The attractive fields correspond to stimuli to perform a task, and these are given by the black links.
+\item When an agent performs a task, the link is of a different sort, and this is denoted in the figure by a red line. Agents linked to a source by a red line are the robots currently doing that task. 
+\item The field of ignoring the information (w) corresponds to the stimulus to random walk, i.e. the no-task option, and this is denoted by the green lines in the graph. 
+\item Each of the links is weighted. The value of this weight describes the strength of the stimulus that the agent experiences. In a spatial representation of the model, it is easy to see that the strength of the field depends on the physical distance of the agent to the source. In addition, the strength can be increased through sensitisation of the agent via experience (learning). This distance is not depicted in the network, it is represented through the weights of the links . In the figure of the network, the nodes have an arbitrary place. Note that even though the distance is physical in this case, the distance in the model applied to other systems, needs not to be physical, it can represent the accessibility to the information, the time the information takes to reach the receiver, etc. 
+\end{itemize}
+In summary, looking at the network, we see that each of the agents is connected with a link to each of the fields. This means that even if an agent is currently involved in a task, the probability that it stops doing it in order to pursue a different task, or to random walk, is always different from zero. So the weighted links express the probability of an agent to be attracted to each of the fields.\\
 %%
 \begin{figure}
 \begin{minipage}[t]{0.48\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]
 {../dia-files/AFM-Diag2.eps}
-%figure caption is below the figure
-\caption{\small Atrractive Filed Model}
+%figure caption is below the figur
+\caption{\small Attractive Filed Model (AFM)}
 \label{fig:afm} % Give a unique label
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[t]{0.48\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]{../dia-files/CentralizedComm.eps}
-\caption{\small Centralized Communication Model}
+\caption{\small Our communication system for validating AFM}
 \label{fig:ccm} % Give a unique label
 \end{minipage}
 \end{figure}
 %%
-Let us consider a manufacturing shop floor scenario where N number of mobile robots are required to attend to M number of shop tasks spread over a fixed area A. Let these tasks be represented by a set of small rectangular boxes resembling to manufacturing machines. Let $R_1$, $R_2$ … $R_n$ be the set of all robots and $J_1$, $J_2$ … $J_m$ be the set of all tasks. Each task $j$ has an associated task-urgency $\phi_j$ that indicates its relative importance over time. If a robot attends to a task $j$ in x$^{th}$ time-step, value of $\phi_j$ will decreases by a small amount $\delta_\phi$ in (x+1)$^{th}$ time-step. On the other hand, if a task has not been served by any robot in x$^{th}$ time-step, $\phi_j$ will increase by another small amount in (x+1)$^{th}$ time-step. In order to complete a shop task $J_1$, a robot $R_1$ needs to reach within a fixed boundary $D_{j1}$ of $J_1$. If a robot completes a task $j$ we say that it learns about it and this will increase this robot's likelihood of selecting that task in next step. We call this variable affinity of a robot to that task as its sensitization $k_j$ . If a robot does not do a task $j$ for some time, we say that it forgets about $j$ and $k_j$ has been decreased.\\
-According AFM, all robots will establish attractive fields to all tasks due to the presence of a system-wide continuous flow of information. The strength of these attractive fields called stimulus will vary according to the distances between robots and tasks, task-urgencies and corresponding sensitizations of robots. This is encoded in Eq. \ref{eqn1}.
+Let us now interpret this model within the context of our MRS. Let us consider a manufacturing shop floor scenario where N number of mobile robots are required to attend to M number of shop tasks spread over a fixed area A.
+Let these tasks be represented by a set of small rectangular boxes resembling to manufacturing machines.
+Let $R_1$, $R_2$ … $R_n$ be the set of all robots and $J_1$, $J_2$ … $J_m$ be the set of all tasks.
+Each task $j$ has an associated task-urgency $\phi_j$ that indicates its relative importance over time.
+If a robot attends to a task $j$ in x$^{th}$ time-step, value of $\phi_j$ will decreases by a small amount $\delta_\phi$ in (x+1)$^{th}$ time-step.
+On the other hand, if a task has not been served by any robot in x$^{th}$ time-step, $\phi_j$ will increase by another small amount in (x+1)$^{th}$ time-step.
+In order to complete a shop task $J_1$, a robot $R_1$ needs to reach within a fixed boundary $D_{j1}$ of $J_1$.
+If a robot completes a task $j$ we say that it learns about it and this will increase this robot's likelihood of selecting that task in next step.
+We call this variable affinity of a robot to that task as its sensitization $k_j$.
+If a robot does not do a task $j$ for some time, we say that it forgets about $j$ and $k_j$ has been decreased.\\
+According AFM, all robots will establish attractive fields to all tasks due to the presence of a system-wide continuous flow of information.
+The strength of these attractive fields called stimulus will vary according to the distances between robots and tasks, task-urgencies and corresponding sensitizations of robots. This is encoded in Eq. \ref{eqn1}.
 %\addtolength{\abovedisplayskip}{-15mm}
 \begin{small}
 \begin{multicols}{2}
@@ -96,15 +142,8 @@ P_{j}^{i} = \frac{S_{j}^{i}}{\sum_{j}^{}S_{j}^{i}}
 \end{small}
 %\addtolength{\belowdisplayskip}{-1mm}
 %\vspace{2mm}
-Eq. \ref{eqn1} says that the stimuli of a robot $i$ to a particular task $j$, $S_{j}^{i}$ depends on $i$'s spatial distance $d_{ij}$ to $j$, level of sensitization to $j$, $k_{j}^{i}$) and perceived urgency of that task ($\phi _{j}$). We use a vary small value $\delta$ in Eq. \ref{eqn1} to prevent division by zero. The probability of selecting each task has been determined by a probabilistic method outlined in Eq. \ref{eqn2}.
-AFM suggests concurrency of a self-regulatory system by specifying at least two task options: 1) doing a task and 2) not doing a task. In robots, the latter can be be treated as random walking. So in any time-step a robot will choose from M+1 tasks. Let $T_a$ be the allocated time to accomplish a task. If $R_1$ can enter inside the task boundary within $T_a$ time it waits there until $T_a$ elapsed. Otherwise it will select a different task.
-\subsection{Model of Communication}
-In order to establish a system-wide continuous flow of information, we need to implement a suitable communication system for our robots. Here we have presented a centralized model of communication for our manufacturing shop-floor scenario.
-%% 
-As shown in Fig. \ref{fig:ccm}, in this model there exists a centralized \textit{
-TaskServer} that is responsible for disseminating task information to robots. The content of task information can be physical location of task in the environment, urgency and so on. TaskServer delivers this information by emitting \textit{TaskInfo} signals periodically. The method of signal emission depends on a particular communication technology. For example, in a wireless network it can be a message broadcast.
-Task-Server has another interface for catching feedback signals from robots. The \textit{RobotStatus} signal can be used to inform TaskServer about a robot's current task id, its device status and so on. TaskServer uses this information to update relevant part of task information such as, task-urgency. This up-to-date information is sent in next TaskInfo signal.\\
-In Fig. \ref{fig:ccm} an initial configuration of this model has been presented. Upon receiving an initial TaskInfo signal robot $R_1$  has shown strong attraction towards $Task1$ and robot $R_3$ has shown strong attraction toward $Task2$. This can be inferred from Eq. \ref{eqn1} that says if the initial task urgencies and sensitizations for all tasks are same, a robot will strongly be attracted towards a task that is relatively closer to it.
+Eq. \ref{eqn1} says that the stimuli of a robot $i$ to a particular task $j$, $S_{j}^{i}$ depends on $i$'s spatial distance to $j$, $d_{ij}$, level of sensitization to $j$, $k_{j}^{i}$, and perceived urgency of that task ($\phi _{j}$). We use a vary small value $\delta$ in Eq. \ref{eqn1} to prevent division by zero. The probability of selecting each task has been determined by a probabilistic method outlined in Eq. \ref{eqn2}.
+AFM suggests concurrency of a self-regulatory system by specifying at least two task options: doing a task and not doing a task. In robots, the latter can be be treated as random walking. So in any time-step a robot will choose from M+1 tasks. Let $T_a$ be the allocated time to accomplish a task. If $R_1$ can enter inside the task boundary within $T_a$ time it waits there until $T_a$ elapsed. Otherwise it will select a different task.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Implementation}
 \label{sec:impl}
@@ -116,15 +155,20 @@ In Fig. \ref{fig:ccm} an initial configuration of this model has been presented.
 \caption{\small Hardware and software setup}
 \label{fig:setup} % Give a unique label
 \end{figure}
-We have developed a system where up to 40 E-puck robots \cite{Epuck} can operate together according to the generic rules of the AFM. In order to track these robots we have used SwisTrack \cite{SwisTrack}, a state of the art open-source, multi-agent tracking system, along with a16-megapixel overhead GigE camera. This set-up gives us the position, heading and id of each of the robots at a frequency of 1. The interaction of the hardware and software of our system is illustrated in Fig. \ref{fig:setup}. \\
-For inter-process communication (IPC), we have used D-Bus technology \cite{DBus}. We have developed an IPC component for SwisTrack (hereafter called as \textit{SwisTrack D-Bus Server}) that can broadcast id and pose of all robots in real-time over our server's D-Bus interface.\\
-Apart from SwisTrack, we have implemented two major software modules: TaskServer and Robot-Controller-Client (RCC). They are developed in Python with its state of the art \textit{Multiprocessing} module \cite{Multiprocessing}. This python module simplifies our need to manage data sharing and synchronizing among different sub-processes. As shown in Fig. \ref{fig:setup}, RCC consists of four sub-processes: SignalListener, SignalEmitter, TaskSelector, DeviceController. SignalListener catches RobotPose and TaskInfo signals from SwisTrack D-Bus Server and Task-Server respectively. SignalEmitter emits RobotStatus signal for TaskServer. TaskSelector selects a particular task based on information obtained from TaskInfo and RobotPose signals. This selected task has been notified to DeviceController that actually moves a robot to a target task. DeviceController uses Bluetooth radio link as a communication medium between RCC and physical E-puck. Data sharing and synchronization among all four sub-processes are done using Data-manger and Event interfaces of Python Multiprocessing module. Similar to RCC, Task-Server also has three sub-processes: SignalListener, SignalEmitter and TaskInfoUpdater. SignalListener listens RobotInfo signal and passes corresponding info to TaskInfoUpdater that updates task urgency of all tasks based on AFM's guidelines. The updated information is then encoded as new TaskInfo signal and emitted by SignalEmitter. TaskInfo signal also contains location of all tasks that we have provided to TaskServer as start-up arguments.\\ 
-To recap, our system works by repeating the following steps:
-\begin{itemize}
-\item SwisTrack grabs overhead camera image and finds id and pose of all robots. SwisTrack D-Bus Server periodically broadcast them as RobotPose D-Bus signal.
-\item All RCC catch their individual RobotPose signal and a common TaskInfo signal from SwisTrack D-Bus Server and TaskServer respectively. They select a particular task or random walk based on AFM's guidelines. If a physical link between an E-puck robot and a RCC is established, this selected task is then started to execute. When a task-execution starts, each RCC emits its RobotStatus signal over D-Bus.
-\item TaskServer updates task-urgencies after processing RobotStatus signal received from robots. This updated task-urgencies are then encoded in new TaskInfo signal and emitted by TaskServer in next step.
-\end{itemize}
+We have developed a system where up to 40 E-puck robots \cite{Epuck} can operate together according to the generic rules of the AFM. As shown in Fig. \ref{fig:setup}, our software system consists of a multi-robot tracking system, a centralized task server and robot controller clients. Here at first we have presented the design of our communication system. Then we have discussed about our specific implementation. 
+%%%
+\subsection{Design of our communication system}
+In order to establish a system-wide continuous flow of information, we need to implement a suitable communication system for our robots. Here we have presented a centralized  communication system for our manufacturing shop-floor scenario.
+%% 
+As shown in Fig. \ref{fig:ccm}, in this model there exists a centralized \textit{
+TaskServer} that is responsible for disseminating task information to robots. The content of task information can be physical location of task in the environment, urgency and so on. TaskServer delivers this information by emitting \textit{TaskInfo} signals periodically. The method of signal emission depends on a particular communication technology. For example, in a wireless network it can be a message broadcast.
+Task-Server has another interface for catching feedback signals from robots. The \textit{RobotStatus} signal can be used to inform TaskServer about a robot's current task id, its device status and so on. TaskServer uses this information to update relevant part of task information such as, task-urgency. This up-to-date information is sent in next TaskInfo signal.\\
+In Fig. \ref{fig:ccm} an initial configuration of this model has been presented. Upon receiving an initial TaskInfo signal robot $R_1$ has shown strong attraction towards $Task1$ and robot $R_3$ has shown strong attraction toward $Task2$. This can be inferred from Eq. \ref{eqn1} that says if the initial task urgencies and sensitizations for all tasks are same, a robot will strongly be attracted towards a task that is relatively closer to it.
+
+\subsection{Our current implementation}
+The major components of our implementation are a multi-robot tracking system, robot controller clients and a centralized task-server. In order to track all robots real-time we have used SwisTrack \cite{SwisTrack}, a state of the art open-source, multi-agent tracking system, with a16-megapixel overhead GigE camera. This set-up gives us the position, heading and id of each of the robots at a frequency of 1. The interaction of the hardware and software of our system is illustrated in Fig. \ref{fig:setup}. \\
+For inter-process communication (IPC), we have used D-Bus technology \footnote{http://dbus.freedesktop.org/doc/dbus-specification.html}. We have developed an IPC component for SwisTrack (hereafter called as \textit{SwisTrack D-Bus Server}) that can broadcast id and pose of all robots in real-time over our server's D-Bus interface.\\
+Apart from SwisTrack, we have implemented two major software modules: {\em TaskServer} and {\em Robot Controller Client (RCC)}. They are developed in Python with its state of the art \textit{Multiprocessing} \footnote{http://docs.python.org/library/multiprocessing.html} module. This python module simplifies our need to manage data sharing and synchronizing among different sub-processes. As shown in Fig. \ref{fig:setup}, RCC consists of four sub-processes. {\em SignalListener} and  {\em SignalEmitter},  interface with  SwisTrack D-Bus Server and TaskServer respectively. {\em TaskSelector} implements AFM guidelines for task selection relying on our communication system.  {\em DeviceController}  moves a robot to a target task using Bluetooth radio link as a communication medium between RCC and physical E-puck.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment Design}
 \label{sec:expt-design}
@@ -292,7 +336,7 @@ As an example of task specialization of a robot we plotted sensitization of Robo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Future works}
 \label{sec:conc}
-In this paper we have validated an inter-disciplinary generic model of self-regulated division of labour by incorporating it in our physical robotic social system. A centralized communication system has been instantiated to realize this model. We have evaluated various aspects of this model such as ability to meet dynamic task demands, individual task specializations, communication loads and flexibility in concurrent task completions over time. A set of metrics has been proposed to observe the convergence of division of labour in this system. From our experimental evidences, it is clear that such a system can meet the requirements of dynamic division of labour of a multi-robot system by the virtue of its self-regulatory behaviours. One drawback of our current implementation is that this system maintains a constant communication load on the system even the task requirements change. Certainly, this will prevent us from scaling up the system. Therefore, we would like to extend our work by validating this model with different number of tasks and robots using a local peer-to-peer communication strategy. Our aim is to implement this model in a multi-robot system having up to 40 E-puck robots that works in a relatively larger area.
+In this paper we have validated an inter-disciplinary generic model of self-regulated division of labour by incorporating it in our physical robotic social system. A centralized communication system has been instantiated to realize this model. We have evaluated various aspects of this model such as ability to meet dynamic task demands, individual task specializations, communication loads and flexibility in concurrent task completions. A set of metrics has been proposed to observe the convergence of MRTA in this system. From our experimental results we have found that AFM can meet the requirements of dynamic MRTA by the virtue of its self-regulatory behaviours. Our centralised communication system broadcasts  information to all the robots from a central server. This has the advantage of minimising the communication load and the disadvantage of a single point of failure. In the future, we will explore local peer-to-peer communication models in a MRS having about 40 E-puck robots.
 %\begin{acknowledgements}
 %If you'd like to thank anyone, place your comments here
 %and remove the percent signs.
@@ -376,13 +420,7 @@ In Proceedings of the IEEE/RSJ 2008 International Conference on Intelligent Robo
 \bibitem{Epuck}
 Mondada, F., Bonani, M., Raemy, X., Pugh, J., Cianci, C., Klaptocz, A., Magnenat, S., Zufferey, J.-C., Floreano, D. and Martinoli, A.:
 The e-puck, a Robot Designed for Education in Engineering. 
-Proceedings of the 9th Conference on Autonomous Robot Systems and Competitions, 1(1) 59-65 (2009) 
-\bibitem{DBus}
-http://www.freedesktop.org/wiki/Software/dbus
-\bibitem{Multiprocessing}
-http://docs.python.org/library/multiprocessing.html
-\bibitem{bustle}
-http://willthompson.co.uk/bustle/
+Proceedings of the 9th Conference on Autonomous Robot Systems and Competitions, 1(1) 59-65 (2009)
 \end{thebibliography}
 %
 \end{document}
