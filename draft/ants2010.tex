@@ -37,8 +37,8 @@ Division of labour (DoL) in multi-robot systems or multi-robot task allocation (
 We propose to solve MRTA problems using a set of previously published generic rules for DoL derived from the observation of ant, human and robotic social systems.
 These bottom-up rules describe the phenomenon of self-regulated DoL in terms of attractive fields between robots and tasks.
 The concrete form of these rules, the \textit{attractive filed model} (AFM), avoids the strong dependence on local interactions found in many existing approaches to MRTA.
-We present experimental results that constitute a first validation AFM as a mechanism for MRTA and as a multi-disciplinary model of self-organisation in social systems.
-Our experiments used 16 e-puck robots in a $4m^2$ area.
+We present experimental results that constitute a first validation of AFM as a mechanism for MRTA and as a multi-disciplinary model of self-organisation in social systems.
+Our experiments used 16 e-puck robots in a 2m x 2m area.
 %\keywords{First keyword \and Second keyword \and More}
 %% \PACS{PACS code1 \and PACS code2 \and more}
 %% \subclass{MSC code1 \and MSC code2 \and more}
@@ -79,7 +79,7 @@ In this paper, we present an application of AFM in a robotic system.
 Section~\ref{sec:model} presents AFM and an associated communication model that allows us to implement AFM as a MTRA mechanism.
 Section~\ref{sec:impl} introduces our implementation of MRTA including the interactions between the hardware, software and communication modules.
 Section~\ref{sec:expt-design} presents the design of our experiments including specific parameters and observables.
-Section 5 discusses our experimental results and section 6 draws conclusions.
+Section~\ref{sec:results} discusses our experimental results and section~\ref{sec:conc} draws conclusions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\addtolength{\topskip}{-15mm}
@@ -149,7 +149,7 @@ AFM suggests concurrency of a self-regulatory system by specifying at least two 
 \label{sec:impl}
 \begin{figure}
 \centering
-\includegraphics[height=7cm, angle=0]
+\includegraphics[height=5cm, angle=0]
 {../dia-files/RIL-Expt-Setup1.eps}
 %figure caption is below the figure
 \caption{\small Hardware and software setup}
@@ -172,8 +172,8 @@ Apart from SwisTrack, we have implemented two major software modules: {\em TaskS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment Design}
 \label{sec:expt-design}
-In order to validate AFM in robots we have designed a set of centralized communication experiments as outlined in \ref{sec:impl}. Here we describe our experimental parameters
-and observables.
+In this section, we have described the design of parameters and observables of our experiments.
+These experiments are designed to validate AFM by testing the occurrence of convergent MRTA. Our experimental setup can be found in section~\ref{sec:impl}. The details of convergence is presented in section~\ref{sec:results}.
 %
 \begin{table}
 \caption{Experimental parameters}
@@ -200,7 +200,10 @@ and observables.
 \end{table}
 % 
 \subsection{Parameters}
-Table \ref{table:params} lists a set of essential parameters of our experiments. The following relationships are maintained for selecting task-urgency and sensitization parameters.
+Table \ref{table:params} lists a set of essential parameters of our experiments. We intend to have a setup that is relatively complex, i.e., a high number of robots and tasks in a large area, but with a high probability of convergence. The diameter of the marker of our E-puck robot is 0.08m. So, if we put 4 robots in an area of one square meter, this will give us a robot-occupied-space to free-space ratio of about 1:49 per square meter.  We have found this ratio reasonable in order to allow the robots to move at an speed of 7.5 mm/sec (half of their maximum possible speed) without much interference to each other. We have  fixed the number of task to 4. They also have an additional option for random walking. So the total number of tasks becomes 5.  This gives our robots a relatively high number of tasks to work on. \\
+When many Bluetooth devices talk to a single Bluetooth adapter, communication delays become very frequent due to the fact that each device gets a guaranteed turn to communicate \cite{Bluetooth}.  In order to provide robots with a higher degree of access to Bluetooth communication links, we intend to dedicate one Bluetooth adapter for each robot.  This would ensure  that communication delays do not hamper a robot's task performance. However too many  Bluetooth adapters caused our server PC to crash frequently. We  found a stable server configuration with 8 Bluetooth adapters, i.e.,  one Bluetooth adapter is used to communicate with two robots. This limits us to set the total number of robots to 16.  Also we found that after about 35-40 minutes from the start of our experiments some of robots fail to get the access to their designated Bluetooth adapters. So we limit the length of our experiments to 40 minutes. We expect that this limitation would be removed by distributing Bluetooth adapters among multiple server PCs.\\ 
+The initial values of task urgencies can be set to any value as long as they are same for all tasks. We choose a limit of 0 and 1 where 0 means   no urgency and 1 means maximum urgency. Same applies to sensitisation as well, where 0 means no sensitisation and 1 means maximum sensitisation. This also implies that if sensitization is 0, task has been forgotten completely. On the other hand,   if sensitization is 1, the task has been learnt completely. We choose a default sensitization value of 0.1 
+for all tasks. The following relationships are maintained for selecting task-urgency and sensitization parameters.
 \begin{small}
 \begin{equation}
 \Delta\phi_{DEC} = \Delta\phi_{INC} \times \frac{N}{2 \times M}
@@ -213,6 +216,9 @@ Table \ref{table:params} lists a set of essential parameters of our experiments.
 \end{equation}
 \end{small}
 %
+Eq. \ref{eqn:task-urgency} establishes the fact that task urgency will increase at a higher rate than the rate of its decrease. As we do not like to keep a task left unattended for a long time we choose a higher rate of increase of task urgency. This difference is set on the basis of our assumption that  at least half of the expected number of robots (ratio of  number to robots to tasks) would be available to work on a task. So they would produce similar behaviour in increase and decrease in task urgencies.\\ 
+ Eq. \ref{eqn:sensitization} suggests that the learning will happen much faster than the forgetting. The difference in these two rates is based on the fact that faster leaning gives a robot more chances to stick on it. The exact ratio of learning and forgetting is related here by fact that  if a robot  works on a task it learns about it and forgets about the rest. 
+
 \subsection{Observables}
 We have defined a set of observables to benchmark our implementation. The first two observables, the changes in task-urgencies and the changes in robot sensitizations, give us an external and internal view of our system with respect to AFM respectively. Our third observable is to find changes in robot motions. This is completely objective measurement of our system. Our final measurement is the communication load which is specific to this particular implementation. They are briefly explained here.\\
 \textbf{Changes in task-urgencies ($\Delta \Phi$): }
@@ -229,9 +235,9 @@ In order to measure the communication load on our system and to benchmark Task s
 \section{Results and Discussions}
 \label{sec:results}
 %%
-In this section we have presented  our experimental results. We ran those experiments for about 40 minutes and averaged them from three iterations.
+In this section we have presented our experimental results. We ran those experiments for about 40 minutes and averaged them from three iterations.
 Fig. \ref{fig:raw-urgencies} shows the dynamic changes in task urgencies. Here we find that at about $100^{th}$ step all urgencies has stabilized near 0. The rise and fall of task urgencies show that our system is capable of providing a robust DoL. 
-In order to describe our system's dynamic behaviour holistically we analyse the changes in task urgencies over time. Let $ \phi_{j, q}$ be the urgency of a task $j$ at $q^{th}$ step. In $(q+1)^{th}$ step, we can find the change of  urgency of task $j$ :\\
+In order to describe our system's dynamic behaviour holistically we analyse the changes in task urgencies over time. Let $ \phi_{j, q}$ be the urgency of a task $j$ at $q^{th}$ step. In $(q+1)^{th}$ step, we can find the change of urgency of task $j$ :\\
 \begin{equation} 
 \small
 \delta \phi_{j, q+1} = ( \phi_{j, q+1} - \phi_{j, q}) 
@@ -259,24 +265,24 @@ Similar to Eq. \ref{eqn:Delta-Phi}, we can calculate the absolute sum of changes
 \Delta K_{j, q+1} = \sum_{j=1}^{M} \left | \Delta k_{j, q+1} \right |
 \label{eqn:Delta-K}
 \end{equation}
-This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It shows that the overall rate of learning and forgetting decrease over time. It is a consequence of  the gradually increased task specialization of robots.
+This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It shows that the overall rate of learning and forgetting decrease over time. It is a consequence of the gradually increased task specialization of robots.
 %
 \begin{figure}
-%\begin{minipage}[t]{0.5\linewidth}
+\begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=7cm, angle=0]
+\includegraphics[height=5cm, angle=0]
 {images/global/GlobalPlotUrgencyLog-2010Feb18-151600-clear.eps}
 %figure caption is below the figure
 \caption{\small Task urgencies observed at TaskServer}
 \label{fig:raw-urgencies} % Give a unique label
-%\end{minipage}
-%\hspace{0.5cm}
-%\begin{minipage}[t]{0.5\linewidth}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=7cm, angle=0]{images/global/TaskUrgencyConvergence-step2-th-p1.eps}
+\includegraphics[height=5cm, angle=0]{images/global/TaskUrgencyConvergence-step2-th-p1.eps}
 \caption{\small Convergence of task urgencies}
 \label{fig:urgency-convergence} % Give a unique label
-%\end{minipage}
+\end{minipage}
 \end{figure}
 %%
 %%% Sensitization and Translation %%%
@@ -304,7 +310,7 @@ We have aggregated the changes in translation motion of all robots over time. Le
 \Delta U_{q+1} = \sum_{i=1}^{N} \delta u_{i, q+1} 
 \label{eqn:Delta-Tr}
 \end{equation}
-This is plotted in Fig. \ref{fig:translation-stat}. Translation is calculated in pixel from the reported pose information by SwisTrack. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to show a consistence behaviour like previous plots.\\
+This is plotted in Fig. \ref{fig:translation-stat}. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to show a consistence behaviour like previous plots.\\
 %%% Communication load %%%
 \begin{figure}
 %\begin{minipage}[t]{0.5\linewidth}
@@ -421,6 +427,10 @@ In Proceedings of the IEEE/RSJ 2008 International Conference on Intelligent Robo
 Mondada, F., Bonani, M., Raemy, X., Pugh, J., Cianci, C., Klaptocz, A., Magnenat, S., Zufferey, J.-C., Floreano, D. and Martinoli, A.:
 The e-puck, a Robot Designed for Education in Engineering. 
 Proceedings of the 9th Conference on Autonomous Robot Systems and Competitions, 1(1) 59-65 (2009)
+\bibitem{Bluetooth}
+Huang, A.S. and Rudolph, L.:
+Bluetooth essentials for programmers.
+Cambridge University Press (2007).
 \end{thebibliography}
 %
 \end{document}
