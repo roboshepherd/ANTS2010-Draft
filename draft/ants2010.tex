@@ -44,7 +44,6 @@ Our experiments used 16 e-puck robots in a 2m x 2m area.
 %% \subclass{MSC code1 \and MSC code2 \and more}
 \end{abstract}
 %\addtolength{\parskip}{-3.5mm}
-
 \section{Introduction}
 \label{sec:intro}
 %\vspace{2mm}
@@ -66,13 +65,13 @@ In the intentional approaches the robots use direct task-allocation method to co
 This approach is intuitive, comparatively straightforward to design and implement and can be analysed formally.
 However, this approach typically works well only when the number of robots is small \cite{Lerman+2006}.
 When the number of robots increases, their computational requirements and interaction requirements increase exponentially, straining the available communication bandwidth and potentially reducing the overall team performance.\\
-The emergent task-allocation approach approach on the other hand, relies on the emergence of group behaviours, e.g., emergent cooperation \cite{Lerman+2006}, using mechnisms such as {\em adaptation rules} \cite{Liu+2007}.
+The emergent task-allocation approach approach on the other hand, relies on the emergence of group behaviours, e.g., emergent cooperation \cite{Lerman+2006}, using mechanisms such as {\em adaptation rules} \cite{Liu+2007}.
 This approach typically handles systems with local sensing, local interactions and typically little or no explicit communication or negotiations between robots.
 Emergent systems are more scalable and robust due to their inherent parallelism and redundancy.
 However in these systems, solutions are unintuitive and thus difficult to design, analyse formally and implement practically \cite{Gerkey+2004,Lerman+2006}.
 The solutions found by these systems are typically sub-optimal and, as the emergence is a result of interactions among robots and their environment, it is also difficult to predict exact behaviours of robots and overall system performance.
 The current challenges in emergent task allocation approaches have lead us to investigate for a suitable alternative.
-If we look at nature we can find that task allocation in animal or insect societies is governed by non-centralized rules and that they are  self-regulating and self-stabilizing \cite{Camazine+2001,Bonabeau+1999}.
+If we look at nature we can find that task allocation in animal or insect societies is governed by non-centralized rules and that they are self-regulating and self-stabilizing \cite{Camazine+2001,Bonabeau+1999}.
 Moreover studies of sociology \cite{Sayer+1992}, cybernetics \cite{Beer1981}, strategic management \cite{Kogut2000} and related disciplines show that decentralized self-regulated systems exist and that they can survive and grow over time.\\
 As a part of a collaborative project, we have studied the behaviour of ants, humans and robots and have developed the attractive field model (AFM), a common formal model of division of labour in social systems \cite{Elsa}.
 In this paper, we present an application of AFM in a robotic system.
@@ -80,12 +79,11 @@ Section~\ref{sec:model} presents AFM and an associated communication model that 
 Section~\ref{sec:impl} introduces our implementation of MRTA including the interactions between the hardware, software and communication modules.
 Section~\ref{sec:expt-design} presents the design of our experiments including specific parameters and observables.
 Section~\ref{sec:results} discusses our experimental results and section~\ref{sec:conc} draws conclusions.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\addtolength{\topskip}{-15mm}
 \section{The Attractive Field Model}
 \label{sec:model}
-AFM provides an abstract framework for self-regulatory DoL in social systems \cite{Elsa}.  In terms of networks, the model can be constructed as a bipartite network, meaning that there are two different types of nodes.  One set of nodes  describes the sources of the attractive fields and the other set describes the agents.  The links only take place between different types of nodes, and these encode the flow of information. So even if there is no direct link between two agents, their interaction is taken into account in the information flow. The dependence of the strength of the field on the distance can be represented in terms of networks through weighted links. In addition,  there is a permanent filed. It is from no-task option of ignoring the information. The model can be mapped to a network as shown in Fig. {fig:afm}. The correspondence is given below:
+AFM provides an abstract framework for self-regulatory DoL in social systems \cite{Elsa}. In terms of networks, the model can be constructed as a bipartite network, meaning that there are two different types of nodes. One set of nodes describes the sources of the attractive fields and the other set describes the agents. The links only take place between different types of nodes, and these encode the flow of information. So even if there is no direct link between two agents, their interaction is taken into account in the information flow. The dependence of the strength of the field on the distance can be represented in terms of networks through weighted links. In addition, there is a permanent filed. It comes from the no-task option of ignoring the information. The model can be mapped to a network as shown in Fig. \ref{fig:afm}. The correspondence is given below:
 \begin{itemize}
 \item Source nodes (o) are tasks that can be divided between a number of agents.
 \item Agent nodes (x) are robots.
@@ -142,8 +140,8 @@ P_{j}^{i} = \frac{S_{j}^{i}}{\sum_{j}^{}S_{j}^{i}}
 \end{small}
 %\addtolength{\belowdisplayskip}{-1mm}
 %\vspace{2mm}
-Eq. \ref{eqn1} says that the stimuli of a robot $i$ to a particular task $j$, $S_{j}^{i}$ depends on $i$'s spatial distance to $j$, $d_{ij}$, level of sensitization to $j$, $k_{j}^{i}$, and perceived urgency of that task ($\phi _{j}$). We use a vary small value $\delta$ in Eq. \ref{eqn1} to prevent division by zero. The probability of selecting each task has been determined by a probabilistic method outlined in Eq. \ref{eqn2}.
-AFM suggests concurrency of a self-regulatory system by specifying at least two task options: doing a task and not doing a task. In robots, the latter can be be treated as random walking. So in any time-step a robot will choose from M+1 tasks. Let $T_a$ be the allocated time to accomplish a task. If $R_1$ can enter inside the task boundary within $T_a$ time it waits there until $T_a$ elapsed. Otherwise it will select a different task.
+Eq. \ref{eqn1} states that the stimuli of a robot $i$ to a particular task $j$, $S_{j}^{i}$ depends on $i$'s spatial distance to $j$, $d_{ij}$, level of sensitization to $j$, $k_{j}^{i}$, and perceived urgency of that task ($\phi _{j}$). We use a vary small value $\delta$ in Eq. \ref{eqn1} to prevent division by zero. The probability of selecting each task has been determined by a probabilistic method outlined in Eq. \ref{eqn2}.
+AFM suggests that concurrency of a self-regulatory system can be maintained by specifying at least two task options: doing a task and not doing a task. In robots, the latter can be be treated as random walking. So in any time-step a robot will choose from M+1 tasks. Let $T_a$ be the allocated time to accomplish a task. If $R_1$ can enter inside the task boundary within $T_a$ time it waits there until $T_a$ elapsed. Otherwise it will select a different task.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Implementation}
 \label{sec:impl}
@@ -158,17 +156,16 @@ AFM suggests concurrency of a self-regulatory system by specifying at least two 
 We have developed a system where up to 40 E-puck robots \cite{Epuck} can operate together according to the generic rules of the AFM. As shown in Fig. \ref{fig:setup}, our software system consists of a multi-robot tracking system, a centralized task server and robot controller clients. Here at first we have presented the design of our communication system. Then we have discussed about our specific implementation. 
 %%%
 \subsection{Design of our communication system}
-In order to establish a system-wide continuous flow of information, we need to implement a suitable communication system for our robots. Here we have presented a centralized  communication system for our manufacturing shop-floor scenario.
+In order to establish a system-wide continuous flow of information, we need to implement a suitable communication system for our robots. Here we have presented a centralized communication system for our manufacturing shop-floor scenario.
 %% 
 As shown in Fig. \ref{fig:ccm}, in this model there exists a centralized \textit{
 TaskServer} that is responsible for disseminating task information to robots. The content of task information can be physical location of task in the environment, urgency and so on. TaskServer delivers this information by emitting \textit{TaskInfo} signals periodically. The method of signal emission depends on a particular communication technology. For example, in a wireless network it can be a message broadcast.
 Task-Server has another interface for catching feedback signals from robots. The \textit{RobotStatus} signal can be used to inform TaskServer about a robot's current task id, its device status and so on. TaskServer uses this information to update relevant part of task information such as, task-urgency. This up-to-date information is sent in next TaskInfo signal.\\
 In Fig. \ref{fig:ccm} an initial configuration of this model has been presented. Upon receiving an initial TaskInfo signal robot $R_1$ has shown strong attraction towards $Task1$ and robot $R_3$ has shown strong attraction toward $Task2$. This can be inferred from Eq. \ref{eqn1} that says if the initial task urgencies and sensitizations for all tasks are same, a robot will strongly be attracted towards a task that is relatively closer to it.
-
 \subsection{Our current implementation}
 The major components of our implementation are a multi-robot tracking system, robot controller clients and a centralized task-server. In order to track all robots real-time we have used SwisTrack \cite{SwisTrack}, a state of the art open-source, multi-agent tracking system, with a16-megapixel overhead GigE camera. This set-up gives us the position, heading and id of each of the robots at a frequency of 1. The interaction of the hardware and software of our system is illustrated in Fig. \ref{fig:setup}. \\
 For inter-process communication (IPC), we have used D-Bus technology \footnote{http://dbus.freedesktop.org/doc/dbus-specification.html}. We have developed an IPC component for SwisTrack (hereafter called as \textit{SwisTrack D-Bus Server}) that can broadcast id and pose of all robots in real-time over our server's D-Bus interface.\\
-Apart from SwisTrack, we have implemented two major software modules: {\em TaskServer} and {\em Robot Controller Client (RCC)}. They are developed in Python with its state of the art \textit{Multiprocessing} \footnote{http://docs.python.org/library/multiprocessing.html} module. This python module simplifies our need to manage data sharing and synchronizing among different sub-processes. As shown in Fig. \ref{fig:setup}, RCC consists of four sub-processes. {\em SignalListener} and  {\em SignalEmitter},  interface with  SwisTrack D-Bus Server and TaskServer respectively. {\em TaskSelector} implements AFM guidelines for task selection relying on our communication system.  {\em DeviceController}  moves a robot to a target task using Bluetooth radio link as a communication medium between RCC and physical E-puck.  
+Apart from SwisTrack, we have implemented two major software modules: {\em TaskServer} and {\em Robot Controller Client (RCC)}. They are developed in Python with its state of the art \textit{Multiprocessing} \footnote{http://docs.python.org/library/multiprocessing.html} module. This python module simplifies our need to manage data sharing and synchronizing among different sub-processes. As shown in Fig. \ref{fig:setup}, RCC consists of four sub-processes. {\em SignalListener} and {\em SignalEmitter}, interface with SwisTrack D-Bus Server and TaskServer respectively. {\em TaskSelector} implements AFM guidelines for task selection relying on our communication system. {\em DeviceController} moves a robot to a target task. Bluetooth radio link is used as a communication medium between a RCC and corresponding E-puck robot. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment Design}
 \label{sec:expt-design}
@@ -200,9 +197,9 @@ These experiments are designed to validate AFM by testing the occurrence of conv
 \end{table}
 % 
 \subsection{Parameters}
-Table \ref{table:params} lists a set of essential parameters of our experiments. We intend to have a setup that is relatively complex, i.e., a high number of robots and tasks in a large area, but with a high probability of convergence. The diameter of the marker of our E-puck robot is 0.08m. So, if we put 4 robots in an area of one square meter, this will give us a robot-occupied-space to free-space ratio of about 1:49 per square meter.  We have found this ratio reasonable in order to allow the robots to move at an speed of 7.5 mm/sec (half of their maximum possible speed) without much interference to each other. We have  fixed the number of task to 4. They also have an additional option for random walking. So the total number of tasks becomes 5.  This gives our robots a relatively high number of tasks to work on. \\
-When many Bluetooth devices talk to a single Bluetooth adapter, communication delays become very frequent due to the fact that each device gets a guaranteed turn to communicate \cite{Bluetooth}.  In order to provide robots with a higher degree of access to Bluetooth communication links, we intend to dedicate one Bluetooth adapter for each robot.  This would ensure  that communication delays do not hamper a robot's task performance. However too many  Bluetooth adapters caused our server PC to crash frequently. We  found a stable server configuration with 8 Bluetooth adapters, i.e.,  one Bluetooth adapter is used to communicate with two robots. This limits us to set the total number of robots to 16.  Also we found that after about 35-40 minutes from the start of our experiments some of robots fail to get the access to their designated Bluetooth adapters. So we limit the length of our experiments to 40 minutes. We expect that this limitation would be removed by distributing Bluetooth adapters among multiple server PCs.\\ 
-The initial values of task urgencies can be set to any value as long as they are same for all tasks. We choose a limit of 0 and 1 where 0 means   no urgency and 1 means maximum urgency. Same applies to sensitisation as well, where 0 means no sensitisation and 1 means maximum sensitisation. This also implies that if sensitization is 0, task has been forgotten completely. On the other hand,   if sensitization is 1, the task has been learnt completely. We choose a default sensitization value of 0.1 
+Table \ref{table:params} lists a set of essential parameters of our experiments. We intend to have a setup that is relatively complex, i.e., a high number of robots and tasks in a large area, but with a high probability of convergence. The diameter of the marker of our E-puck robot is 0.08m. So, if we put 4 robots in an area of one square meter, this will give us a robot-occupied-space to free-space ratio of about 1:49 per square meter. We have found that this ratio reasonable in order to allow the robots to move at a speed of 7.5 mm/sec (half of their maximum possible speed) without much interference to each other. We have fixed the number of task to 4. They also have an additional option for random walking. So the total number of tasks becomes 5. This gives our robots a relatively high number of tasks to work on. \\
+When many Bluetooth devices talk to a single Bluetooth adapter, communication delays become very frequent due to the fact that each device gets a guaranteed turn to communicate \cite{Bluetooth}. In order to provide robots with a higher degree of access to Bluetooth communication links, we intend to dedicate one Bluetooth adapter for each robot. This would ensure that communication delays do not hamper a robot's task performance. However too many Bluetooth adapters caused our server PC to crash frequently. We have found a stable server configuration with 8 Bluetooth adapters, i.e., one Bluetooth adapter is used to communicate with two robots. This limits us to set the total number of robots to 16. Also we found that after about 35-40 minutes from the start of our experiments some of robots fail to get the access to their designated Bluetooth adapters. So we limit the length of our experiments to 40 minutes. We expect that this limitation would be removed by distributing Bluetooth adapters among multiple server PCs.\\ 
+The initial values of task urgencies can be set to any value as long as they are same for all tasks. We choose a limit of 0 and 1, where 0 means no urgency and 1 means maximum urgency. Same applies to sensitisation as well, where 0 means no sensitisation and 1 means maximum sensitisation. This also implies that if sensitization is 0, task has been forgotten completely. On the other hand, if sensitization is 1, the task has been learnt completely. We choose a default sensitization value of 0.1 
 for all tasks. The following relationships are maintained for selecting task-urgency and sensitization parameters.
 \begin{small}
 \begin{equation}
@@ -216,11 +213,10 @@ for all tasks. The following relationships are maintained for selecting task-urg
 \end{equation}
 \end{small}
 %
-Eq. \ref{eqn:task-urgency} establishes the fact that task urgency will increase at a higher rate than the rate of its decrease. As we do not like to keep a task left unattended for a long time we choose a higher rate of increase of task urgency. This difference is set on the basis of our assumption that  at least half of the expected number of robots (ratio of  number to robots to tasks) would be available to work on a task. So they would produce similar behaviour in increase and decrease in task urgencies.\\ 
- Eq. \ref{eqn:sensitization} suggests that the learning will happen much faster than the forgetting. The difference in these two rates is based on the fact that faster leaning gives a robot more chances to stick on it. The exact ratio of learning and forgetting is related here by fact that  if a robot  works on a task it learns about it and forgets about the rest. 
-
+Eq. \ref{eqn:task-urgency} establishes the fact that task urgency will increase at a higher rate than the rate of its decrease. As we do not like to keep a task left unattended for a long time we choose a higher rate of increase of task urgency. This difference is set on the basis of our assumption that at least half of the expected number of robots (ratio of number of robots to tasks) would be available to work on a task. So they would produce similar type of increase and decrease in task urgencies.\\
+Eq. \ref{eqn:sensitization} suggests that the learning will happen much faster than the forgetting. The difference in these two rates is based on the fact that faster leaning gives a robot more chances to stick on to it. The exact ratio of learning and forgetting is related here by the fact that if a robot works on a task it learns about it and forgets about the rest. 
 \subsection{Observables}
-We have defined a set of observables to benchmark our implementation. The first two observables, the changes in task-urgencies and the changes in robot sensitizations, give us an external and internal view of our system with respect to AFM respectively. Our third observable is to find changes in robot motions. This is completely objective measurement of our system. Our final measurement is the communication load which is specific to this particular implementation. They are briefly explained here.\\
+We have defined a set of observables to benchmark our implementation. The first two observables, the changes in task-urgencies and the changes in robot sensitizations, give us an external and an internal view of our system with respect to AFM respectively. Our third observable is to find changes in robot motions. This is completely objective measurement of our system. Our final measurement is the communication load which is specific to this particular implementation. They are briefly explained here.\\
 \textbf{Changes in task-urgencies ($\Delta \Phi$): }
 In our experiments, urgency of each task in each step has been logged. From the above design of task urgency, we can see that if a task is not served by any robot for 100 consecutive steps (500s), urgency of that task will reach from 0.5 to its maximum value 1.0. On the other hand, if a task is served by only one robot for 200 consecutive steps (1000s) urgency of that task will be 0. But in real experiment, it is more likely that more than one robot will serve a task. So urgency of a task will decrease $\Delta\phi_{DEC}$ times number of working robots on that task (based on AFM guidelines \cite{Elsa}). The overall changes in task urgencies will show the convergence behaviour of our system. A stable convergence will most likely map to a stable division of labour of the system.\\
 \textbf{Changes in robot sensitizations ($\Delta K$): }
@@ -256,7 +252,7 @@ Fig. \ref{fig:urgency-convergence} plots this sum of changes of task urgencies b
 \end{equation}
 %
 In order to find convergence in DoL we have calculated the sum of absolute changes in task urgencies over a window of 2 consecutive steps (100s). This is plotted in solid line in Fig. \ref{fig:urgency-convergence}. Note that we scale down the time steps of this plot by aggregating the values of 10 consecutive steps (50s) of Fig. \ref{fig:raw-urgencies}into a single step value.
-From Fig. \ref{fig:raw-urgencies} we can see that initially the sum of changes of task urgencies are towards negative direction. This implies that tasks are being served by a high number of robots. When the task urgencies stabilize near zero the fluctuations in urgencies become minimum. Since robots chose tasks stochastically, there will always be a small changes in task urgencies. A potential convergence point is shown in Fig. \ref{fig:urgency-convergence} by considering the persistence existence of the value of $\Delta \Phi_{jw, q+1}$ below a threshold 0.1. This convergence happens near step 23 or after 1150s from the beginning of our experiments. This implies that from this point of time and onwards, chnages of our system's behaviour remains under a small threshold value.\\
+From Fig. \ref{fig:raw-urgencies} we can see that initially the sum of changes of task urgencies are towards negative direction. This implies that tasks are being served by a high number of robots. When the task urgencies stabilize near zero the fluctuations in urgencies become minimum. Since robots chose tasks stochastically, there will always be a small changes in task urgencies. A potential convergence point is shown in Fig. \ref{fig:urgency-convergence} by considering the persistence existence of the value of $\Delta \Phi_{jw, q+1}$ below a threshold 0.1. This convergence happens near step 23 or after 1150s from the beginning of our experiments. This implies that from this point of time and onwards, changes of our system's behaviour remains under a small threshold value.\\
 %
 Similar to Eq. \ref{eqn:Delta-Phi}, we can calculate the absolute sum of changes in sensitizations by all robots in the following equation.
 % 
@@ -342,7 +338,7 @@ As an example of task specialization of a robot we plotted sensitization of Robo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Future works}
 \label{sec:conc}
-In this paper we have validated an inter-disciplinary generic model of self-regulated division of labour by incorporating it in our physical robotic social system. A centralized communication system has been instantiated to realize this model. We have evaluated various aspects of this model such as ability to meet dynamic task demands, individual task specializations, communication loads and flexibility in concurrent task completions. A set of metrics has been proposed to observe the convergence of MRTA in this system. From our experimental results we have found that AFM can meet the requirements of dynamic MRTA by the virtue of its self-regulatory behaviours. Our centralised communication system broadcasts  information to all the robots from a central server. This has the advantage of minimising the communication load and the disadvantage of a single point of failure. In the future, we will explore local peer-to-peer communication models in a MRS having about 40 E-puck robots.
+In this paper we have validated an inter-disciplinary generic model of self-regulated division of labour by incorporating it in our multi-robot system. A centralized communication system has been instantiated to realize this model. We have evaluated various aspects of this model, such as ability to meet dynamic task demands, individual task specializations, communication loads and flexibility in concurrent task completions. A set of metrics has been proposed to observe the convergence of MRTA in this system. From our experimental results we have found that AFM can meet the requirements of dynamic MRTA by the virtue of its self-regulatory behaviours. Our centralised communication system broadcasts information to all the robots from a central server. This has the advantage of minimising the communication load and the disadvantage of a single point of failure. In the future, we will explore local peer-to-peer communication models in a MRS having about 40 E-puck robots.
 %\begin{acknowledgements}
 %If you'd like to thank anyone, place your comments here
 %and remove the percent signs.
@@ -360,50 +356,40 @@ In this paper we have validated an inter-disciplinary generic model of self-regu
 \bibitem{Camazine+2001}
 Camazine, S., Franks, N., Sneyd, J., Bonabeau, E., Deneubourg, J. and Theraulaz, G.: Self-organization in biological systems.
 Princeton University Press, Princeton, N.J (2001)
-
 \bibitem{Bonabeau+1999}
 Bonabeau, E., Dorigo, M. and Theraulaz, G.:
 Swarm intelligence: from natural to artificial systems.
 Oxford University Press (1999)
-
 \bibitem{Gerkey+2004}
 Gerkey, B. P. and Mataric M. J.:
 A Formal Analysis and Taxonomy of Task Allocation in Multi-Robot Systems.
-The International Journal of Robotics Research, 23  (2004)
-
+The International Journal of Robotics Research, 23 (2004)
 \bibitem{Parker2008}
 Parker, L. E.:
 Distributed Intelligence: Overview of the Field and its Application in Multi-Robot Systems.
-Journal of Physical Agents,  2, 5-14 (2008)
-
+Journal of Physical Agents, 2, 5-14 (2008)
 \bibitem{Lerman+2006}
 Lerman, K., Jones, C., Galstyan, A. and Mataric, M. J.:
 Analysis of Dynamic Task Allocation in Multi-Robot Systems. 
-The International Journal of Robotics Research, 25, 225  (2006)
-
+The International Journal of Robotics Research, 25, 225 (2006)
 \bibitem{Shen+2001}
 Shen, W., Hao, Q., Yoon, H. and Norrie, D.:
 Applications of agent-based systems in intelligent manufacturing: An updated review. Advanced Engineering Informatics, 20, 415-431, Elsevier (2006)
-
 \bibitem{Dias+2006}
 Dias, M. B., Zlot, R. M., Kalra, N. and Stentz, A.:
 Market-based multirobot coordination: A survey and analysis. 
-Proceedings of the IEEE, 94, 1257-1270,  IEEE  (2006)
-
+Proceedings of the IEEE, 94, 1257-1270, IEEE (2006)
 \bibitem{Liu+2007} 
 Liu, W., Winfield, A. F. T., Sa, J., Chen, J. and Dou, L.:
 Towards Energy Optimization: Emergent Task Allocation in a Swarm of Foraging Robots. Adaptive Behavior, 94, 1257-1270 (2007)
-
 \bibitem{Sayer+1992}
 Sayer, A. and Walker, R.: 
 The new social economy : reworking the division of labor.
 Blackwell (1992)
-
 \bibitem{Beer1981}
 Beer, S.: 
 Brain of the firm.
 J. Wiley New York (1981)
-
 \bibitem{Kogut2000}
 Kogut, B.: 
 The network as knowledge: generative rules and the emergence of structure. 
