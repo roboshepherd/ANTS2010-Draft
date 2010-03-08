@@ -14,7 +14,11 @@
 % See the \addtolength command later in the file to balance the column lengths
 % on the last page of the document
 
-
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{mathptmx} % use Times fonts if available on your TeX system
+\usepackage{setspace}
 
 % The following packages can be found on http:\\www.ctan.org
 %\usepackage{graphics} % for pdf, bitmapped graphics files
@@ -82,17 +86,17 @@ Let us consider a manufacturing shop floor scenario where N number of mobile rob
 According AFM, all robots will establish attractive fields to all tasks due to the presence of a system-wide continuous flow of information. The strength of these attractive fields called stimulus will vary according to the distances between robots and tasks, task-urgencies and corresponding  sensitizations of robots. This is encoded in Eq. \ref{eqn1}.
 %\addtolength{\abovedisplayskip}{-15mm} 
 \begin{small}
-\begin{multicols}{2} 
+%\begin{multicols}{2} 
 \begin{equation}
 S_{j}^{i} = tanh\{\frac{k_{j}^{i}}{d+\delta } \phi _{j}\}
 \label{eqn1}
 \end{equation}
-\vspace*{0.25cm}
+%\vspace*{0.25cm}
 \begin{equation}
 P_{j}^{i} = \frac{S_{j}^{i}}{\sum_{j}^{}S_{j}^{i}}
 \label{eqn2}
 \end{equation}
-\end{multicols}
+%\end{multicols}
 \end{small}
 %\addtolength{\belowdisplayskip}{-1mm} 
 %\vspace{2mm}
@@ -103,35 +107,18 @@ AFM suggests concurrency of a self-regulatory system by specifying at least two 
 In order to establish a system-wide continuous flow of information, one needs to implement a  suitable communication system. Here we have presented two models of communication for our above manufacturing shop-floor scenario.
 %
 %\addtolength{\floatsep}{-25mm}
-\begin{figure}[ht]
-\begin{minipage}[b]{0.55\linewidth}
-\centering
-\includegraphics[height=6cm, angle=0]{../dia-files/CentralizedComm.eps}
-% figure caption is below the figure
-\caption{Centralized communication model}
-\label{fig:ccm} % Give a unique label
-\end{minipage}
-%\hspace{0.5cm}
-\begin{minipage}[b]{0.45\linewidth}
+\begin{figure}[thpb]
 \centering
 \includegraphics[height=4cm, angle=0]{../dia-files/LocalComm.eps}
 % figure caption is below the figure
 %\vspace*{0.20cm}
 \caption{Local communication model}
 \label{fig:lcm} % Give a unique label
-\end{minipage}
 \end{figure}
 %\addtolength{\belowcaptionskip}{-15mm}
 %\end{spacing}
 %
-\paragraph{Centralized Communication Model:}
-
-As shown in Fig. \ref{fig:ccm}, in this model there exists a centralized Task-Server that is responsible for disseminating task information to robots. The content of  task information can be   location of task in the environment, urgency and so on. Task server delivers this information by emitting TaskInfo signals periodically. The method of signal emission depends on a particular communication technology. For example, in a wireless network it can be a message broadcast.
-Task-Server has another interface for catching feedback signals from robots. This RobotStatus signal may contain what task a robot is currently doing, its device status and so on.  Task-Server  uses this information to update task information such as, task-urgency. This up-to-date information is sent in TaskInfo signal.
-In Fig. \ref{fig:ccm} an initial configuration of this model has been presented. Upon receiving an initial TaskInfo signal robot $R_1$ and $R_2$ shows  strong attractions towards $Task1$ and robot $R_3$ shows strong attraction toward $Task2$. This can be inferred from Eq. \ref{eqn1}. If the initial task urgencies and sensitizations are same for all tasks, a robot will be strongly attracted towards a task that is relatively closer to it.
-
 \paragraph{Local Communication Model:}
-
 This model is based on the P2P communications among robots. Here there is no centralized server to disseminate information but each robot can communicate to its nearby peers within its communication radius, $r_comm$. Here by $r_comm$, we assume that within this distance robots can exchange communication signals reliably without any significant loss of information or delay. A robot $R_1$ is a nearby peer  of robot $R_2$, if spatial distance between $R_1$ and $R_2$ is less than its $r_comm$. 
 As shown in Fig. \ref{fig:lcm}, local communication can also give robots similar task information as in centralized communication mode. It shows that  it is not necessary for each robot to communicate with every other robot to get information on all tasks. Since robots can random walk  and explore the environment we assume that for a reasonably high robot to space density, all task will be known to all robots after an initial exploration period. 
 In order to update the urgency of a task, robots can estimate the number of robots working on a task either by using their sensory perception (e.g., camera)  or by doing local P2P communication. In Fig. ref{fig:lcm} we have shown that robots exchange both TaskInfo and RobotStatus signals to peers.
@@ -139,66 +126,166 @@ In order to update the urgency of a task, robots can estimate the number of robo
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{ADDITIONAL REQUIREMENTS}
+\section{Implementation}
+\label{sec:impl}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm, angle=0]
+{../dia-files/RIL-Expt-Setup1.eps}
+%figure caption is below the figure
+\caption{\small Hardware and software setup}
+\label{fig:setup} % Give a unique label
+\end{figure}
+We have developed a system where up to 40 E-puck robots \cite{Epuck} can operate together according to the generic rules of the AFM. As shown in Fig. \ref{fig:setup}, our software system consists of a multi-robot tracking system, a centralized task server and robot controller clients. Here at first we have presented the design of our communication system. Then we have discussed about our specific implementation. 
 
-\subsection{Figures and Tables}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Experiment Design}
+\label{sec:expt-design}
+In this section, we have described the design of parameters and observables of our experiments.
+These experiments are designed to validate AFM by testing the occurrence of convergent MRTA. Our experimental setup can be found in section~\ref{sec:impl}. The details of convergence is presented in section~\ref{sec:results}.
+%
+\begin{table}
+\caption{Experimental parameters}
+\label{table:params}
+\begin{center}
+\begin{tabular}{|l||c|}
+\hline Parameter & Value\\
+\hline Total number of robots ($N$) & 16\\
+\hline Total number of tasks ($M$) & 4\\
+\hline Experiment area ($A$) & 4 $m^2$\\
+\hline Intial task urgency ($\Phi_{INIT}$) & 0.5\\
+\hline Task urgency increase rate ($\Delta\phi_{INC}$) & 0.005\\
+\hline Task urgency decrease rate ($\Delta\phi_{DEC}$) & 0.0025\\
+\hline Intial sensitization ($K_{INIT}$) & 0.1\\
+\hline Sensitization increase rate ($\Delta k_{INC}$) & 0.03\\
+\hline Sensitization decrease rate ($\Delta k_{DEC}$) & 0.01\\
+\hline A very small distance ($\delta$)& 0.000001\\
+\hline Task info update interval ($\Delta TS_{u}$) & 5s\\
+\hline Task info signal emission interval ($ \Delta TS_{e}$)& 2.5s\\
+\hline Robot's task time-out interval ($\Delta RT_{to} $)& 10s\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results and Discussions}
+\label{sec:results}
+%%
+In this section we have presented our experimental results. We ran those experiments for about 40 minutes and averaged them from three iterations.
+%%% raw urgencies
+\begin{figure}
+\centering
+\includegraphics[height=5cm, angle=0]
+{images/local-500cm/PlotUrgencyLog-2010Feb15-171017.eps}
+%figure caption is below the figure
+\caption{\small Hardware and software setup}
+\label{fig:raw-urgencies} % Give a unique label
+\end{figure}
+%%%
+Fig. \ref{fig:raw-urgencies} shows the dynamic changes in task urgencies.
+In order to describe our system's dynamic behaviour holistically we analyse the changes in task urgencies over time. Let $ \phi_{j, q}$ be the urgency of a task $j$ at $q^{th}$ step. In $(q+1)^{th}$ step, we can find the change of urgency of task $j$ :\\
+\begin{equation} 
+\small
+\delta \phi_{j, q+1} = ( \phi_{j, q+1} - \phi_{j, q}) 
+\end{equation}
+So we can calculate the sum of changes in urgencies of all tasks at $(q+1)^{th}$ step:
+\begin{equation} 
+\small
+\Delta \Phi_{j, q+1} = \sum_{j=1}^{M} \delta \phi_{j, q+1} 
+\label{eqn:Delta-Phi}
+\end{equation}
+Fig. \ref{fig:urgency-convergence} plots this sum of changes of task urgencies by a dashed line. If we consider the absolute change over a window $w$ of time in the following equation we can describe the overall changes of our systems in both positive and negative directions.
+%
+\begin{equation}
+\small
+\Delta \Phi_{jw, q+1} = \sum_{j=0}^{w-1} \left | \Delta \Phi_{q+j} \right |
+\end{equation}
+%
+In order to find convergence in DoL we have calculated the sum of absolute changes in task urgencies over a window of 2 consecutive steps (100s). This is plotted in solid line in Fig. \ref{fig:urgency-convergence}. Note that we scale down the time steps of this plot by aggregating the values of 10 consecutive steps (50s) of Fig. \ref{fig:raw-urgencies} into a single step value.
+From Fig. \ref{fig:raw-urgencies} we can see that initially the sum of changes of task urgencies are towards negative direction. This implies that tasks are being served by a high number of robots. When the task urgencies stabilize near zero the fluctuations in urgencies become minimum. Since robots chose tasks stochastically, there will always be a small changes in task urgencies. A potential convergence point is shown in Fig. \ref{fig:urgency-convergence} by considering the persistence existence of the value of $\Delta \Phi_{jw, q+1}$ below a threshold 0.1. This convergence happens near step 23 or after 1150s from the beginning of our experiments. This implies that from this point of time and onwards, changes of our system's behaviour remains under a small threshold value.\\
+%
+Similar to Eq. \ref{eqn:Delta-Phi}, we can calculate the absolute sum of changes in sensitizations by all robots in the following equation.
+% 
+\begin{equation}
+\small 
+\Delta K_{j, q+1} = \sum_{j=1}^{M} \left | \Delta k_{j, q+1} \right |
+\label{eqn:Delta-K}
+\end{equation}
+This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It shows that the overall rate of learning and forgetting decrease over time. It is a consequence of the gradually increased task specialization of robots.
+%
+\begin{figure*}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]
+{images/local-500cm/Local500cm-TaskUrgencyConvergence.eps}
+%figure caption is below the figure
+\caption{\small Task urgencies observed at TaskServer}
+\label{fig:l500cm-convergence} % Give a unique label
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-1m/TaskUrgencyConvergence.eps}
+\caption{\small Convergence of task urgencies}
+\label{fig:l1m-convergence} % Give a unique label
+\end{minipage}
+\end{figure*}
+%%
+%%% Sensitization and Translation %%%
+\begin{figure}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]
+{images/global/RobotSensitizationStat-Total-50steps.eps}
+%figure caption is below the figure
+\caption{\small Changes in sensitizations of all robots}
+\label{fig:sensitization-stat} % Give a unique label
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/global/DeltaTranslationStat.eps}
+\caption{\small Sum of translations of all robots }
+\label{fig:translation-stat} % Give a unique label
+\end{minipage}
+\end{figure}
+%%
+We have aggregated the changes in translation motion of all robots over time. Let $u_{i,q}$ and $u_{i,q+1}$ be the translations of a robot $i$ in two consecutive steps. If the difference between these two translations be $\delta u_{i}$, we can find the sum of changes of translations of all robots in $(q+1)^{th}$ step using the following equation.
+\begin{equation}
+\small 
+\Delta U_{q+1} = \sum_{i=1}^{N} \delta u_{i, q+1} 
+\label{eqn:Delta-Tr}
+\end{equation}
+This is plotted in Fig. \ref{fig:translation-stat}. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to show a consistence behaviour like previous plots.\\
+%%% Communication load %%%
+\begin{figure}
+%\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]
+{images/global/Global-SignalingFreqStat.eps}
+%figure caption is below the figure
+\caption{\small Task server's frequency of task information signalling}
+\label{fig:signal-frequency-stat} % Give a unique label
+%\end{minipage}
+\end{figure}
+Fig. \ref{fig:signal-frequency-stat} presents the frequency of signalling task information by TaskServer. Since the duration of each time step is 50s long and TaskServer emits signal in every 2.5s, there should be 20 signals in each step. The insignificant variation in frequency shows us the stable behaviour of D-Bus daemon over time.
+\begin{figure}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/global/PlotRobot9-Sensitizations-2010Feb18-121037.eps}
+\caption{\small Task specialization of Robot9}
+\label{fig:single-robot-sensitizations} % Give a unique label
+\end{minipage} 
+%%%
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/global/DeltaRobot9-PoseAtTS-2010Feb18-121037.eps}
+\caption{\small Changes in translation of Robot9}
+\label{fig:single-robot-translation} % Give a unique label
+\end{minipage}
+\end{figure}
+As an example of task specialization of a robot we plotted sensitization of Robot9 in Fig. \ref{fig:single-robot-sensitizations}. It shows that this robot has specialized in Task1. The continuous learning happens from step 12 to step 42 where it has learned this task completely and forgot rest of the tasks. This behaviour is found common in all robots with varying level of sensitizations. Hence we get the linear decrease of $\Delta K$ in Fig. \ref{fig:sensitization-stat}. However, the changes in motion of this robot plotted in Fig. \ref{fig:single-robot-translation} is not stable due to the fact that robots frequently avoid dynamic obstacles and select random-walking.
 
-Position figures and tables at the tops and bottoms of columns.
-Avoid placing them in the middle of columns. Large figures and tables
-may span across both columns. Figure captions should be below the figures;
- table captions should be above the tables. Avoid placing figures and tables
-  before their first mention in the text. Use the abbreviation ``Fig. 1'',
-  even at the beginning of a sentence.
-Figure axis labels are often a source of confusion.
-Try to use words rather then symbols. As an example write the quantity ``Inductance",
- or ``Inductance L'', not just.
- Put units in parentheses. Do not label axes only with units.
- In the example, write ``Inductance (mH)'', or ``Inductance L (mH)'', not just ``mH''.
- Do not label axes with the ratio of quantities and units.
- For example, write ``Temperature (K)'', not ``Temperature/K''.
-
-\subsection{Numbering}
-
-Number reference citations consecutively in square brackets \cite{c1}.
- The sentence punctuation follows the brackets \cite{c2}.
- Refer simply to the reference number, as in \cite{c3}.
- Do not use ``ref. \cite{c3}'' or ``reference \cite{c3}''.
-Number footnotes separately in superscripts\footnote{This is a footnote}
-Place the actual footnote at the bottom of the column in which it is cited.
-Do not put footnotes in the reference list.
-Use letters for table footnotes (see Table I).
-
-\subsection{Abbreviations and Acronyms}
-
-Define abbreviations and acronyms the first time they are used in the text,
-even after they have been defined in the abstract. Abbreviations such as
-IEEE, SI, CGS, ac, dc, and rms do not have to be defined. Do not use
-abbreviations in the title unless they are unavoidable.
-
-\subsection{Equations}
-
-Number equations consecutively with equation numbers in parentheses flush
- with the right margin, as in (1). To make your equations more compact
- you may use the solidus (/), the exp. function, or appropriate exponents.
-  Italicize Roman symbols for quantities and variables, but not Greek symbols.
-   Use a long dash rather then hyphen for a minus sign. Use parentheses to avoid
-    ambiguities in the denominator.
-Punctuate equations with commas or periods when they are part of a sentence:
-$$\Gamma_2 a^2 + \Gamma_3 a^3 + \Gamma_4 a^4 + ... = \lambda \Lambda(x),$$
-where $\lambda$ is an auxiliary parameter.
-
-Be sure that the symbols in your equation have been defined before the
-equation appears or immediately following.
-Use ``(1),'' not ``Eq. (1)'' or ``Equation (1),''
-except at the beginning of a sentence: ``Equation (1) is ...''.
-
-   \begin{figure}[thpb]
-      \centering
-      %\includegraphics[scale=1.0]{figurefile}
-      \caption{Inductance of oscillation winding on amorphous
-       magnetic core versus DC bias magnetic field}
-      \label{figurelabel}
-   \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CONCLUSIONS AND FUTURE WORKS}
