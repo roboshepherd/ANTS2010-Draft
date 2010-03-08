@@ -72,7 +72,21 @@ Distributed local communication is one of the essential means by which various s
 \section{INTRODUCTION}
 \label{sec:intro}
 %\vspace{2mm}
-Multi-agent task allocation or division of labour (DoL) is a challenging research issue in the field of multi-agent and multi-robot systems e.g., swarm robotics \cite{RefSwarm}. In order to address this issue, existing approaches e.g., predefined (off-line) and emergent (real-time) task-allocation, fail to scale well with large number of agents. Typically, increased communication interference and decreased bandwidth among agents are major causes of this problem. Unlike the swarm robotic approach, which is inspired by biological systems alone and commonly aims for minimal intelligence agents, we propose to solve DoL in multi-agents based on a set of observed generic rules of DoL from biological and human social systems. These bottom-up rules describe the phenomena of self-regulated DoL in terms of attractive fields between agents and tasks. The concrete form of these rules, termed as \textit{attractive filed model} (AFM) \cite{RefElsa}, offers a scalable solution to the above DoL problem. Unlike having strong dependence to communication mediums by most of the existing approaches, our model states that self-regulatory DoL can be established by AFM without maintaining a strong form of on-line communication. 
+Communication between robots is an  important issue in MRS \cite{Arkin1998}. This is not a prerequisite for the group to be functioning, but often useful component of MRS \cite{Mataric2007}. Researchers generally agree that communication in MRS usually provides several major benefits, such as: exchange of information and improving perception, synchronization of actions, enabling interactions and so forth. Communication is not strictly necessary for coordinating team actions. But  communication can help a lot to interact (and hence influence) each-other in a team that, in turn, enables robots to coordinate and negotiate their actions.
+
+ 
+%[How]
+Robots communicate in a number of ways available under a specific application. This communication methods can be divided into two major categories:
+
+\paragraph{Explicit communication:}
+This is also known as intentional communication. This is done purposefully and usually by using wireless radio. Based on the number of recipients of message, the communication process is termed differently. Such as,
+Broadcast communication: where all other robots receive the message.
+Peer-to-peer communication: where only a single robot receive the message.
+Publish-subscribe communication: where only a selected (previously subscribed) number of robots receive the message.
+Because explicit communication is costly in terms of both hardware and software, robotic researchers always put extra attention to design such a system by analysing strict requirements such as communication necessity, range, content, reliability of communication channel (loose of message) etc.
+
+\paragraph{Implicit Communication:} 
+This is also known as indirect stigmergic communication. This is a powerful way of communication where individuals leave information on the environment. This method was adopted from the social insect behaviour, such as stigmergy of ants (leaving of small amount of pheromone or chemicals behind while moving in a trail). 
 %\vspace{4mm}
 We have investigated the performance of two different communication strategies for self-regulated DoL among a larger robot teams: centralized and local. These forms of communications typically resemble to message broadcast and peer-to-peer (P2P) communications respectively.
 
