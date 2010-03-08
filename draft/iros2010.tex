@@ -2,9 +2,9 @@
 %2345678901234567890123456789012345678901234567890123456789012345678901234567890
 %        1         2         3         4         5         6         7         8
 
-%\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out
                                                           % if you need a4paper
-\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
                                                           % paper
 
 \IEEEoverridecommandlockouts                              % This command is only
@@ -63,7 +63,7 @@ Decentralized Communications for Self-regulated\\ Division of Labour in Robot So
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-Distributed local communication is one of the essential means by which various social insects achieve their self-regulatory division of labour. Unlike centralized static communication, this communication mode enables individuals to respond to local changes more quickly and it generally produces steady-state convergence of self-regulated division of labour (DoL) in social insects. However, realizing this kind of communication in a distributed multi-robot system (DMRS) is not as straight forward as a centralized one. From a robot controller's point of view, it is not easy to determine how often or how much dynamic peer-to-peer (P2P) communication  is needed to maintain system's convergence of division of labour. In this paper, we address these questions: first by describing our model of local communication based DMRS with two different communication radii that shows a steady-state convergence of self-regulated DoL. Then we compare this system with our centralized communication based DMRS. All experiments on these systems  have been done with 16 physical E-puck robots in an area of about 4$m^2$. Results from these experiments suggest that faster and more stable convergence can be obtained by setting a smaller P2P communication radius where a robot locally exchanges signals with a minimum number of its closest peers.
+Distributed local communication is one of the essential means by which various social insects achieve their self-regulatory division of labour. Unlike centralized static communication, this communication mode enables individuals to respond to local changes more quickly and it generally produces steady-state convergence of self-regulated division of labour (DoL) in social insects. However, realizing this kind of communication in a distributed multi-robot system (DMRS) is not as straight forward as a centralized one. From a robot controller's point of view, it is not easy to determine how often or how much dynamic peer-to-peer (P2P) communication  is needed to maintain system's convergence of division of labour. In this paper, we address these questions: first by describing our model of local communication based DMRS with two different communication radii that shows a steady-state convergence of self-regulated DoL. Then we compare this system with our centralized communication based DMRS. All experiments on these systems  have been done with 16 physical E-puck robots in an area of about 2m x 2m. Results from these experiments suggest that faster and more stable convergence can be obtained by setting a smaller P2P communication radius where a robot locally exchanges signals with a minimum number of its closest peers.
 
 \end{abstract}
 
@@ -119,12 +119,9 @@ In order to establish a system-wide continuous flow of information, one needs to
 %\end{spacing}
 %
 \paragraph{Local Communication Model:}
-This model is based on the P2P communications among robots. Here there is no centralized server to disseminate information but each robot can communicate to its nearby peers within its communication radius, $r_comm$. Here by $r_comm$, we assume that within this distance robots can exchange communication signals reliably without any significant loss of information or delay. A robot $R_1$ is a nearby peer  of robot $R_2$, if spatial distance between $R_1$ and $R_2$ is less than its $r_comm$. 
+This model is based on the P2P communications among robots. Here there is no centralized server to disseminate information but each robot can communicate to its nearby peers within its communication radius, $R_{comm}$. Here by $R_{comm}$, we assume that within this distance robots can exchange communication signals reliably without any significant loss of information or delay. A robot $R_1$ is a nearby peer  of robot $R_2$, if spatial distance between $R_1$ and $R_2$ is less than its $R_{comm}$. 
 As shown in Fig. \ref{fig:lcm}, local communication can also give robots similar task information as in centralized communication mode. It shows that  it is not necessary for each robot to communicate with every other robot to get information on all tasks. Since robots can random walk  and explore the environment we assume that for a reasonably high robot to space density, all task will be known to all robots after an initial exploration period. 
 In order to update the urgency of a task, robots can estimate the number of robots working on a task either by using their sensory perception (e.g., camera)  or by doing local P2P communication. In Fig. ref{fig:lcm} we have shown that robots exchange both TaskInfo and RobotStatus signals to peers.
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation}
 \label{sec:impl}
@@ -178,7 +175,7 @@ In this section we have presented our experimental results. We ran those experim
 \includegraphics[height=5cm, angle=0]
 {images/local-500cm/PlotUrgencyLog-2010Feb15-171017.eps}
 %figure caption is below the figure
-\caption{\small Hardware and software setup}
+\caption{\small Task urgencies observed at TaskServer in local mode $R_{comm}$=0.5m}
 \label{fig:raw-urgencies} % Give a unique label
 \end{figure}
 %%%
@@ -212,44 +209,64 @@ Similar to Eq. \ref{eqn:Delta-Phi}, we can calculate the absolute sum of changes
 \label{eqn:Delta-K}
 \end{equation}
 This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It shows that the overall rate of learning and forgetting decrease over time. It is a consequence of the gradually increased task specialization of robots.
-%
+%%%%
+%%%%% Task Urgency Convergence
 \begin{figure*}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]
 {images/local-500cm/Local500cm-TaskUrgencyConvergence.eps}
 %figure caption is below the figure
-\caption{\small Task urgencies observed at TaskServer}
+\caption{\small Convergence of task urgencies in local mode $R_{comm}$=0.5m}
 \label{fig:l500cm-convergence} % Give a unique label
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]{images/local-1m/TaskUrgencyConvergence.eps}
-\caption{\small Convergence of task urgencies}
+\caption{\small Convergence of task urgencies in local mode $R_{comm}$=1m}
 \label{fig:l1m-convergence} % Give a unique label
 \end{minipage}
 \end{figure*}
 %%
-%%% Sensitization and Translation %%%
-\begin{figure}
+%%% Sensitization%%%
+\begin{figure*}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]
-{images/global/RobotSensitizationStat-Total-50steps.eps}
+{images/local-500cm/RobotSensitizationStat-Total-50steps.eps}
 %figure caption is below the figure
-\caption{\small Changes in sensitizations of all robots}
+\caption{\small Changes in sensitizations of all robots in local mode $R_{comm}$=0.5m}
 \label{fig:sensitization-stat} % Give a unique label
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{images/global/DeltaTranslationStat.eps}
-\caption{\small Sum of translations of all robots }
+\includegraphics[height=5cm, angle=0]{images/local-1m/RobotSensitizationStat-Total-50steps.eps}
+\caption{\small Changes in sensitizations of all robots in local mode $R_{comm}$=1m}
 \label{fig:translation-stat} % Give a unique label
 \end{minipage}
-\end{figure}
+\end{figure*}
 %%
+%%% Translation %%%
+\begin{figure*}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]
+{images/local-500cm/DeltaTranslationStat.eps}
+%figure caption is below the figure
+\caption{\small Sum of translations of all robots in local mode $R_{comm}$=1m }
+\label{fig:sensitization-stat} % Give a unique label
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-1m/DeltaTranslationStat.eps}
+\caption{\small Sum of translations of all robots in local mode $R_{comm}$=1m }
+\label{fig:translation-stat} % Give a unique label
+\end{minipage}
+\end{figure*}
+
 We have aggregated the changes in translation motion of all robots over time. Let $u_{i,q}$ and $u_{i,q+1}$ be the translations of a robot $i$ in two consecutive steps. If the difference between these two translations be $\delta u_{i}$, we can find the sum of changes of translations of all robots in $(q+1)^{th}$ step using the following equation.
 \begin{equation}
 \small 
@@ -257,33 +274,62 @@ We have aggregated the changes in translation motion of all robots over time. Le
 \label{eqn:Delta-Tr}
 \end{equation}
 This is plotted in Fig. \ref{fig:translation-stat}. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to show a consistence behaviour like previous plots.\\
+%
 %%% Communication load %%%
-\begin{figure}
-%\begin{minipage}[t]{0.5\linewidth}
-\centering
-\includegraphics[height=5cm, angle=0]
-{images/global/Global-SignalingFreqStat.eps}
-%figure caption is below the figure
-\caption{\small Task server's frequency of task information signalling}
-\label{fig:signal-frequency-stat} % Give a unique label
-%\end{minipage}
-\end{figure}
-Fig. \ref{fig:signal-frequency-stat} presents the frequency of signalling task information by TaskServer. Since the duration of each time step is 50s long and TaskServer emits signal in every 2.5s, there should be 20 signals in each step. The insignificant variation in frequency shows us the stable behaviour of D-Bus daemon over time.
-\begin{figure}
+\begin{figure*}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{images/global/PlotRobot9-Sensitizations-2010Feb18-121037.eps}
-\caption{\small Task specialization of Robot9}
+\includegraphics[height=5cm, angle=0]
+{images/local-500cm/Local-500cm-SignalingFreqStat.eps}
+\caption{\small Local peers' frequency of task information signalling in local mode $R_{comm}$=0.5m}
+\label{fig:signal-frequency-stat} % Give a unique label
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-1m/Local-1m-SignalingFreqStat.eps}
+\caption{\small Local peers' frequency of task information signalling in local mode $R_{comm}$=1m}
+\label{fig:translation-stat} % Give a unique label
+\end{minipage}
+\end{figure*}
+%
+Fig. \ref{fig:signal-frequency-stat} presents the frequency of signalling task information by TaskServer. Since the duration of each time step is 50s long and TaskServer emits signal in every 2.5s, there should be 20 signals in each step. The insignificant variation in frequency shows us the stable behaviour of D-Bus daemon over time.
+%
+%%%% Single- robot sensitization and translation
+\begin{figure*}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-500cm/PlotRobot12-Sensitizations-2010Feb16-150432.eps}
+\caption{\small Task specialization of Robot12 in local mode $R_{comm}$=0.5m}
 \label{fig:single-robot-sensitizations} % Give a unique label
 \end{minipage} 
 %%%
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{images/global/DeltaRobot9-PoseAtTS-2010Feb18-121037.eps}
-\caption{\small Changes in translation of Robot9}
+\includegraphics[height=5cm, angle=0]{images/local-500cm/DeltaRobot12-PoseAtTS-2010Feb16-150432.eps}
+\caption{\small Changes in translation of Robot12 in local mode $R_{comm}$=0.5m}
 \label{fig:single-robot-translation} % Give a unique label
 \end{minipage}
-\end{figure}
+\end{figure*}
+%%%%
+%%%% Single- number of peers
+\begin{figure*}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-500cm/Robot12-16feb-1-LocalSignals.eps}
+\caption{\small Number of peer signals caught by Robot12 in local mode $R_{comm}$=0.5m}
+\label{fig:single-robot-sensitizations} % Give a unique label
+\end{minipage} 
+%%%
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-1m/Robot12-17feb-3-LocalSignals.eps}
+\caption{\small  Number of peer signals caught by Robot12 in local mode $R_{comm}$=1m}
+\label{fig:single-robot-translation} % Give a unique label
+\end{minipage}
+\end{figure*}
+
+
 As an example of task specialization of a robot we plotted sensitization of Robot9 in Fig. \ref{fig:single-robot-sensitizations}. It shows that this robot has specialized in Task1. The continuous learning happens from step 12 to step 42 where it has learned this task completely and forgot rest of the tasks. This behaviour is found common in all robots with varying level of sensitizations. Hence we get the linear decrease of $\Delta K$ in Fig. \ref{fig:sensitization-stat}. However, the changes in motion of this robot plotted in Fig. \ref{fig:single-robot-translation} is not stable due to the fact that robots frequently avoid dynamic obstacles and select random-walking.
 
 
