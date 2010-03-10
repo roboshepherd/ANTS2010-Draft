@@ -73,41 +73,37 @@ Distributed local communication is one of the essential means by which various s
 \label{sec:intro}
 Self-regulated division of labour (SRDL) is one of the key research issues in the filed of multi-agent and multi-robot systems (MRS). Inspired from biological and various other social systems, robotic researchers have achieved SRDL in MRS using various forms of communications \cite{Bonabeau+1999 - Labella}. Two basic forms of communications are: 1) direct or explicit communication and 2) indirect or implicit communication. Direct communication is an intentional communicative act of message passing that  aims at one or more particular receiver(s) \cite{Mataric}. It typically exchanges information  through physical signals. In contrast,  indirect communication, sometimes termed as {\em  stigmergic} in biological literature, happens as a form of modifying the environment (e.g., pheromone dropping by ants) \cite{Bonabeau+1999}.  In ordinary sense, this is an observed behaviour and many researchers call it as {\em no communication} \cite{Labella}. In order to avoid ambiguity, by the term {\em communication},  we always refer to direct communication. In this paper, we also confine our discussion on SRDL within the context of direct communication only.\\
 In order to pursue a SRDL,  robots can receive information from a centralised source \cite{Krieger} or from their local peers \cite{Agassounon}. In \cite{Sarker}, we reported a steady-state convergence of SRDL in a practical MRS using a centralized information source.  This  centralized communication system  is easy to implement and it simplifies the overall design of  a robot controller. However this system has disadvantage of a single point of failure and it is not scalable. The increased number of robots and tasks cause  inevitable increase in communication load and  transmission delay and as a consequence, the overall system performance degrades.  On the other hand, uncontrolled reception of information from decentralized or local sources is also not  free from drawbacks. If a robot exchanges signals with all other robots (hereafter called as {\em peers}), it might get the global view of the system quickly and can select an optimal  or near optimal task. This can produce a great improvement in overall performance of some types of tasks e.g., in area coverage \cite{Rutishauser}. But this is  also not practical and scalable for a typically large MRS due to the limited communication and computation capabilities of robots and limited available communication bandwidth.\\ 
-A potential alternate solution to this problem can be obtained by decreasing the number of message recipient peers on the basis of a local communication radius (CR). This means that robots are allowed to communicate only with those peers who are physically located within a preset distance. When this strategy is used for sharing task information among peers, SRDL can be more robust and efficient. This concept was validated by simulation in \cite{Agassounon}. But they did not give us any insight for choosing the value of CR. In this paper, we have presented a set of experimental results of SRDL in our MRS with two values of CR: 0.5m and 1m. In case of the former one, we call the peers located within CR as {\em nearby peers}. Similarly in case of latter one, we call the peers located within CR as {\em distant peers}. Along with a practical insight for selecting CR value, various other design issues have been tackled in this paper. The recursion-free design of  local communication channels is achieved by a dynamic publish/subscribe model of communication. This has been validated by using a state-of-the-art D-Bus \footnote{http://dbus.freedesktop.org/doc/dbus-specification.html}. inter-process communication technology in Linux.\\
+A potential alternate solution to this problem can be obtained by decreasing the number of message recipient peers on the basis of a local communication radius (CR). This means that robots are allowed to communicate only with those peers who are physically located within a preset distance. When this strategy is used for sharing task information among peers, SRDL can be more robust and efficient. This concept was validated by simulation in \cite{Agassounon}. But they did not give us any insight for choosing the value of CR. In this paper, we have presented a set of experimental results of SRDL in our MRS with two values of CR: 0.5m and 1m. In case of the former one, we call the peers located within CR as {\em nearby peers}. Similarly in case of latter one, we call the peers located within CR as {\em distant peers}. Along with a practical insight for selecting CR value, various other design issues have been tackled in this paper. The recursion-free design of  local communication channels is achieved by a dynamic publish/subscribe model of communication. This has been validated by using a state-of-the-art D-Bus \footnote{http://dbus.freedesktop.org/doc/dbus-specification.html} inter-process communication (IPC)ctechnology in Linux.\\
 Our contributions from this study are as follows. We present a dynamic publish/subscribe local model of communication that achieves similar or better SRDL than its centralized counterpart. The reduction of robot motion is half in this case and this tells us about the level of impact this local model can make on the energy efficiency of a MRS. The reduction in communication load in local model  is also significant.  Unlike a fixed communication frequency, the dynamic variation in communication frequency produced by by our local model suggests us that local communication model should be preferred to a centralized one when robustness and scalability of SRDL of a MRS is an important issue.
 
-Rest of the paper is organized as follows. Section~\ref{sec:bg} discusses related background works. Section~\ref{sec:model} presents our local communication model that allows us to implement a inter-disciplinary generic model of SRDL as a multi-robot task allocation (MTRA) mechanism. Section~\ref{sec:impl} introduces our implementation of MRTA including the interactions between the hardware, software and communication modules. Section~\ref{sec:expt-design} presents the design of our experiments including specific parameters and observables. Section~\ref{sec:results} discusses our experimental results and section~\ref{sec:conc} draws conclusions.
+Rest of the paper is organized as follows.  Section~\ref{sec:model} presents our local communication model that allows us to implement a inter-disciplinary generic model of SRDL as a multi-robot task allocation (MTRA) mechanism. Section~\ref{sec:impl} introduces our implementation of MRTA including the interactions between the hardware, software and communication modules. Section~\ref{sec:expt-design} presents the design of our experiments including specific parameters and observables. Section~\ref{sec:results} discusses our experimental results. Section~\ref{sec:bg} discusses related background works. Section~\ref{sec:bg} discusses related background works and section~\ref{sec:conc} draws conclusions.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Related Works}
-\label{sec:bg}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Modeling}
+\section{Attactive Field Model (AFM)}
 \label{sec:model}
-\subsection{Model for Self-Regulatory DoL}
-Our model of self-regulated DoL is based on AFM. It provides us a generic framework for implementing self-regulatory DoL in robots. Here we briefly describe how this model gives our robots self-regulatory DoL behaviours, particularly task-specialization, concurrency, flexibility and robustness.
+Our model of self-regulated DoL is based on AFM. It provides us a generic framework for implementing self-regulatory DoL in robots. Here we briefly describe how this model gives our robots self-regulatory DoL behaviours, particularly task-specialization, concurrency, flexibility and robustness. Interested readers should consult \cite{Elsa}  for a general overview and and \cite{Sarker} a robotic implementation of AFM.
+
 Let us consider a manufacturing shop floor scenario where N number of mobile robots are required to attend to M number of shop tasks spread over a fixed area A. Let these tasks be represented by a set of small rectangular boxes resembling to manufacturing machines. Let $R_1$, $R_2$ … $R_n$ be the set of all robots and $J_1$, $J_2$ … $J_m$ be the set of all tasks. Each task $j$ has an associated task-urgency $\phi_j$ that indicates its relative importance over time. If a robot attends to a task $j$ in x$^{th}$ time-step, value of $\phi_j$ will decreases by a small amount $\delta_\phi$ in (x+1)$^{th}$ time-step. On the other hand, if a task has not been served by any robot in x$^{th}$ time-step,  $\phi_j$  will increase by another small amount in (x+1)$^{th}$ time-step. In order to complete a shop task $J_1$, a robot $R_1$ needs to reach within a fixed boundary $D_j1$ of $J_1$. If a robot completes a task $j$ we say that it learns about it and this will increase robot's likelihood of selecting that task in next step. We call this variable affinity of a robot to that task as its sensitization $k_j$ . If a robot does not do a task $j$ for some time, we say that it forgets about $j$ and $k_j$ has been decreased.\\
 According AFM, all robots will establish attractive fields to all tasks due to the presence of a system-wide continuous flow of information. The strength of these attractive fields called stimulus will vary according to the distances between robots and tasks, task-urgencies and corresponding  sensitizations of robots. This is encoded in Eq. \ref{eqn1}.
 %\addtolength{\abovedisplayskip}{-15mm} 
-\begin{small}
-%\begin{multicols}{2} 
+\begin{multicols}{2} 
 \begin{equation}
+\small
 S_{j}^{i} = tanh\{\frac{k_{j}^{i}}{d+\delta } \phi _{j}\}
 \label{eqn1}
 \end{equation}
-%\vspace*{0.25cm}
+\vspace*{0.25cm}
 \begin{equation}
+\small
 P_{j}^{i} = \frac{S_{j}^{i}}{\sum_{j}^{}S_{j}^{i}}
 \label{eqn2}
 \end{equation}
-%\end{multicols}
-\end{small}
+\end{multicols}
 %\addtolength{\belowdisplayskip}{-1mm} 
 %\vspace{2mm}
 Eqn \ref{eqn1} says that the stimuli of a robot $i$ to a particular task $j$, $(S_{j}^{i})$ depends on robot's spatial distance $d$ to $j$, level of sensitization to that task ($k_{j}^{i}$) and perceived urgency of that task ($\phi _{j}$). We use a vary small value $\delta$ in \ref{eqn1} to prevent  division by zero. The probability of selecting each task has been determined by a probabilistic method outlined in Eq. \ref{eqn2} . 
 AFM suggests concurrency of a self-regulatory system by specifying at least two task options: 1) doing a task and 2) doing no task. In robots, the latter can be   be treated as random walking. So in any time-step a robot will choose from M+1 tasks. Let $T_a$ be the allocated time to accomplish a task. If $R_1$ can enter inside the task boundary within $T_a$ time it waits there until $T_a$ elapsed. Otherwise it will select a different task. 
-
+%
 \section{Our Dynamic P2P Communication Model}
 \label{sec:comm}
 \subsection{Characteristics}
@@ -164,19 +160,29 @@ shows implementation of our proposed P2P dynamic communication.\\
 \label{sec:impl}
 \begin{figure}
 \centering
-\includegraphics[height=5.5cm, angle=0]
-{../dia-files/RIL-Expt-Setup1.eps}
+\includegraphics[height=5cm, angle=0]
+{../dia-files/RIL-Expt-Setup2.eps}
 %figure caption is below the figure
 \caption{\small Hardware and software setup}
 \label{fig:setup} % Give a unique label
 \end{figure}
-We have developed a system where up to 40 E-puck robots \cite{Epuck} can operate together according to the generic rules of the AFM. As shown in Fig. \ref{fig:setup}, our software system consists of a multi-robot tracking system, a centralized task server and robot controller clients. Here at first we have presented the design of our communication system. Then we have discussed about our specific implementation. 
-
+We have developed a system where up to 40 E-puck robots \cite{Epuck} can operate together according to the generic rules of the AFM. As shown in Fig. \ref{fig:setup} (right), our software system consists of a multi-robot tracking system, a task perception assistant (TPA) and robot controller clients (RCC). Here at first we have presented the design of our communication system. Then we have discussed about our specific implementation. 
+%%%
+\subsection{Our communication system}
+As shown in Fig. \ref{fig:lcm}, RCCs  disseminate task information to each other by  \textit{TaskInfo} D-Bus signal. The contents of task information are physical locations of tasks and their urgencies. However as our robots are incapable of sensing task directly. So it relies on TPA for actual task location and urgency. When a robot $i$ comes within $r_{task}$ of a task $j$, SwisTrack reports it to TPA (by {\em TaskNeighbors} signal) and TPA then gives it current task information of that task $H_j$ to $i$ (by {\em TaskInfo} signal).
+TPA has another interface for catching feedback signals from robots. The \textit{RobotStatus} signal can be used to inform TPA about a robot's current task id, its device status and so on. TPA uses this information to update relevant part of task information such as, task-urgency. This up-to-date information is encoded in next TaskInfo signal.\\
+In Fig. \ref{fig:lcm} an initial configuration of our communication system has been presented. Upon receiving an initial TaskInfo signal from TPA, robot $R_3$ has shown strong attraction towards $Task1$ and robot $R_2$ has shown strong attraction toward $Task2$. However $R_1$ receives information about both tasks through its peer $R_3$ and shows strong attraction towrads Task1. These can be inferred from Eq. \ref{eqn1} that says if the initial task urgencies and sensitizations for all tasks are same, a robot will strongly be attracted towards a task that is relatively closer to it.
+\subsection{Our current implementation}
+In order to track all robots real-time we have used SwisTrack \cite{SwisTrack}, a state of the art open-source, multi-agent tracking system, with a16-megapixel overhead GigE camera. This set-up gives us the position, heading and id of each of the robots at a frequency of 1. The interaction of the hardware and software of our system is illustrated in Fig. \ref{fig:setup}. \\
+For IPC we have used D-Bus technology. %\footnote{http://dbus.freedesktop.org/doc/dbus-specification.html}. 
+We have developed an IPC component for SwisTrack (hereafter called as \textit{SwisTrack D-Bus Server}) that can broadcast id and pose of all robots in real-time over our server's D-Bus interface.\\
+Apart from SwisTrack, we have implemented two major software modules: {\em Task Perception Assistant (TPA)} and {\em Robot Controller Client (RCC)}. They are developed in Python with its state of the art \textit{Multiprocessing} \footnote{http://docs.python.org/library/multiprocessing.html} module. This python module simplifies our need to manage data sharing and synchronization among different sub-processes. As shown in Fig. \ref{fig:setup}, RCC consists of four sub-processes. {\em SignalListener} and {\em SignalEmitter}, interface with SwisTrack D-Bus Server and TPA. {\em TaskSelector} implements AFM guidelines for task selection . {\em DeviceController} moves a robot to a target task. Bluetooth radio link is used as a communication medium between a RCC and a corresponding E-puck robot. 
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment Design}
 \label{sec:expt-design}
 In this section, we have described the design of parameters and observables of our experiments.
-These experiments are designed to validate AFM by testing the occurrence of convergent MRTA. Our experimental setup can be found in section~\ref{sec:impl}. The details of convergence is presented in section~\ref{sec:results}.
+These experiments are designed to validate AFM by testing the occurrence of convergent MRTA. Table \ref{table:params} lists a set of essential parameters of our experiments. 
 %
 \begin{table}
 \caption{Experimental parameters}
@@ -201,18 +207,56 @@ These experiments are designed to validate AFM by testing the occurrence of conv
 \end{tabular}
 \end{center}
 \end{table}
+
+\subsection{Parameters}
+We intend to have a setup that is relatively complex, i.e., a high number of robots and tasks in a large area, but with a high probability of convergence. The following criteria  shows our rationale behind our selected parameters.
+%
+\begin{itemize}
+\item Robots should be capable of moving at a reasonably high speed (e.g., $\geq 4 cm/s$) without  interfering to each other very much.
+\item Tasks density should be as least one task per square meter.
+\item Bluetooth communication should be as dedicated and stable as possible.
+\item No task should be left unattended completely for a long time (e.g., $\geq 300s $).
+\end{itemize}
+%
+When many Bluetooth devices talk to a single Bluetooth adapter, communication delays become very frequent due to the fact that each device gets a guaranteed turn to communicate \cite{Bluetooth}. After some initial testing, we found a stable server configuration with 8 Bluetooth adapters, i.e., one Bluetooth adapter is used to communicate with two robots. This limits us to set the total number of robots to 16. Also we found that after about 35-40 minutes from the start of our experiments some of robots fail to get the access to their designated Bluetooth adapters. So we limit the length of our experiments to 40 minutes. We expect that this limitation would be removed by distributing Bluetooth adapters among multiple server PCs.\\ 
+ The diameter of the marker of our E-puck robot is 0.08m. So, if we put 4 robots in an area of one square meter, this will give us a robot-occupied-space to free-space ratio of about 1:49 per square meter. We have found that this ratio reasonable in order to allow the robots to move at a speed of 7.5 mm/sec without much interference to each other. We randomly placed four 18.5 cm x 11.5 cm  rectangular boxes as a shop task in our experiment arena. They were about one meter apart from each other.\\
+The initial values of task urgencies can be set to any value as long as they are same for all tasks. We choose a limit of 0 and 1, where 0 means no urgency and 1 means maximum urgency. Same applies to sensitisation as well, where 0 means no sensitisation and 1 means maximum sensitisation.  We choose a default sensitization value of 0.1 for all tasks. Our rationale behind selecting task urgency and sensitisation change rates can be found in \cite{Sarker}.
+%The following relationships are maintained for selecting task-urgency and sensitization parameters.
+%
+%\begin{equation}
+%\Delta\phi_{INC} = \frac{\Delta\phi_{DEC} \times N}{2 \times M}
+%\label{eqn:task-urgency}
+%\end{equation}
+%%
+%\begin{equation}
+%\Delta k_{DEC} = \frac{\Delta k_{INC}} {M - 1} 
+%\label{eqn:sensitization}
+%\end{equation}
+%%
+%Eq. \ref{eqn:task-urgency} establishes the fact that task urgency will increase at a higher rate than that of its decrease. As we do not like to keep a task left unattended for a long time we choose a higher rate of increase of task urgency. This difference is set on the basis of our assumption that at least half of the expected number of robots (ratio of number of robots to tasks) would be available to work on a task. \\
+%Eq. \ref{eqn:sensitization} suggests that the learning will happen much faster than the forgetting. The difference in these two rates is based on the fact that faster leaning gives a robot more chances to stick on to it. The exact ratio of learning and forgetting is related here by the fact that if a robot works on a task it learns about it and forgets about the rest. 
+\subsection{Observables}
+We have defined a set of observables to benchmark our implementation. They are briefly explained here.\\
+\textbf{Changes in task-urgencies ($\Delta \Phi$): }
+In our experiments, urgency of each task in each step has been logged. From the above design of task urgency, we can see that if a task is not served by any robot for 100 consecutive steps (500s), urgency of that task will reach from 0.5 to its maximum value 1.0. On the other hand, if a task is served by only one robot for 200 consecutive steps (1000s) urgency of that task will be 0. But in real experiment, it is more likely that more than one robot will serve a task. So urgency of a task will decrease $\Delta\phi_{DEC}$ times number of working robots on that task (based on AFM guidelines \cite{Elsa}). The overall changes in task urgencies will show the convergence behaviour of our system.\\
+\textbf{Changes in robot sensitizations ($\Delta K$): }
+According AFM, as robots will do tasks they will specialize on each task by increasing or decreasing sensitizations (learning and forgetting). From our above design, we can see that if a robot starts doing a task with an initial sensitization of 0.1 and it repeatedly does it for 30 consecutive steps, we will be able to say that it has learnt it completely.\\
+\textbf{Changes in robot motions ($\Delta U$): }
+As we might guess that initially the task urgencies will be relatively higher for all tasks so robots will need to do a lot of movements by switching from one tasks to another. But as the system convergences overall robot motions will be decreased. In order to observe this phenomenon we log the pose of robots in each time step.\\
+\textbf{D-Bus Signals emitted by Task server ($S_f$):} 
+In order to measure the communication load on our system and to benchmark Task server's D-Bus signalling performance we are also interested to log P2P TaskInfo D-Bus signals. Since the emission of signals happens asynchronously it is more likely that the overall communication load on the system will vary over time.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Discussions}
 \label{sec:results}
 %%
-In this section we have presented our experimental results. We ran those experiments for about 40 minutes and averaged them from three iterations.
+In this section we have presented our experimental results. We ran those experiments for about 40 minutes and averaged them from three iterations. For comparison purposes, here we present some of the  results of our baseline experiments in centralized communication mode. Details can be found in \cite{Sarker}.\\
 %%% raw urgencies
 \begin{figure}
 \centering
 \includegraphics[height=5cm, angle=0]
 {images/local-500cm/PlotUrgencyLog-2010Feb15-171017.eps}
 %figure caption is below the figure
-\caption{\small Task urgencies observed at TaskServer in local mode $R_{comm}$=0.5m}
+\caption{\small Task urgencies observed at TaskServer in local mode $r_{comm}$=0.5m}
 \label{fig:raw-urgencies} % Give a unique label
 \end{figure}
 %%%
@@ -236,33 +280,62 @@ Fig. \ref{fig:urgency-convergence} plots this sum of changes of task urgencies b
 \end{equation}
 %
 In order to find convergence in DoL we have calculated the sum of absolute changes in task urgencies over a window of 2 consecutive steps (100s). This is plotted in solid line in Fig. \ref{fig:urgency-convergence}. Note that we scale down the time steps of this plot by aggregating the values of 10 consecutive steps (50s) of Fig. \ref{fig:raw-urgencies} into a single step value.
-From Fig. \ref{fig:raw-urgencies} we can see that initially the sum of changes of task urgencies are towards negative direction. This implies that tasks are being served by a high number of robots. When the task urgencies stabilize near zero the fluctuations in urgencies become minimum. Since robots chose tasks stochastically, there will always be a small changes in task urgencies. A potential convergence point is shown in Fig. \ref{fig:urgency-convergence} by considering the persistence existence of the value of $\Delta \Phi_{jw, q+1}$ below a threshold 0.1. This convergence happens near step 23 or after 1150s from the beginning of our experiments. This implies that from this point of time and onwards, changes of our system's behaviour remains under a small threshold value.\\
-%
-Similar to Eq. \ref{eqn:Delta-Phi}, we can calculate the absolute sum of changes in sensitizations by all robots in the following equation.
-% 
-\begin{equation}
-\small 
-\Delta K_{j, q+1} = \sum_{j=1}^{M} \left | \Delta k_{j, q+1} \right |
-\label{eqn:Delta-K}
-\end{equation}
-This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It shows that the overall rate of learning and forgetting decrease over time. It is a consequence of the gradually increased task specialization of robots.
+From Fig. \ref{fig:raw-urgencies} we can see that initially the sum of changes of task urgencies are towards negative direction. This implies that tasks are being served by a high number of robots. When the task urgencies stabilize near zero the fluctuations in urgencies become minimum. Since robots chose tasks stochastically, there will always be a small changes in task urgencies. A potential convergence point is shown in Fig. \ref{fig:urgency-convergence} by considering the persistence existence of the value of $\Delta \Phi_{jw, q+1}$ below a threshold 0.1. This convergence happens near step 23 or after 1150s from the beginning of our experiments. This implies that from this point of time and onwards, changes of our system's behaviour remain under a small threshold value.\\
+Using this same criteria, we find that in local communication experiment convergence happens after step 14 in case of $r_{comm}$=0.5m (Fig. \ref{fig:local50cm-convergence}) and after step 29 in case of $r_{comm}$=1m (Fig. \ref{fig:local1m-convergence}).\\ 
 %%%%
-%%%%% Task Urgency Convergence
+%%%% Centralized expt
 \begin{figure*}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]
-{images/local-500cm/Local500cm-TaskUrgencyConvergence.eps}
-%figure caption is below the figure
-\caption{\small Convergence of task urgencies in local mode $R_{comm}$=0.5m}
-\label{fig:l500cm-convergence} % Give a unique label
+\includegraphics[height=5cm, angle=0]{images/global/TaskUrgencyConvergence-step2-th-p1.eps}
+\caption{\small Convergence of task urgencies in centralized comm. mode}
+\label{fig:urgency-convergence} % Give a unique label
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{images/local-1m/TaskUrgencyConvergence.eps}
-\caption{\small Convergence of task urgencies in local mode $R_{comm}$=1m}
-\label{fig:l1m-convergence} % Give a unique label
+\includegraphics[height=5cm, angle=0]{images/global/DeltaTranslationStat.eps}
+\caption{\small Sum of translations of all robots in centralized comm. mode }
+\label{fig:translation-stat} % Give a unique label
+\end{minipage}
+\end{figure*}
+%%
+%%
+%%%%% Task Urgency Convergence/ Traslation local 50cm
+\begin{figure*}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]
+{images/local-500cm/Local50cm-TaskUrgencyConvergence.eps}
+%figure caption is below the figure
+\caption{\small Convergence of task urgencies in local mode $r_{comm}$=0.5m}
+\label{fig:local50cm-convergence} % Give a unique label
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]
+{images/local-500cm/DeltaTranslationStat.eps}
+%figure caption is below the figure
+\caption{\small Sum of translations of all robots in local mode $r_{comm}$=0.5m }
+\label{fig:local50cm-tr} % Give a unique label
+\end{minipage}
+\end{figure*}
+%%
+%%%%% Task Urgency Convergence/ Traslation local local 1m %%%
+\begin{figure*}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-1m/TaskUrgencyConvergence-1m.eps}
+\caption{\small Convergence of task urgencies in local mode $r_{comm}$=1m}
+\label{fig:local1m-convergence} % Give a unique label
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-1m/DeltaTranslationStat.eps}
+\caption{\small Sum of translations of all robots in local mode $r_{comm}$=1m }
+\label{fig:local1m-tr} % Give a unique label
 \end{minipage}
 \end{figure*}
 %%
@@ -273,102 +346,95 @@ This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It s
 \includegraphics[height=5cm, angle=0]
 {images/local-500cm/RobotSensitizationStat-Total-50steps.eps}
 %figure caption is below the figure
-\caption{\small Changes in sensitizations of all robots in local mode $R_{comm}$=0.5m}
-\label{fig:sensitization-stat} % Give a unique label
+\caption{\small Changes in sensitizations of all robots in local mode $r_{comm}$=0.5m}
+\label{fig:local50cm-sensitization-stat} % Give a unique label
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]{images/local-1m/RobotSensitizationStat-Total-50steps.eps}
-\caption{\small Changes in sensitizations of all robots in local mode $R_{comm}$=1m}
-\label{fig:translation-stat} % Give a unique label
+\caption{\small Changes in sensitizations of all robots in local mode $r_{comm}$=1m}
+\label{fig:local1m-sz} % Give a unique label
 \end{minipage}
 \end{figure*}
 %%
-%%% Translation %%%
-\begin{figure*}
-\begin{minipage}[t]{0.5\linewidth}
-\centering
-\includegraphics[height=5cm, angle=0]
-{images/local-500cm/DeltaTranslationStat.eps}
-%figure caption is below the figure
-\caption{\small Sum of translations of all robots in local mode $R_{comm}$=1m }
-\label{fig:sensitization-stat} % Give a unique label
-\end{minipage}
-\hspace{0.5cm}
-\begin{minipage}[t]{0.5\linewidth}
-\centering
-\includegraphics[height=5cm, angle=0]{images/local-1m/DeltaTranslationStat.eps}
-\caption{\small Sum of translations of all robots in local mode $R_{comm}$=1m }
-\label{fig:translation-stat} % Give a unique label
-\end{minipage}
-\end{figure*}
-
 We have aggregated the changes in translation motion of all robots over time. Let $u_{i,q}$ and $u_{i,q+1}$ be the translations of a robot $i$ in two consecutive steps. If the difference between these two translations be $\delta u_{i}$, we can find the sum of changes of translations of all robots in $(q+1)^{th}$ step using the following equation.
 \begin{equation}
 \small 
 \Delta U_{q+1} = \sum_{i=1}^{N} \delta u_{i, q+1} 
 \label{eqn:Delta-Tr}
 \end{equation}
-This is plotted in Fig. \ref{fig:translation-stat}. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to show a consistence behaviour like previous plots.\\
+The translation result from centralized communication experiment is plotted in Fig. \ref{fig:translation-stat}. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to show a consistence behaviour like previous plots. The translation result from local communication experiment is plotted in Fig. \ref{fig:local50cm-tr} and Fig. \ref{fig:local1m-tr}. The reduction of robot translation is significant in both local communication experiments.\\
 %
+%%% Sensitization
+Similar to Eq. \ref{eqn:Delta-Phi}, we can calculate the absolute sum of changes in sensitizations by all robots in the following equation.
+% 
+\begin{equation}
+\small 
+\Delta K_{j, q+1} = \sum_{j=1}^{M} \left | \Delta k_{j, q+1} \right |
+\label{eqn:Delta-K}
+\end{equation}
+This values of $\Delta K$ from local experiments are plotted in Fig.~\ref{fig:local50cm-sensitization-stat}  and Fig.~\ref{fig:local1m-sz}. They show that the overall rate of learning and forgetting decrease over time. It is a consequence of the gradually increased task specialization of robots.\\
+%%%% Single robot- number of peers
+\begin{figure*}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-500cm/Robot12-16feb-1-LocalSignals.eps}
+\caption{\small Number of peer signals caught by Robot12 in local mode $r_{comm}$=0.5m}
+\label{fig:local50cm-single-robot-signal}% Give a unique label
+\end{minipage} 
+%%%
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[height=5cm, angle=0]{images/local-1m/Robot12-17feb-3-LocalSignals.eps}
+\caption{\small Number of peer signals caught by Robot12 in local mode $r_{comm}$=1m}
+\label{fig:local1m-single-robot-signal} % Give a unique label
+\end{minipage}
+\end{figure*}
 %%% Communication load %%%
 \begin{figure*}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]
 {images/local-500cm/Local-500cm-SignalingFreqStat.eps}
-\caption{\small Local peers' frequency of task information signalling in local mode $R_{comm}$=0.5m}
-\label{fig:signal-frequency-stat} % Give a unique label
+\caption{\small Local peers' frequency of task information signalling in local mode $r_{comm}$=0.5m}
+\label{fig:local50cm-signal-frequency-stat} % Give a unique label
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]{images/local-1m/Local-1m-SignalingFreqStat.eps}
-\caption{\small Local peers' frequency of task information signalling in local mode $R_{comm}$=1m}
-\label{fig:translation-stat} % Give a unique label
+\caption{\small Local peers' frequency of task information signalling in local mode $r_{comm}$=1m}
+\label{fig:local1cm-signal-frequency-stat} % Give a unique label
 \end{minipage}
 \end{figure*}
 %
-Fig. \ref{fig:signal-frequency-stat} presents the frequency of signalling task information by TaskServer. Since the duration of each time step is 50s long and TaskServer emits signal in every 2.5s, there should be 20 signals in each step. The insignificant variation in frequency shows us the stable behaviour of D-Bus daemon over time.
-%
+%%
+As an example of P2P signal reception of a robot, Fig. \ref{fig:local50cm-single-robot-signal} and Fig. \ref{fig:local1m-single-robot-signal} show the number of received signals by Robot12 in two local experiments. It states the relative difference of peers over time in two local cases. The overall P2P taskinformation signals of both modes are plotted in Fig. \ref{fig:local50cm-signal-frequency-stat} and Fig. \ref{fig:local1cm-signal-frequency-stat}.  
 %%%% Single- robot sensitization and translation
 \begin{figure*}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]{images/local-500cm/PlotRobot12-Sensitizations-2010Feb16-150432.eps}
-\caption{\small Task specialization of Robot12 in local mode $R_{comm}$=0.5m}
+\caption{\small Task specialization of Robot12 in local mode $r_{comm}$=0.5m}
 \label{fig:single-robot-sensitizations} % Give a unique label
 \end{minipage} 
 %%%
 \begin{minipage}[t]{0.5\linewidth}
 \centering
 \includegraphics[height=5cm, angle=0]{images/local-500cm/DeltaRobot12-PoseAtTS-2010Feb16-150432.eps}
-\caption{\small Changes in translation of Robot12 in local mode $R_{comm}$=0.5m}
+\caption{\small Changes in translation of Robot12 in local mode $r_{comm}$=0.5m}
 \label{fig:single-robot-translation} % Give a unique label
 \end{minipage}
 \end{figure*}
 %%%%
-%%%% Single- number of peers
-\begin{figure*}
-\begin{minipage}[t]{0.5\linewidth}
-\centering
-\includegraphics[height=5cm, angle=0]{images/local-500cm/Robot12-16feb-1-LocalSignals.eps}
-\caption{\small Number of peer signals caught by Robot12 in local mode $R_{comm}$=0.5m}
-\label{fig:single-robot-sensitizations} % Give a unique label
-\end{minipage} 
-%%%
-\begin{minipage}[t]{0.5\linewidth}
-\centering
-\includegraphics[height=5cm, angle=0]{images/local-1m/Robot12-17feb-3-LocalSignals.eps}
-\caption{\small  Number of peer signals caught by Robot12 in local mode $R_{comm}$=1m}
-\label{fig:single-robot-translation} % Give a unique label
-\end{minipage}
-\end{figure*}
-
-
-As an example of task specialization of a robot we plotted sensitization of Robot9 in Fig. \ref{fig:single-robot-sensitizations}. It shows that this robot has specialized in Task1. The continuous learning happens from step 12 to step 42 where it has learned this task completely and forgot rest of the tasks. This behaviour is found common in all robots with varying level of sensitizations. Hence we get the linear decrease of $\Delta K$ in Fig. \ref{fig:sensitization-stat}. However, the changes in motion of this robot plotted in Fig. \ref{fig:single-robot-translation} is not stable due to the fact that robots frequently avoid dynamic obstacles and select random-walking.
+As an example of task specialization of a robot we plotted sensitization of Robot9 in Fig. \ref{fig:single-robot-sensitizations}. It shows that this robot has specialized in Task1. The continuous learning of Task1 happens from step 23 to step 59 where it has learned this task completely. This behaviour was found common in all robots with varying level of sensitizations. Hence we get the linear decrease of $\Delta K$ in sensitization plots. However, the changes in motion of this robot plotted in Fig. \ref{fig:single-robot-translation} is not stable due to the fact that robots frequently avoid dynamic obstacles and select random-walking.
 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related Works}
+\label{sec:bg}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CONCLUSIONS AND FUTURE WORKS}
 \label{sec:conc}
@@ -405,8 +471,12 @@ Krieger, M. and Billeter, J. The call of duty: Self-organised task allocation in
 Agassounon, W. and Martinoli, A. Efficiency and robustness of threshold-based distributed allocation algorithms in multi-agent systems Proceedings of the first international joint conference on Autonomous agents and multiagent systems: part 3, 2002, 1090-1097
 \bibitem{Mataric}
 Mataric, M. Using communication to reduce locality in distributed multiagent learning Journal of experimental and theoretical artificial intelligence, 1998, 10, 357-369
-\bibitem{RobotTeam}
-Balch, T. and Parker, L. Robot Teams: From Diversity to Polymorphism, AK Peters, Ltd., 2002
+%\bibitem{RobotTeam}
+%Balch, T. and Parker, L. Robot Teams: From Diversity to Polymorphism, AK Peters, Ltd., 2002
+\bibitem{Bluetooth}
+Huang, A.S. and Rudolph, L.:
+Bluetooth essentials for programmers.
+Cambridge University Press (2007).
 
 %\bibitem{c1}
 %J.G.F. Francis, The QR Transformation I, {\it Comput. J.}, vol. 4, 1961, pp 265-271.
