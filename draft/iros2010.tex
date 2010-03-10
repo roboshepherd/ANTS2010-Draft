@@ -104,7 +104,7 @@ P_{j}^{i} = \frac{S_{j}^{i}}{\sum_{j}^{}S_{j}^{i}}
 Eqn \ref{eqn1} says that the stimuli of a robot $i$ to a particular task $j$, $(S_{j}^{i})$ depends on robot's spatial distance $d$ to $j$, level of sensitization to that task ($k_{j}^{i}$) and perceived urgency of that task ($\phi _{j}$). We use a vary small value $\delta$ in \ref{eqn1} to prevent  division by zero. The probability of selecting each task has been determined by a probabilistic method outlined in Eq. \ref{eqn2} . 
 AFM suggests concurrency of a self-regulatory system by specifying at least two task options: 1) doing a task and 2) doing no task. In robots, the latter can be   be treated as random walking. So in any time-step a robot will choose from M+1 tasks. Let $T_a$ be the allocated time to accomplish a task. If $R_1$ can enter inside the task boundary within $T_a$ time it waits there until $T_a$ elapsed. Otherwise it will select a different task. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Our Locality-based P2P Communication Model}
+\section{Locality-based P2P Communication Model}
 \label{sec:comm}
 \subsection{Characteristics}
 Our Locality-based P2P Communication (LPC) model relies upon the local P2P communications among robots. Here there is no centralized server to disseminate information but each robot can communicate to its nearby peers within a certain communication radius, $r_{comm}$. Here by $r_{comm}$, we assume that within this distance robots can exchange communication signals reliably without any significant loss of information. A robot $R_1$ is a {\em peer} of robot $R_2$, if spatial distance between $R_1$ and $R_2$ is less than its $r_{comm}$. As shown in Fig. \ref{fig:lcm}, local communication can also give robots similar task information as in centralized communication mode. It shows that it is not necessary for each robot to communicate with every other robot to get information on all tasks. Since robots can random walk and explore the environment we assume that for a reasonably high robot to space density, all task will be known to all robots after an initial exploration period. In order to update the urgency of a task, robots can estimate the number of robots working on a task in many ways: such as,  by using their sensory perception (e.g., camera), by doing local P2P communication and so on. In Fig. ref{fig:lcm} we have shown that robots exchange both task-info and self-status signals to peers.\\
@@ -119,7 +119,7 @@ shows implementation of our proposed P2P dynamic communication.\\
 \begin{algorithmic}[1]
 \label{alg:p2p-comm}
 \State $\textbf{Initialization:}$
-\State $robotid \gets id$
+\State $id \gets robotid$
 \State $r_{comm} \gets r_1$
 \State $r_{task} \gets r_2$
 \State $pose[id] \gets (0, 0, 0)$
@@ -437,7 +437,7 @@ As an example of task specialization of a robot we plotted sensitization of Robo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Related Works}
 \label{sec:bg}
-
+Krieger and Billeter presented SRDL in a team of 12 robots in ants' foraging scenario where a   central server sent broadcast message containing energy level of the colony to all robots \cite{Krieger}. They also applied a form of indirect communication  in order to share information about discovered food sources among robots. Although this P2P communication did not happen in real time,  it improved the robustness of peer recruitment when compared  with centralized communication only. Agassounon and Martinoli compared three task-allocation algorithms using simulations and reported that algorithm that used information sharing among local peers became robust in worker allocation \cite{Agassounon}. However, environment condition should be known {\em a priori} to optimize some parameters.  By modulating the transmission power of local on-board wireless device, Cianci {\em et  al.} enabled  e-puck robots to communicate in different radius. In a self-organized decision making experiment, decision of 15 robots converged faster when local communication radius was relatively  higher. Since the number of tasks was two (left or right wall following), robots got global view of the system with increased communication radius and  thus they agreed quickly in one task.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CONCLUSIONS AND FUTURE WORKS}
 \label{sec:conc}
