@@ -2,7 +2,7 @@
 *.dvi
 *.log
 *.toc
-*.pdf
+*.eps
 *.dia~
 *.ps
 *.png
