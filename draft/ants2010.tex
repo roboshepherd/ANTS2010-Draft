@@ -47,9 +47,9 @@ Our experiments used 16 e-puck robots in a 2m x 2m area.
 \section{Introduction}
 \label{sec:intro}
 %\vspace{2mm}
-Scientific studies show that a large number of animal as well as human social systems grow, evolve and generally continue functioning well by the virtue of their individual self-regulatory mechanism of division of labour (DoL) \cite{Camazine+2001}.
+Scientific studies show that a large number of animal as well as human social systems grow, evolve and generally continue functioning well by the virtue of their individual self-regulatory mechanism of division of labour (DoL)  \cite{Bonabeau+1999}.
 This has been accomplished without any central authority or any explicit planning and coordinating element.
-Indirect communication such as stigmergy is instead used to exchange information among individuals \cite{Bonabeau+1999}. 
+Indirect communication such as stigmergy is instead used to exchange information among individuals. 
 In robotic systems, \textit{multi-robot task allocation} (MRTA) is a common research challenge \cite{Parker2008}.
 It is generally identified as the problem of assigning tasks to appropriate robots at appropriate times taking into account potential changes in the environment and/or the performance of the robots.
 MRTA is an optimal assignment problem that has been shown to be NP-hard, so optimal solutions can not be expected for large problems \cite{Gerkey+2004}.
@@ -72,7 +72,7 @@ However in these systems, solutions are unintuitive and thus difficult to design
 The solutions found by these systems are typically sub-optimal and, as the emergence is a result of interactions among robots and their environment, it is also difficult to predict exact behaviours of robots and overall system performance.
 The current challenges in emergent task allocation approaches have lead us to investigate for a suitable alternative.
 If we look at nature we can find that task allocation in animal or insect societies is governed by non-centralized rules and that they are self-regulating and self-stabilizing \cite{Camazine+2001,Bonabeau+1999}.
-Moreover studies of sociology \cite{Sayer+1992}, cybernetics \cite{Beer1981}, strategic management \cite{Kogut2000} and related disciplines show that decentralized self-regulated systems exist and that they can survive and grow over time.\\
+Moreover studies of sociology \cite{Sayer+1992}, strategic management \cite{Kogut2000} and related disciplines show that decentralized self-regulated systems exist and that they can survive and grow over time.\\
 As a part of a collaborative project, we have studied the behaviour of ants, humans and robots and have developed the attractive field model (AFM), a common formal model of division of labour in social systems \cite{Elsa}.
 In this paper, we present an application of AFM in a robotic system.
 Section~\ref{sec:model} presents AFM and an associated communication model that allows us to implement AFM as a MTRA mechanism.
@@ -97,7 +97,7 @@ In summary, looking at the network, we see that each of the agents is connected 
 \begin{figure}
 \begin{minipage}[t]{0.48\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{../dia-files/AFM-Diag2.eps}
+\includegraphics[height=4.5cm, angle=0]{../dia-files/AFM-Diag2.eps}
 %figure caption is below the figur
 \caption{\small Attractive Filed Model (AFM)}
 \label{fig:afm} % Give a unique label
@@ -105,8 +105,8 @@ In summary, looking at the network, we see that each of the agents is connected 
 \hspace{0.5cm}
 \begin{minipage}[t]{0.48\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{../dia-files/CentralizedComm.eps}
-\caption{\small Our communication system for validating AFM}
+\includegraphics[height=4.5cm, angle=0]{../dia-files/CentralizedComm.eps}
+\caption{\small A centralized communication scheme} % for implementing AFM}
 \label{fig:ccm} % Give a unique label
 \end{minipage}
 \end{figure}
@@ -161,25 +161,25 @@ However, if a robot attends to a machine and does some production works from it,
 \Phi_{j, k+1}^{PMM} = \Phi_{j, k}^{PMM} - \nu_{k} \times \Delta \phi_{DEC}
 \label{eqn:task-urgency-prod-case2}
 \end{equation}
-At a particular machine $j$, once $\Phi_{j, k}^{PMM}$ reaches to zero, we can say that there is no more production work left and this time-step $k$ can give us the {\em production completion time} of $j$, $T_{j}^{PMM}$. Average production time-steps of a shop-floor with M machines can be calculated by the following simple equation.
-\begin{equation}
-T_{avg}^{PMM} = \frac{1}{M} \sum_{j=0}^{M} T_{j}^{PMM} 
-\label{eqn:avg-pmm}
-\end{equation}
+At a particular machine $j$, once $\Phi_{j, k}^{PMM}$ reaches to zero, we can say that there is no more production work left and this time-step $k$ can give us the {\em production completion time} of $j$, $T_{j}^{PMM}$. %Average production time-steps of a shop-floor with M machines can be calculated by the following simple equation.
+%\begin{equation}
+%T_{avg}^{PMM} = \frac{1}{M} \sum_{j=0}^{M} T_{j}^{PMM} 
+%\label{eqn:avg-pmm}
+%\end{equation}
 
-$T_{avg}^{PMM}$ can be compared with the minimum number of time-steps necessary to finish production works, $T_{min}^{PMM}$. This can only happen in an ideal case where all robots work for production without any random walking or failure. We can get $T_{min}^{PMM}$ from the total amount of work load and maximum possible input from all robots. If there are M machines and N robots, each machine has $\Phi_{INIT}^{PMM}$ task-urgency, and each time-step robots can decrease N $times$ $\Delta \phi_{DEC}$ task-urgencies, then the theoretical $T_{min}^{PMM}$ can be found from the following Eq. \ref{eqn:min-pmm}.
+%$T_{avg}^{PMM}$ can be compared with the minimum number of time-steps necessary to finish production works, $T_{min}^{PMM}$. This can only happen in an ideal case where all robots work for production without any random walking or failure. We can get $T_{min}^{PMM}$ from the total amount of work load and maximum possible input from all robots. If there are M machines and N robots, each machine has $\Phi_{INIT}^{PMM}$ task-urgency, and each time-step robots can decrease N $times$ $\Delta \phi_{DEC}$ task-urgencies, then the theoretical $T_{min}^{PMM}$ can be found from the following Eq. \ref{eqn:min-pmm}.
 
-\begin{equation}
-T_{min}^{PMM} = \frac{M \times \Phi_{INIT}^{PMM}}{N \times \Delta \phi_{DEC}} 
-\label{eqn:min-pmm}
-\end{equation}
+%\begin{equation}
+%T_{min}^{PMM} = \frac{M \times \Phi_{INIT}^{PMM}}{N \times \Delta \phi_{DEC}} 
+%\label{eqn:min-pmm}
+%\end{equation}
 
-Thus using the above two terms we can define $\zeta_{avg}^{PMM}$, {\em average production completion delay} (APCD) as following:
+%Thus using the above two terms we can define $\zeta_{avg}^{PMM}$, {\em average production completion delay} (APCD) as following:
 
-\begin{equation}
-\zeta_{avg}^{PMM} = \frac{T_{avg}^{PMM} - T_{min}^{PMM}}{T_{min}^{PMM}} 
-\label{eqn:appd}
-\end{equation}
+%\begin{equation}
+%\zeta_{avg}^{PMM} = \frac{T_{avg}^{PMM} - T_{min}^{PMM}}{T_{min}^{PMM}} 
+%\label{eqn:appd}
+%\end{equation}
 
 When a machine enters into MOM, only $\mu$ robots are required to do its maintenance works in each time step. So, in such cases, if no robot serves a machine, the growth of task-urgency will follow Eq. \ref{eqn:task-urgency-prod-case1}. However, if $\nu_{k}$ robots are serving this machine at a particular time-step $k^{th}$ , task-urgency at $(k+1)^{th}$ time-step can be represented by:
 \begin{equation}
@@ -191,12 +191,12 @@ By considering $\mu = 1$ Eq. \ref{eqn:task-urgency-maint-case} will reduces to E
 \chi_{j}^{MOM}= \frac{1}{K} \sum_{k=1}^{K} \Phi_{j, k}^{MOM}
 \label{eqn:sigle-pmw}
 \end{equation}
-For a shop-floor with M machines, we can find the average PMW per machine per time-step, $\chi_{avg}^{MOM}$, by following this equation.
+%For a shop-floor with M machines, we can find the average PMW per machine per time-step, $\chi_{avg}^{MOM}$, by following this equation.
 
-\begin{equation}
-\chi_{avg}^{MOM}= \frac{1}{M} \sum_{j=1}^{M} {\chi_{j}^{MOM}}
-\label{eqn:avg-pmw}
-\end{equation}
+%\begin{equation}
+%\chi_{avg}^{MOM}= \frac{1}{M} \sum_{j=1}^{M} {\chi_{j}^{MOM}}
+%\label{eqn:avg-pmw}
+%\end{equation}
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Implementation}
@@ -253,8 +253,9 @@ These experiments are designed to validate AFM by testing the occurrence of conv
 \end{table}
 % 
 \subsection{Parameters}
-Table \ref{table:params} lists a set of essential parameters of our experiments. We intend to have a setup that is relatively complex, i.e., a high number of robots and tasks in a large area, but with a high probability of convergence. The diameter of the marker of our E-puck robot is 0.08m. So, if we put 4 robots in an area of one square meter, this will give us a robot-occupied-space to free-space ratio of about 1:49 per square meter. We have found that this ratio reasonable in order to allow the robots to move at a speed of 7.5 mm/sec (half of their maximum possible speed) without much interference to each other. We have fixed the number of task to 4. They also have an additional option for random walking. So the total number of tasks becomes 5. This gives our robots a relatively high number of tasks to work on. \\
-When many Bluetooth devices talk to a single Bluetooth adapter, communication delays become very frequent due to the fact that each device gets a guaranteed turn to communicate \cite{Bluetooth}. In order to provide robots with a higher degree of access to Bluetooth communication links, we intend to dedicate one Bluetooth adapter for each robot. This would ensure that communication delays do not hamper a robot's task performance. However too many Bluetooth adapters caused our server PC to crash frequently. We have found a stable server configuration with 8 Bluetooth adapters, i.e., one Bluetooth adapter is used to communicate with two robots. This limits us to set the total number of robots to 16. Also we found that after about 35-40 minutes from the start of our experiments some of robots fail to get the access to their designated Bluetooth adapters. So we limit the length of our experiments to 40 minutes. We expect that this limitation would be removed by distributing Bluetooth adapters among multiple server PCs.\\ 
+Table \ref{table:params} lists a set of essential parameters of our experiments. We intend to have a setup that is relatively complex, i.e., a high number of robots and tasks in a large area, but with a high probability of convergence. The diameter of the marker of our E-puck robot is 0.08m. So, if we put 4 robots in an area of one square meter, this will give us a robot-occupied-space to free-space ratio of about 1:49 per square meter. We have found that this ratio reasonable in order to allow the robots to move at a speed of 7.5 cm/sec (half of their maximum possible speed) without much interference to each other. We have fixed the number of task to 4. They also have an additional option for random walking. So the total number of tasks becomes 5. This gives our robots a relatively high number of tasks to work on. \\
+%When many Bluetooth devices talk to a single Bluetooth adapter, communication delays become very frequent due to the fact that each device gets a guaranteed turn to communicate \cite{Bluetooth}.
+% In order to provide robots with a higher degree of access to Bluetooth communication links, we intend to dedicate one Bluetooth adapter for each robot. This would ensure that communication delays do not hamper a robot's task performance. However too many Bluetooth adapters caused our server PC to crash frequently. We have found a stable server configuration with 8 Bluetooth adapters, i.e., one Bluetooth adapter is used to communicate with two robots. This limits us to set the total number of robots to 16. Also we found that after about 35-40 minutes from the start of our experiments some of robots fail to get the access to their designated Bluetooth adapters. So we limit the length of our experiments to 40 minutes. We expect that this limitation would be removed by distributing Bluetooth adapters among multiple server PCs.\\ 
 The initial values of task urgencies can be set to any value as long as they are same for all tasks. We choose a limit of 0 and 1, where 0 means no urgency and 1 means maximum urgency. Same applies to sensitisation as well, where 0 means no sensitisation and 1 means maximum sensitisation. This also implies that if sensitization is 0, task has been forgotten completely. On the other hand, if sensitization is 1, the task has been learnt completely. We choose a default sensitization value of 0.1 
 for all tasks. The following relationships are maintained for selecting task-urgency and sensitization parameters.
 \begin{small}
@@ -274,13 +275,13 @@ Eq. \ref{eqn:sensitization} suggests that the learning will happen much faster t
 \subsection{Observables}
 We have defined a set of observables to benchmark our implementation. The first two observables, the changes in task-urgencies and the changes in robot sensitizations, give us an external and an internal view of our system with respect to AFM respectively. Our third observable is to find changes in robot motions. This is completely objective measurement of our system. Our final measurement is the communication load which is specific to this particular implementation. They are briefly explained here.\\
 \textbf{Changes in task-urgencies ($\Delta \Phi$): }
-In our experiments, urgency of each task in each step has been logged. From the above design of task urgency, we can see that if a task is not served by any robot for 100 consecutive steps (500s), urgency of that task will reach from 0.5 to its maximum value 1.0. On the other hand, if a task is served by only one robot for 200 consecutive steps (1000s) urgency of that task will be 0. But in real experiment, it is more likely that more than one robot will serve a task. So urgency of a task will decrease $\Delta\phi_{DEC}$ times number of working robots on that task (based on AFM guidelines \cite{Elsa}). The overall changes in task urgencies will show the convergence behaviour of our system. A stable convergence will most likely map to a stable division of labour of the system.\\
+In our experiments, urgency of each task in each step has been logged. From the above design of task urgency, we can see that if a task is not served by any robot for 100 consecutive steps (500s), urgency of that task will reach from 0.5 to its maximum value 1.0. On the other hand, if a task is served by only one robot for 200 consecutive steps (1000s) urgency of that task will be 0. But in real experiment, it is more likely that more than one robot will serve a task. So urgency of a task will decrease $\Delta\phi_{DEC}$ times number of working robots on that task (based on AFM guidelines \cite{Elsa}).\\ %The overall changes in task urgencies will show the convergence behaviour of our system. A stable convergence will most likely map to a stable division of labour of the system.\\
 \textbf{Changes in robot sensitizations ($\Delta K$): }
 According AFM, as robots will do tasks they will specialize on each task by increasing or decreasing sensitizations (learning and forgetting). From our above design, we can see that if a robot starts doing a task with an initial sensitization of 0.1 and it repeatedly does it for 30 consecutive steps, we will be able to say that it has learnt it completely. On the other hand, with an initial sensitization of 0.1 if a robot does not do a task for 10 consecutive steps we will be able to say that it has forgotten that task completely.\\
 \textbf{Changes in robot motions ($\Delta U$): }
 As we might guess that initially the task urgencies will be relatively higher for all tasks so robots will need to do a lot of movements by switching from one tasks to another. But as the system convergences overall robot motions will be decreased. In order to observe this phenomenon we log the pose of robots in each time they receive pose signals.\\
-\textbf{D-Bus Signals emitted by Task server ($S_f$):} 
-In order to measure the communication load on our system and to benchmark Task server's D-Bus signalling performance we are also interested to log TaskInfo D-Bus signals. Since the emission of signals happens in a fixed time interval it is more likely that the overall communication load on the system will remain constant over time.
+%\textbf{D-Bus Signals emitted by Task server ($S_f$):} 
+%In order to measure the communication load on our system and to benchmark Task server's D-Bus signalling performance we are also interested to log TaskInfo D-Bus signals. Since the emission of signals happens in a fixed time interval it is more likely that the overall communication load on the system will remain constant over time.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
@@ -308,7 +309,7 @@ Fig. \ref{fig:urgency-convergence} plots this sum of changes of task urgencies b
 \end{equation}
 %
 In order to find convergence in DoL we have calculated the sum of absolute changes in task urgencies over a window of 2 consecutive steps (100s). This is plotted in solid line in Fig. \ref{fig:urgency-convergence}. Note that we scale down the time steps of this plot by aggregating the values of 10 consecutive steps (50s) of Fig. \ref{fig:raw-urgencies} into a single step value.
-From Fig. \ref{fig:raw-urgencies} we can see that initially the sum of changes of task urgencies are towards negative direction. This implies that tasks are being served by a high number of robots. When the task urgencies stabilize near zero the fluctuations in urgencies become minimum. Since robots chose tasks stochastically, there will always be a small changes in task urgencies. A potential convergence point is shown in Fig. \ref{fig:urgency-convergence} by considering the persistence existence of the value of $\Delta \Phi_{jw, q+1}$ below a threshold 0.1. This convergence happens near step 23 or after 1150s from the beginning of our experiments. This implies that from this point of time and onwards, changes of our system's behaviour remains under a small threshold value.\\
+From Fig. \ref{fig:raw-urgencies} we can see that initially the sum of changes of task urgencies are towards negative direction. This implies that tasks are being served by a high number of robots. When the task urgencies stabilize near zero the fluctuations in urgencies become minimum. Since robots chose tasks stochastically, there will always be a small changes in task urgencies. %A potential convergence point is shown in Fig. \ref{fig:urgency-convergence} by considering the persistence existence of the value of $\Delta \Phi_{jw, q+1}$ below a threshold 0.1. This convergence happens near step 23 or after 1150s from the beginning of our experiments. This implies that from this point of time and onwards, changes of our system's behaviour remains under a small threshold value.\\
 %
 Similar to Eq. \ref{eqn:Delta-Phi}, we can calculate the absolute sum of changes in sensitizations by all robots in the following equation.
 % 
@@ -318,11 +319,20 @@ Similar to Eq. \ref{eqn:Delta-Phi}, we can calculate the absolute sum of changes
 \label{eqn:Delta-K}
 \end{equation}
 This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It shows that the overall rate of learning and forgetting decrease over time. It is a consequence of the gradually increased task specialization of robots.
-%
+%%
+We have aggregated the changes in translation motion of all robots over time. Let $u_{i,q}$ and $u_{i,q+1}$ be the translations of a robot $i$ in two consecutive steps. If the difference between these two translations be $\delta u_{i}$, we can find the sum of changes of translations of all robots in $(q+1)^{th}$ step using the following equation.
+\begin{equation}
+\small 
+\Delta U_{q+1} = \sum_{i=1}^{N} \delta u_{i, q+1} 
+\label{eqn:Delta-Tr}
+\end{equation}
+This is plotted in Fig. \ref{fig:translation-stat}. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to show a consistence behaviour like previous plots.\\
+As an example of task specialization of a robot we plotted sensitization of Robot9 in Fig. \ref{fig:single-robot-sensitizations}. It shows that this robot has specialized in Task1. The continuous learning happens from step 12 to step 42 where it has learned this task completely and forgot rest of the tasks. This behaviour is found common in all robots with varying level of sensitizations. Hence we get the linear decrease of $\Delta K$ in Fig. \ref{fig:sensitization-stat}. However, the changes in motion of this robot plotted in Fig. \ref{fig:single-robot-translation} is not stable due to the fact that robots frequently avoid dynamic obstacles and select random-walking.
+%%
 \begin{figure}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]
+\includegraphics[height=4.5cm, angle=0]
 {images/global/GlobalPlotUrgencyLog-2010Feb18-151600-clear.eps}
 %figure caption is below the figure
 \caption{\small Task urgencies observed at TaskServer}
@@ -331,7 +341,7 @@ This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It s
 \hspace{0.5cm}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{images/global/TaskUrgencyConvergence-step2-th-p1.eps}
+\includegraphics[height=4.5cm, angle=0]{images/global/TaskUrgencyConvergence-step2-th-p1.eps}
 \caption{\small Convergence of task urgencies}
 \label{fig:urgency-convergence} % Give a unique label
 \end{minipage}
@@ -341,7 +351,7 @@ This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It s
 \begin{figure}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]
+\includegraphics[height=4.5cm, angle=0]
 {images/global/RobotSensitizationStat-Total-50steps.eps}
 %figure caption is below the figure
 \caption{\small Changes in sensitizations of all robots}
@@ -350,47 +360,39 @@ This values of $\Delta K$ are plotted in Fig. \ref{fig:sensitization-stat}. It s
 \hspace{0.5cm}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{images/global/DeltaTranslationStat.eps}
+\includegraphics[height=4.5cm, angle=0]{images/global/DeltaTranslationStat.eps}
 \caption{\small Sum of translations of all robots }
 \label{fig:translation-stat} % Give a unique label
 \end{minipage}
 \end{figure}
 %%
-We have aggregated the changes in translation motion of all robots over time. Let $u_{i,q}$ and $u_{i,q+1}$ be the translations of a robot $i$ in two consecutive steps. If the difference between these two translations be $\delta u_{i}$, we can find the sum of changes of translations of all robots in $(q+1)^{th}$ step using the following equation.
-\begin{equation}
-\small 
-\Delta U_{q+1} = \sum_{i=1}^{N} \delta u_{i, q+1} 
-\label{eqn:Delta-Tr}
-\end{equation}
-This is plotted in Fig. \ref{fig:translation-stat}. In this plot we can see that robot translations also vary over varying task requirements of tasks. But it fails to show a consistence behaviour like previous plots.\\
 %%% Communication load %%%
-\begin{figure}
+%\begin{figure}
 %\begin{minipage}[t]{0.5\linewidth}
-\centering
-\includegraphics[height=5cm, angle=0]
-{images/global/Global-SignalingFreqStat.eps}
+%\centering
+%\includegraphics[height=4.5cm, angle=0]
+%{images/global/Global-SignalingFreqStat.eps}
 %figure caption is below the figure
-\caption{\small Task server's frequency of task information signalling}
-\label{fig:signal-frequency-stat} % Give a unique label
+%\caption{\small Task server's frequency of task information signalling}
+%\label{fig:signal-frequency-stat} % Give a unique label
 %\end{minipage}
-\end{figure}
-Fig. \ref{fig:signal-frequency-stat} presents the frequency of signalling task information by TaskServer. Since the duration of each time step is 50s long and TaskServer emits signal in every 2.5s, there should be 20 signals in each step. The insignificant variation in frequency shows us the stable behaviour of D-Bus daemon over time.
+%\end{figure}
+%Fig. \ref{fig:signal-frequency-stat} presents the frequency of signalling task information by TaskServer. Since the duration of each time step is 50s long and TaskServer emits signal in every 2.5s, there should be 20 signals in each step. The insignificant variation in frequency shows us the stable behaviour of D-Bus daemon over time.
 \begin{figure}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{images/global/PlotRobot9-Sensitizations-2010Feb18-121037.eps}
+\includegraphics[height=4.5cm, angle=0]{images/global/PlotRobot9-Sensitizations-2010Feb18-121037.eps}
 \caption{\small Task specialization of Robot9}
 \label{fig:single-robot-sensitizations} % Give a unique label
 \end{minipage} 
 %%%
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[height=5cm, angle=0]{images/global/DeltaRobot9-PoseAtTS-2010Feb18-121037.eps}
+\includegraphics[height=4.5cm, angle=0]{images/global/DeltaRobot9-PoseAtTS-2010Feb18-121037.eps}
 \caption{\small Changes in translation of Robot9}
 \label{fig:single-robot-translation} % Give a unique label
 \end{minipage}
 \end{figure}
-As an example of task specialization of a robot we plotted sensitization of Robot9 in Fig. \ref{fig:single-robot-sensitizations}. It shows that this robot has specialized in Task1. The continuous learning happens from step 12 to step 42 where it has learned this task completely and forgot rest of the tasks. This behaviour is found common in all robots with varying level of sensitizations. Hence we get the linear decrease of $\Delta K$ in Fig. \ref{fig:sensitization-stat}. However, the changes in motion of this robot plotted in Fig. \ref{fig:single-robot-translation} is not stable due to the fact that robots frequently avoid dynamic obstacles and select random-walking.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Future works}
 \label{sec:conc}
@@ -409,9 +411,9 @@ In this paper we have validated an inter-disciplinary generic model of self-regu
 \begin{thebibliography}{}
 % and use \bibitem to create references. Consult the Instructions
 % for authors for reference list style.
-\bibitem{Camazine+2001}
-Camazine, S., Franks, N., Sneyd, J., Bonabeau, E., Deneubourg, J. and Theraulaz, G.: Self-organization in biological systems.
-Princeton University Press, Princeton, N.J (2001)
+%\bibitem{Camazine+2001}
+%Camazine, S., Franks, N., Sneyd, J., Bonabeau, E., Deneubourg, J. and Theraulaz, G.: Self-organization in biological systems.
+%Princeton University Press, Princeton, N.J (2001)
 \bibitem{Bonabeau+1999}
 Bonabeau, E., Dorigo, M. and Theraulaz, G.:
 Swarm intelligence: from natural to artificial systems.
@@ -442,10 +444,10 @@ Towards Energy Optimization: Emergent Task Allocation in a Swarm of Foraging Rob
 Sayer, A. and Walker, R.: 
 The new social economy : reworking the division of labor.
 Blackwell (1992)
-\bibitem{Beer1981}
-Beer, S.: 
-Brain of the firm.
-J. Wiley New York (1981)
+%\bibitem{Beer1981}
+%Beer, S.: 
+%Brain of the firm.
+%J. Wiley New York (1981)
 \bibitem{Kogut2000}
 Kogut, B.: 
 The network as knowledge: generative rules and the emergence of structure. 
@@ -469,10 +471,10 @@ In Proceedings of the IEEE/RSJ 2008 International Conference on Intelligent Robo
 Mondada, F., Bonani, M., Raemy, X., Pugh, J., Cianci, C., Klaptocz, A., Magnenat, S., Zufferey, J.-C., Floreano, D. and Martinoli, A.:
 The e-puck, a Robot Designed for Education in Engineering. 
 Proceedings of the 9th Conference on Autonomous Robot Systems and Competitions, 1(1) 59-65 (2009)
-\bibitem{Bluetooth}
-Huang, A.S. and Rudolph, L.:
-Bluetooth essentials for programmers.
-Cambridge University Press (2007).
+%\bibitem{Bluetooth}
+%Huang, A.S. and Rudolph, L.:
+%Bluetooth essentials for programmers.
+%Cambridge University Press (2007).
 \end{thebibliography}
 %
 \end{document}
